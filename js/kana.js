@@ -38,14 +38,14 @@ window.KanaModule = {
 
         let html = '';
 
-        const renderSection = (label, items) => {
+        const renderSection = (label, items, isCombo) => {
             html += `<h3 class="kana-section-title">${label}</h3>`;
-            html += '<div class="kana-grid">';
+            html += `<div class="kana-grid${isCombo ? ' kana-grid-combo' : ''}">`;
             items.forEach(k => {
                 const status = Storage.getItemStatus('kana', k.char);
-                let cls = '';
+                let cls = isCombo ? 'combo' : '';
                 if (status) {
-                    cls = status.level >= 4 ? 'mastered' : status.level > 0 ? 'learning' : '';
+                    cls += status.level >= 4 ? ' mastered' : status.level > 0 ? ' learning' : '';
                 }
                 html += `
                     <div class="kana-cell ${cls}" data-char="${k.char}" data-romaji="${k.romaji}" title="${k.romaji}">
@@ -56,9 +56,9 @@ window.KanaModule = {
             html += '</div>';
         };
 
-        renderSection(`${title} - Base (46)`, data.basic);
-        renderSection('Dakuten & Handakuten', data.dakuten);
-        renderSection('Combinaisons (Youon)', data.combo);
+        renderSection(`${title} - Base (46)`, data.basic, false);
+        renderSection('Dakuten & Handakuten', data.dakuten, false);
+        renderSection('Combinaisons (Youon)', data.combo, true);
 
         html += `
             <div style="margin-top:32px; text-align:center;">
@@ -82,7 +82,7 @@ window.KanaModule = {
                 const romaji = cell.dataset.romaji;
                 App.showModal(`
                     <div style="text-align:center;">
-                        <div style="font-size:120px; font-family:'Noto Sans JP'; margin-bottom:16px;">${char}</div>
+                        <div style="font-size:120px; font-family:'Noto Sans JP'; margin-bottom:16px; white-space:nowrap; letter-spacing:-0.05em;">${char}</div>
                         <div style="font-size:24px; color:var(--accent-light); margin-bottom:8px;">${romaji}</div>
                         <div style="font-size:14px; color:var(--text-muted);">${type === 'hiragana' ? 'Hiragana' : 'Katakana'}</div>
                     </div>
