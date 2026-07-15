@@ -39,8 +39,8 @@ window.GrammarModule = {
 
         container.innerHTML = `
             <div class="filter-bar">
-                <input type="text" class="search-input" id="grammar-search" placeholder="Rechercher une structure grammaticale...">
-                <span style="color:var(--text-muted); font-size:13px;">${grammar.length} points de grammaire</span>
+                <input type="text" class="search-input" id="grammar-search" placeholder="${I18n.t('grammar_search')}">
+                <span style="color:var(--text-muted); font-size:13px;">${grammar.length} ${I18n.t('grammar_points')}</span>
             </div>
             <div class="grammar-list" id="grammar-list">
                 ${grammar.map((g, i) => `
@@ -127,7 +127,7 @@ window.GrammarModule = {
                     </div>
                 </div>
                 <div class="quiz-actions">
-                    <button class="btn btn-secondary" id="grammar-next" style="display:none">Suivant</button>
+                    <button class="btn btn-secondary" id="grammar-next" style="display:none">${I18n.t('next')}</button>
                 </div>
             </div>`;
 
@@ -147,12 +147,12 @@ window.GrammarModule = {
                 if (correct) {
                     opt.classList.add('correct');
                     feedback.className = 'quiz-feedback show correct-fb';
-                    feedback.textContent = 'Correct !';
+                    feedback.textContent = I18n.t('correct');
                 } else {
                     opt.classList.add('incorrect');
                     container.querySelector(`[data-answer="${q.correct}"]`)?.classList.add('correct');
                     feedback.className = 'quiz-feedback show incorrect-fb';
-                    feedback.innerHTML = `Incorrect. Reponse : <strong>${q.correct}</strong><br><em>${q.explanation}</em>`;
+                    feedback.innerHTML = `${I18n.t('incorrect')} ${I18n.t('grammar_answer')} <strong>${q.correct}</strong><br><em>${q.explanation}</em>`;
                 }
 
                 Storage.recordStudy('grammar', q.id, correct);
@@ -181,11 +181,9 @@ window.GrammarModule = {
 
         grammar.forEach(g => {
             if (g.examples.length >= 2) {
-                // Type 1: complete the sentence with correct particle/form
                 const ex = g.examples[0];
                 const correctAnswer = g.title;
 
-                // Generate wrong choices from other grammar points
                 const wrongs = grammar.filter(x => x.id !== g.id)
                     .sort(() => Math.random() - 0.5)
                     .slice(0, 3)
@@ -193,7 +191,7 @@ window.GrammarModule = {
 
                 questions.push({
                     id: g.id,
-                    question: `Quelle structure grammaticale correspond a :<br><br>
+                    question: `${I18n.t('grammar_which_structure')}<br><br>
                         <span style="font-family:'Noto Sans JP'; font-size:18px;">${ex.jp}</span><br>
                         <em style="color:var(--text-muted);">${ex.fr}</em>`,
                     choices: [correctAnswer, ...wrongs].sort(() => Math.random() - 0.5),
@@ -204,7 +202,6 @@ window.GrammarModule = {
                 });
             }
 
-            // Type 2: what does this structure mean?
             const wrongMeanings = grammar.filter(x => x.id !== g.id)
                 .sort(() => Math.random() - 0.5)
                 .slice(0, 3)
@@ -212,7 +209,7 @@ window.GrammarModule = {
 
             questions.push({
                 id: g.id,
-                question: `Que signifie la structure <strong>${g.title}</strong> (${g.structure}) ?`,
+                question: `${I18n.t('grammar_what_means')} <strong>${g.title}</strong> (${g.structure}) ?`,
                 choices: [g.meaning, ...wrongMeanings].sort(() => Math.random() - 0.5),
                 correct: g.meaning,
                 explanation: g.explanation,
@@ -233,10 +230,10 @@ window.GrammarModule = {
             <div class="quiz-container">
                 <div class="quiz-score">
                     <div class="quiz-score-value">${pct}%</div>
-                    <div class="quiz-score-label">${es.score}/${es.questions.length} bonnes reponses</div>
+                    <div class="quiz-score-label">${es.score}/${es.questions.length} ${I18n.t('good_answers')}</div>
                     <div style="margin-top:24px; display:flex; gap:12px; justify-content:center;">
-                        <button class="btn btn-primary" id="grammar-retry">Recommencer</button>
-                        <button class="btn btn-secondary" id="grammar-back">Retour aux lecons</button>
+                        <button class="btn btn-primary" id="grammar-retry">${I18n.t('retry')}</button>
+                        <button class="btn btn-secondary" id="grammar-back">${I18n.t('grammar_back_lessons')}</button>
                     </div>
                 </div>
             </div>`;

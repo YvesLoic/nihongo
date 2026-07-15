@@ -28,41 +28,45 @@
         <ul class="nav-menu">
             <li class="nav-item active" data-page="dashboard">
                 <span class="nav-icon">&#x1F3E0;</span>
-                <span class="nav-label">Tableau de bord</span>
+                <span class="nav-label" data-i18n="nav_dashboard">Tableau de bord</span>
             </li>
             <li class="nav-item" data-page="kana">
                 <span class="nav-icon">&#x3042;</span>
-                <span class="nav-label">Kana</span>
+                <span class="nav-label" data-i18n="nav_kana">Kana</span>
                 <span class="nav-badge" id="kana-badge">0%</span>
             </li>
             <li class="nav-item" data-page="kanji">
                 <span class="nav-icon">&#x6F22;</span>
-                <span class="nav-label">Kanji</span>
+                <span class="nav-label" data-i18n="nav_kanji">Kanji</span>
                 <span class="nav-badge" id="kanji-badge">0%</span>
             </li>
             <li class="nav-item" data-page="grammar">
                 <span class="nav-icon">&#x6587;</span>
-                <span class="nav-label">Grammaire</span>
+                <span class="nav-label" data-i18n="nav_grammar">Grammaire</span>
                 <span class="nav-badge" id="grammar-badge">0%</span>
             </li>
             <li class="nav-item" data-page="vocabulary">
                 <span class="nav-icon">&#x8A00;</span>
-                <span class="nav-label">Vocabulaire</span>
+                <span class="nav-label" data-i18n="nav_vocab">Vocabulaire</span>
                 <span class="nav-badge" id="vocab-badge">0%</span>
             </li>
             <li class="nav-item" data-page="exam">
                 <span class="nav-icon">&#x1F4DD;</span>
-                <span class="nav-label">Examen</span>
+                <span class="nav-label" data-i18n="nav_exam">Examen</span>
+            </li>
+            <li class="nav-item" data-page="profile">
+                <span class="nav-icon">&#x2699;</span>
+                <span class="nav-label" data-i18n="nav_profile">Profil</span>
             </li>
         </ul>
         <!-- Account Section -->
         <div class="account-section">
             <!-- Logged out state -->
             <div id="account-logged-out" class="account-logged-out">
-                <button class="btn btn-primary btn-sm" id="btn-open-auth" style="width:100%;">
+                <button class="btn btn-primary btn-sm" id="btn-open-auth" style="width:100%;" data-i18n="auth_login">
                     Se connecter
                 </button>
-                <p style="font-size:11px; color:var(--text-muted); text-align:center; margin-top:6px;">
+                <p style="font-size:11px; color:var(--text-muted); text-align:center; margin-top:6px;" data-i18n="auth_save_progress">
                     Sauvegardez votre progression
                 </p>
             </div>
@@ -84,10 +88,10 @@
                         <span class="sync-status-label">Statut :</span>
                         <span id="sync-status">Connecte</span>
                     </div>
-                    <button class="btn btn-secondary btn-sm" id="auth-sync-btn" style="width:100%; margin-bottom:8px;">
+                    <button class="btn btn-secondary btn-sm" id="auth-sync-btn" style="width:100%; margin-bottom:8px;" data-i18n="auth_sync_now">
                         Synchroniser maintenant
                     </button>
-                    <button class="btn btn-danger btn-sm" id="auth-logout-btn" style="width:100%;">
+                    <button class="btn btn-danger btn-sm" id="auth-logout-btn" style="width:100%;" data-i18n="auth_logout">
                         Se deconnecter
                     </button>
                 </div>
@@ -103,7 +107,7 @@
             <div class="streak-display">
                 <span class="streak-fire">&#x1F525;</span>
                 <span class="streak-count" id="streak-count">0</span>
-                <span class="streak-label">jours</span>
+                <span class="streak-label" data-i18n="days">jours</span>
             </div>
         </div>
     </nav>
@@ -118,60 +122,60 @@
         <!-- Dashboard Page -->
         <section id="page-dashboard" class="page active">
             <div class="page-header">
-                <h1>Bienvenue dans votre espace d'apprentissage</h1>
-                <p class="page-subtitle">Suivez votre progression et continuez a apprendre le japonais</p>
+                <h1 data-i18n="dash_welcome">Bienvenue dans votre espace d'apprentissage</h1>
+                <p class="page-subtitle" data-i18n="dash_subtitle">Suivez votre progression et continuez a apprendre le japonais</p>
             </div>
             <div class="dashboard-grid">
                 <div class="dash-card stat-card" id="dash-studied-today">
                     <div class="stat-icon">&#x1F4DA;</div>
                     <div class="stat-value" id="stat-today">0</div>
-                    <div class="stat-label">Etudies aujourd'hui</div>
+                    <div class="stat-label" data-i18n="dash_studied_today">Etudies aujourd'hui</div>
                 </div>
                 <div class="dash-card stat-card" id="dash-mastered">
                     <div class="stat-icon">&#x2B50;</div>
                     <div class="stat-value" id="stat-mastered">0</div>
-                    <div class="stat-label">Elements maitrises</div>
+                    <div class="stat-label" data-i18n="dash_mastered">Elements maitrises</div>
                 </div>
                 <div class="dash-card stat-card" id="dash-streak">
                     <div class="stat-icon">&#x1F525;</div>
                     <div class="stat-value" id="stat-streak">0</div>
-                    <div class="stat-label">Jours consecutifs</div>
+                    <div class="stat-label" data-i18n="dash_streak">Jours consecutifs</div>
                 </div>
                 <div class="dash-card stat-card" id="dash-accuracy">
                     <div class="stat-icon">&#x1F3AF;</div>
                     <div class="stat-value" id="stat-accuracy">0%</div>
-                    <div class="stat-label">Precision globale</div>
+                    <div class="stat-label" data-i18n="dash_accuracy">Precision globale</div>
                 </div>
             </div>
 
             <div class="dashboard-sections">
                 <div class="dash-card progress-overview">
-                    <h2>Progression par module</h2>
+                    <h2 data-i18n="dash_progress_title">Progression par module</h2>
                     <div class="progress-bars">
                         <div class="progress-item">
                             <div class="progress-info">
-                                <span>Kana (Hiragana + Katakana)</span>
+                                <span data-i18n="dash_progress_kana">Kana (Hiragana + Katakana)</span>
                                 <span class="progress-pct" id="prog-kana">0%</span>
                             </div>
                             <div class="progress-bar"><div class="progress-fill" id="fill-kana" style="width:0%"></div></div>
                         </div>
                         <div class="progress-item">
                             <div class="progress-info">
-                                <span>Kanji</span>
+                                <span data-i18n="dash_progress_kanji">Kanji</span>
                                 <span class="progress-pct" id="prog-kanji">0%</span>
                             </div>
                             <div class="progress-bar"><div class="progress-fill" id="fill-kanji" style="width:0%"></div></div>
                         </div>
                         <div class="progress-item">
                             <div class="progress-info">
-                                <span>Grammaire</span>
+                                <span data-i18n="dash_progress_grammar">Grammaire</span>
                                 <span class="progress-pct" id="prog-grammar">0%</span>
                             </div>
                             <div class="progress-bar"><div class="progress-fill" id="fill-grammar" style="width:0%"></div></div>
                         </div>
                         <div class="progress-item">
                             <div class="progress-info">
-                                <span>Vocabulaire</span>
+                                <span data-i18n="dash_progress_vocab">Vocabulaire</span>
                                 <span class="progress-pct" id="prog-vocab">0%</span>
                             </div>
                             <div class="progress-bar"><div class="progress-fill" id="fill-vocab" style="width:0%"></div></div>
@@ -180,11 +184,11 @@
                 </div>
 
                 <div class="dash-card review-due">
-                    <h2>Revisions du jour</h2>
+                    <h2 data-i18n="dash_review_title">Revisions du jour</h2>
                     <div id="review-list" class="review-list">
-                        <p class="empty-state">Aucune revision pour le moment. Commencez a etudier !</p>
+                        <p class="empty-state" data-i18n="dash_no_review">Aucune revision pour le moment. Commencez a etudier !</p>
                     </div>
-                    <button class="btn btn-primary" id="btn-start-review" style="display:none">
+                    <button class="btn btn-primary" id="btn-start-review" style="display:none" data-i18n="dash_start_review">
                         Commencer la revision
                     </button>
                 </div>
@@ -194,13 +198,13 @@
         <!-- Kana Page -->
         <section id="page-kana" class="page">
             <div class="page-header">
-                <h1>Kana - Hiragana & Katakana</h1>
-                <p class="page-subtitle">Maitrisez les deux syllabaires japonais</p>
+                <h1 data-i18n="kana_title">Kana - Hiragana & Katakana</h1>
+                <p class="page-subtitle" data-i18n="kana_subtitle">Maitrisez les deux syllabaires japonais</p>
             </div>
             <div class="kana-tabs">
-                <button class="tab-btn active" data-tab="hiragana">Hiragana</button>
-                <button class="tab-btn" data-tab="katakana">Katakana</button>
-                <button class="tab-btn" data-tab="kana-quiz">Quiz</button>
+                <button class="tab-btn active" data-tab="hiragana" data-i18n="kana_tab_hiragana">Hiragana</button>
+                <button class="tab-btn" data-tab="katakana" data-i18n="kana_tab_katakana">Katakana</button>
+                <button class="tab-btn" data-tab="kana-quiz" data-i18n="kana_tab_quiz">Quiz</button>
             </div>
             <div id="kana-content" class="kana-content"></div>
         </section>
@@ -208,13 +212,13 @@
         <!-- Kanji Page -->
         <section id="page-kanji" class="page">
             <div class="page-header">
-                <h1>Kanji</h1>
-                <p class="page-subtitle">Apprenez les kanji essentiels du JLPT N5 et N4</p>
+                <h1 data-i18n="kanji_title">Kanji</h1>
+                <p class="page-subtitle" data-i18n="kanji_subtitle">Apprenez les kanji essentiels du JLPT N5 et N4</p>
             </div>
             <div class="kanji-tabs">
-                <button class="tab-btn active" data-tab="kanji-list">Liste</button>
-                <button class="tab-btn" data-tab="kanji-flashcard">Flashcards</button>
-                <button class="tab-btn" data-tab="kanji-quiz">Quiz</button>
+                <button class="tab-btn active" data-tab="kanji-list" data-i18n="kanji_tab_list">Liste</button>
+                <button class="tab-btn" data-tab="kanji-flashcard" data-i18n="kanji_tab_flashcard">Flashcards</button>
+                <button class="tab-btn" data-tab="kanji-quiz" data-i18n="kanji_tab_quiz">Quiz</button>
             </div>
             <div id="kanji-content" class="kanji-content"></div>
         </section>
@@ -222,12 +226,12 @@
         <!-- Grammar Page -->
         <section id="page-grammar" class="page">
             <div class="page-header">
-                <h1>Grammaire</h1>
-                <p class="page-subtitle">Structures grammaticales N5 et N4</p>
+                <h1 data-i18n="grammar_title">Grammaire</h1>
+                <p class="page-subtitle" data-i18n="grammar_subtitle">Structures grammaticales N5 et N4</p>
             </div>
             <div class="grammar-tabs">
-                <button class="tab-btn active" data-tab="grammar-lessons">Lecons</button>
-                <button class="tab-btn" data-tab="grammar-exercises">Exercices</button>
+                <button class="tab-btn active" data-tab="grammar-lessons" data-i18n="grammar_tab_lessons">Lecons</button>
+                <button class="tab-btn" data-tab="grammar-exercises" data-i18n="grammar_tab_exercises">Exercices</button>
             </div>
             <div id="grammar-content" class="grammar-content"></div>
         </section>
@@ -235,13 +239,13 @@
         <!-- Vocabulary Page -->
         <section id="page-vocabulary" class="page">
             <div class="page-header">
-                <h1>Vocabulaire</h1>
-                <p class="page-subtitle">Vocabulaire essentiel par theme</p>
+                <h1 data-i18n="vocab_title">Vocabulaire</h1>
+                <p class="page-subtitle" data-i18n="vocab_subtitle">Vocabulaire essentiel par theme</p>
             </div>
             <div class="vocab-tabs">
-                <button class="tab-btn active" data-tab="vocab-themes">Themes</button>
-                <button class="tab-btn" data-tab="vocab-flashcard">Flashcards</button>
-                <button class="tab-btn" data-tab="vocab-quiz">Quiz</button>
+                <button class="tab-btn active" data-tab="vocab-themes" data-i18n="vocab_tab_themes">Themes</button>
+                <button class="tab-btn" data-tab="vocab-flashcard" data-i18n="vocab_tab_flashcard">Flashcards</button>
+                <button class="tab-btn" data-tab="vocab-quiz" data-i18n="vocab_tab_quiz">Quiz</button>
             </div>
             <div id="vocab-content" class="vocab-content"></div>
         </section>
@@ -249,10 +253,19 @@
         <!-- Exam Page -->
         <section id="page-exam" class="page">
             <div class="page-header">
-                <h1>Simulateur d'examen JLPT</h1>
-                <p class="page-subtitle">Testez vos connaissances en conditions reelles</p>
+                <h1 data-i18n="exam_title">Simulateur d'examen JLPT</h1>
+                <p class="page-subtitle" data-i18n="exam_subtitle">Testez vos connaissances en conditions reelles</p>
             </div>
             <div id="exam-content" class="exam-content"></div>
+        </section>
+
+        <!-- Profile Page -->
+        <section id="page-profile" class="page">
+            <div class="page-header">
+                <h1 data-i18n="profile_title">Profil</h1>
+                <p class="page-subtitle" data-i18n="profile_subtitle">Gerez vos preferences</p>
+            </div>
+            <div id="profile-content" class="profile-content"></div>
         </section>
     </main>
 
@@ -269,6 +282,7 @@
 
     <!-- Scripts -->
     <script src="js/firebase-config.js"></script>
+    <script src="js/i18n.js"></script>
     <script src="js/data.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/auth.js"></script>

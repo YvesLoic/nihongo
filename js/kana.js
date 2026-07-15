@@ -34,7 +34,8 @@ window.KanaModule = {
     renderGrid(container) {
         const type = this.currentTab; // hiragana or katakana
         const data = AppData[type];
-        const title = type === 'hiragana' ? 'Hiragana (ひらがな)' : 'Katakana (カタカナ)';
+        const title = type === 'hiragana' ? 'Hiragana' : 'Katakana';
+        const titleFull = type === 'hiragana' ? 'Hiragana (\u3072\u3089\u304C\u306A)' : 'Katakana (\u30AB\u30BF\u30AB\u30CA)';
 
         let html = '';
 
@@ -56,14 +57,14 @@ window.KanaModule = {
             html += '</div>';
         };
 
-        renderSection(`${title} - Base (46)`, data.basic, false);
-        renderSection('Dakuten & Handakuten', data.dakuten, false);
-        renderSection('Combinaisons (Youon)', data.combo, true);
+        renderSection(`${titleFull} - ${I18n.t('kana_base')}`, data.basic, false);
+        renderSection(I18n.t('kana_dakuten'), data.dakuten, false);
+        renderSection(I18n.t('kana_combo'), data.combo, true);
 
         html += `
             <div style="margin-top:32px; text-align:center;">
                 <button class="btn btn-primary btn-lg" id="btn-kana-quiz-start">
-                    Lancer un Quiz ${title}
+                    ${I18n.t('kana_start_quiz')} ${title}
                 </button>
             </div>`;
 
@@ -96,7 +97,6 @@ window.KanaModule = {
         const data = AppData[type];
         const allKana = [...data.basic, ...data.dakuten, ...data.combo];
 
-        // Shuffle and pick 20
         const shuffled = allKana.sort(() => Math.random() - 0.5).slice(0, 20);
 
         this.quizState = {
@@ -113,17 +113,17 @@ window.KanaModule = {
         if (!this.quizState) {
             container.innerHTML = `
                 <div class="quiz-container" style="text-align:center; padding:40px;">
-                    <h2 style="margin-bottom:24px;">Choisissez un type de quiz</h2>
+                    <h2 style="margin-bottom:24px;">${I18n.t('kana_choose_type')}</h2>
                     <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
-                        <button class="btn btn-primary btn-lg" id="quiz-hiragana">Hiragana</button>
-                        <button class="btn btn-primary btn-lg" id="quiz-katakana" style="background:linear-gradient(135deg, var(--sakura), var(--sakura-dark));">Katakana</button>
-                        <button class="btn btn-secondary btn-lg" id="quiz-both">Les deux</button>
+                        <button class="btn btn-primary btn-lg" id="quiz-hiragana">${I18n.t('kana_tab_hiragana')}</button>
+                        <button class="btn btn-primary btn-lg" id="quiz-katakana" style="background:linear-gradient(135deg, var(--sakura), var(--sakura-dark));">${I18n.t('kana_tab_katakana')}</button>
+                        <button class="btn btn-secondary btn-lg" id="quiz-both">${I18n.t('kana_both')}</button>
                     </div>
                     <div style="margin-top:32px;">
-                        <h3 style="margin-bottom:16px;">Mode</h3>
+                        <h3 style="margin-bottom:16px;">${I18n.t('kana_mode')}</h3>
                         <div style="display:flex; gap:12px; justify-content:center;">
-                            <button class="btn btn-secondary quiz-mode-btn active" data-mode="type">Ecrire la romanisation</button>
-                            <button class="btn btn-secondary quiz-mode-btn" data-mode="choose">Choix multiples</button>
+                            <button class="btn btn-secondary quiz-mode-btn active" data-mode="type">${I18n.t('kana_mode_type')}</button>
+                            <button class="btn btn-secondary quiz-mode-btn" data-mode="choose">${I18n.t('kana_mode_choose')}</button>
                         </div>
                     </div>
                 </div>`;
@@ -182,15 +182,15 @@ window.KanaModule = {
                 </div>
                 <div class="quiz-card">
                     <div class="quiz-prompt">${q.char}</div>
-                    <div class="quiz-hint">Tapez la romanisation</div>
+                    <div class="quiz-hint">${I18n.t('kana_type_prompt')}</div>
                 </div>
                 <div class="quiz-input-wrap">
-                    <input type="text" class="quiz-input" id="kana-answer" placeholder="Votre reponse..." autocomplete="off" autofocus>
-                    <button class="btn btn-primary" id="kana-submit">Valider</button>
+                    <input type="text" class="quiz-input" id="kana-answer" placeholder="${I18n.t('kana_your_answer')}" autocomplete="off" autofocus>
+                    <button class="btn btn-primary" id="kana-submit">${I18n.t('kana_validate')}</button>
                 </div>
                 <div class="quiz-feedback" id="kana-feedback"></div>
                 <div class="quiz-actions">
-                    <button class="btn btn-secondary" id="kana-next" style="display:none">Suivant</button>
+                    <button class="btn btn-secondary" id="kana-next" style="display:none">${I18n.t('next')}</button>
                 </div>
             </div>`;
 
@@ -210,11 +210,11 @@ window.KanaModule = {
                 qs.score++;
                 input.classList.add('correct');
                 feedback.className = 'quiz-feedback show correct-fb';
-                feedback.textContent = 'Correct !';
+                feedback.textContent = I18n.t('correct');
             } else {
                 input.classList.add('incorrect');
                 feedback.className = 'quiz-feedback show incorrect-fb';
-                feedback.innerHTML = `Incorrect. La bonne reponse est : <strong>${q.romaji}</strong>`;
+                feedback.innerHTML = `${I18n.t('incorrect')} ${I18n.t('kana_correct_was')} <strong>${q.romaji}</strong>`;
             }
 
             Storage.recordStudy('kana', q.char, correct);
@@ -247,7 +247,6 @@ window.KanaModule = {
         const type = qs.type === 'both' ? 'hiragana' : qs.type;
         const allData = [...AppData[type].basic, ...AppData[type].dakuten, ...AppData[type].combo];
 
-        // Generate 4 choices including correct
         const wrongChoices = allData.filter(k => k.romaji !== q.romaji)
             .sort(() => Math.random() - 0.5).slice(0, 3);
         const choices = [q, ...wrongChoices].sort(() => Math.random() - 0.5);
@@ -260,7 +259,7 @@ window.KanaModule = {
                 </div>
                 <div class="quiz-card">
                     <div class="quiz-prompt">${q.char}</div>
-                    <div class="quiz-hint">Quelle est la romanisation ?</div>
+                    <div class="quiz-hint">${I18n.t('kana_what_romaji')}</div>
                 </div>
                 <div class="quiz-options">
                     ${choices.map(c => `
@@ -269,7 +268,7 @@ window.KanaModule = {
                 </div>
                 <div class="quiz-feedback" id="kana-feedback"></div>
                 <div class="quiz-actions">
-                    <button class="btn btn-secondary" id="kana-next" style="display:none">Suivant</button>
+                    <button class="btn btn-secondary" id="kana-next" style="display:none">${I18n.t('next')}</button>
                 </div>
             </div>`;
 
@@ -290,12 +289,12 @@ window.KanaModule = {
                     qs.score++;
                     opt.classList.add('correct');
                     feedback.className = 'quiz-feedback show correct-fb';
-                    feedback.textContent = 'Correct !';
+                    feedback.textContent = I18n.t('correct');
                 } else {
                     opt.classList.add('incorrect');
                     container.querySelector(`[data-answer="${q.romaji}"]`).classList.add('correct');
                     feedback.className = 'quiz-feedback show incorrect-fb';
-                    feedback.innerHTML = `Incorrect. La bonne reponse est : <strong>${q.romaji}</strong>`;
+                    feedback.innerHTML = `${I18n.t('incorrect')} ${I18n.t('kana_correct_was')} <strong>${q.romaji}</strong>`;
                 }
 
                 Storage.recordStudy('kana', q.char, correct);
@@ -321,14 +320,17 @@ window.KanaModule = {
     renderQuizResults(container) {
         const qs = this.quizState;
         const pct = Math.round((qs.score / qs.questions.length) * 100);
-        let msg = pct >= 90 ? 'Excellent !' : pct >= 70 ? 'Bien joue !' : pct >= 50 ? 'Pas mal, continuez !' : 'Continuez a pratiquer !';
+        let msg = pct >= 90 ? I18n.t('kana_result_excellent') :
+                  pct >= 70 ? I18n.t('kana_result_good') :
+                  pct >= 50 ? I18n.t('kana_result_ok') :
+                  I18n.t('kana_result_practice');
 
         let wrongList = qs.answers.filter(a => !a.correct);
         let wrongHtml = '';
         if (wrongList.length > 0) {
             wrongHtml = `
                 <div style="margin-top:24px; text-align:left;">
-                    <h3 style="margin-bottom:12px;">A revoir :</h3>
+                    <h3 style="margin-bottom:12px;">${I18n.t('kana_to_review')}</h3>
                     <div style="display:flex; flex-wrap:wrap; gap:8px;">
                         ${wrongList.map(w => `
                             <div style="background:var(--bg-input); padding:8px 16px; border-radius:8px; text-align:center;">
@@ -347,8 +349,8 @@ window.KanaModule = {
                     <div class="quiz-score-label">${qs.score}/${qs.questions.length} - ${msg}</div>
                     ${wrongHtml}
                     <div style="margin-top:32px; display:flex; gap:12px; justify-content:center;">
-                        <button class="btn btn-primary" id="kana-retry">Recommencer</button>
-                        <button class="btn btn-secondary" id="kana-back">Retour</button>
+                        <button class="btn btn-primary" id="kana-retry">${I18n.t('retry')}</button>
+                        <button class="btn btn-secondary" id="kana-back">${I18n.t('back')}</button>
                     </div>
                 </div>
             </div>`;

@@ -47,7 +47,7 @@ window.KanjiModule = {
 
         container.innerHTML = `
             <div class="filter-bar">
-                <input type="text" class="search-input" id="kanji-search" placeholder="Rechercher un kanji ou sa signification...">
+                <input type="text" class="search-input" id="kanji-search" placeholder="${I18n.t('kanji_search')}">
                 <span style="color:var(--text-muted); font-size:13px;">${uniqueKanji.length} kanji</span>
             </div>
             <div class="kanji-grid" id="kanji-grid">
@@ -94,7 +94,7 @@ window.KanjiModule = {
                     </div>
                 </div>
                 <div style="margin-top:20px; text-align:left;">
-                    <h4 style="margin-bottom:8px; color:var(--text-secondary);">Exemples :</h4>
+                    <h4 style="margin-bottom:8px; color:var(--text-secondary);">${I18n.t('kanji_examples')}</h4>
                     ${k.examples.map(ex => `
                         <div style="background:var(--bg-input); padding:8px 12px; border-radius:8px; margin-bottom:6px; font-size:14px; font-family:'Noto Sans JP','Inter',sans-serif;">
                             ${ex}
@@ -117,7 +117,7 @@ window.KanjiModule = {
         }
 
         if (this.flashcardList.length === 0) {
-            container.innerHTML = '<div class="empty-state">Aucun kanji disponible pour ce niveau.</div>';
+            container.innerHTML = `<div class="empty-state">${I18n.t('kanji_no_data')}</div>`;
             return;
         }
 
@@ -129,7 +129,7 @@ window.KanjiModule = {
                     <div class="flashcard-face">
                         <div class="flashcard-char">${k.kanji}</div>
                         <span class="kanji-level-tag ${k.level.toLowerCase()}">${k.level}</span>
-                        <div style="margin-top:16px; font-size:14px; color:var(--text-muted);">Cliquez pour retourner</div>
+                        <div style="margin-top:16px; font-size:14px; color:var(--text-muted);">${I18n.t('click_to_flip')}</div>
                     </div>
                     <div class="flashcard-face flashcard-back">
                         <div class="flashcard-char" style="font-size:60px;">${k.kanji}</div>
@@ -141,18 +141,18 @@ window.KanjiModule = {
                     </div>
                 </div>
                 <div class="srs-buttons" id="srs-btns" style="display:none;">
-                    <button class="srs-btn again" data-score="0">A revoir</button>
-                    <button class="srs-btn hard" data-score="1">Difficile</button>
-                    <button class="srs-btn good" data-score="2">Bien</button>
-                    <button class="srs-btn easy" data-score="3">Facile</button>
+                    <button class="srs-btn again" data-score="0">${I18n.t('srs_again')}</button>
+                    <button class="srs-btn hard" data-score="1">${I18n.t('srs_hard')}</button>
+                    <button class="srs-btn good" data-score="2">${I18n.t('srs_good')}</button>
+                    <button class="srs-btn easy" data-score="3">${I18n.t('srs_easy')}</button>
                 </div>
                 <div class="flashcard-nav">
-                    <button class="btn btn-secondary" id="fc-prev">Precedent</button>
+                    <button class="btn btn-secondary" id="fc-prev">${I18n.t('previous')}</button>
                     <span class="flashcard-counter">${this.flashcardIndex + 1} / ${this.flashcardList.length}</span>
-                    <button class="btn btn-secondary" id="fc-next">Suivant</button>
+                    <button class="btn btn-secondary" id="fc-next">${I18n.t('next')}</button>
                 </div>
                 <div style="text-align:center; margin-top:16px;">
-                    <button class="btn btn-secondary btn-sm" id="fc-shuffle">Melanger</button>
+                    <button class="btn btn-secondary btn-sm" id="fc-shuffle">${I18n.t('shuffle')}</button>
                 </div>
             </div>`;
 
@@ -170,7 +170,7 @@ window.KanjiModule = {
             btn.addEventListener('click', () => {
                 const score = parseInt(btn.dataset.score);
                 Storage.recordStudy('kanji', k.kanji, score >= 2);
-                App.toast(score >= 2 ? 'Bien note !' : 'A revoir bientot', score >= 2 ? 'success' : 'info');
+                App.toast(score >= 2 ? I18n.t('srs_noted_good') : I18n.t('srs_review_soon'), score >= 2 ? 'success' : 'info');
                 this.flashcardIndex = (this.flashcardIndex + 1) % this.flashcardList.length;
                 this.renderFlashcards(container);
             });
@@ -212,7 +212,6 @@ window.KanjiModule = {
         const q = qs.questions[qs.current];
         const pct = (qs.current / qs.questions.length) * 100;
 
-        // Generate 4 choices
         const allKanji = this.getFilteredKanji();
         const wrong = allKanji.filter(k => k.kanji !== q.kanji)
             .sort(() => Math.random() - 0.5).slice(0, 3);
@@ -226,7 +225,7 @@ window.KanjiModule = {
                 </div>
                 <div class="quiz-card">
                     <div class="quiz-prompt">${q.kanji}</div>
-                    <div class="quiz-hint">Quelle est la signification ?</div>
+                    <div class="quiz-hint">${I18n.t('kanji_what_meaning')}</div>
                 </div>
                 <div class="quiz-options">
                     ${choices.map(c => `
@@ -235,7 +234,7 @@ window.KanjiModule = {
                 </div>
                 <div class="quiz-feedback" id="kanji-feedback"></div>
                 <div class="quiz-actions">
-                    <button class="btn btn-secondary" id="kanji-next" style="display:none">Suivant</button>
+                    <button class="btn btn-secondary" id="kanji-next" style="display:none">${I18n.t('next')}</button>
                 </div>
             </div>`;
 
@@ -255,22 +254,31 @@ window.KanjiModule = {
                     qs.score++;
                     opt.classList.add('correct');
                     feedback.className = 'quiz-feedback show correct-fb';
-                    feedback.textContent = `Correct ! ${q.kanji} = ${q.meaning}`;
+                    feedback.textContent = `${I18n.t('correct')} ${q.kanji} = ${q.meaning}`;
                 } else {
                     opt.classList.add('incorrect');
                     container.querySelector(`[data-answer="${q.meaning}"]`)?.classList.add('correct');
                     feedback.className = 'quiz-feedback show incorrect-fb';
-                    feedback.innerHTML = `Incorrect. ${q.kanji} = <strong>${q.meaning}</strong> (ON: ${q.on}, KUN: ${q.kun})`;
+                    feedback.innerHTML = `${I18n.t('incorrect')} ${q.kanji} = <strong>${q.meaning}</strong> (ON: ${q.on}, KUN: ${q.kun})`;
                 }
 
                 Storage.recordStudy('kanji', q.kanji, correct);
                 nextBtn.style.display = 'inline-flex';
+                nextBtn.focus();
             });
         });
 
         nextBtn.addEventListener('click', () => {
             qs.current++;
             this.renderQuiz(container);
+        });
+
+        document.addEventListener('keydown', function onEnter(e) {
+            if (e.key === 'Enter' && answered) {
+                document.removeEventListener('keydown', onEnter);
+                qs.current++;
+                KanjiModule.renderQuiz(container);
+            }
         });
     },
 
@@ -282,10 +290,10 @@ window.KanjiModule = {
             <div class="quiz-container">
                 <div class="quiz-score">
                     <div class="quiz-score-value">${pct}%</div>
-                    <div class="quiz-score-label">${qs.score}/${qs.questions.length} bonnes reponses</div>
+                    <div class="quiz-score-label">${qs.score}/${qs.questions.length} ${I18n.t('good_answers')}</div>
                     <div style="margin-top:24px; display:flex; gap:12px; justify-content:center;">
-                        <button class="btn btn-primary" id="kanji-retry">Recommencer</button>
-                        <button class="btn btn-secondary" id="kanji-back-list">Retour a la liste</button>
+                        <button class="btn btn-primary" id="kanji-retry">${I18n.t('retry')}</button>
+                        <button class="btn btn-secondary" id="kanji-back-list">${I18n.t('kanji_back_list')}</button>
                     </div>
                 </div>
             </div>`;

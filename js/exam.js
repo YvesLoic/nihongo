@@ -26,36 +26,36 @@ window.ExamModule = {
         container.innerHTML = `
             <div class="exam-setup">
                 <div style="font-size:64px; margin-bottom:16px;">&#x1F4DD;</div>
-                <h2>Simulateur d'examen JLPT</h2>
+                <h2>${I18n.t('exam_setup_title')}</h2>
                 <p style="color:var(--text-secondary); margin-top:8px;">
-                    Testez vos connaissances dans les conditions d'un vrai examen
+                    ${I18n.t('exam_setup_desc')}
                 </p>
 
                 <div class="exam-type-grid" id="exam-types">
                     <div class="exam-type-card selected" data-type="complete">
                         <div class="exam-type-icon">&#x1F4DA;</div>
-                        <div class="exam-type-title">Examen complet</div>
-                        <div class="exam-type-desc">Kanji, vocabulaire, grammaire, lecture</div>
+                        <div class="exam-type-title">${I18n.t('exam_type_complete')}</div>
+                        <div class="exam-type-desc">${I18n.t('exam_type_complete_desc')}</div>
                     </div>
                     <div class="exam-type-card" data-type="kanji">
                         <div class="exam-type-icon">&#x6F22;</div>
-                        <div class="exam-type-title">Kanji seul</div>
-                        <div class="exam-type-desc">Lecture et signification des kanji</div>
+                        <div class="exam-type-title">${I18n.t('exam_type_kanji')}</div>
+                        <div class="exam-type-desc">${I18n.t('exam_type_kanji_desc')}</div>
                     </div>
                     <div class="exam-type-card" data-type="grammar">
                         <div class="exam-type-icon">&#x6587;</div>
-                        <div class="exam-type-title">Grammaire seule</div>
-                        <div class="exam-type-desc">Structures et particules</div>
+                        <div class="exam-type-title">${I18n.t('exam_type_grammar')}</div>
+                        <div class="exam-type-desc">${I18n.t('exam_type_grammar_desc')}</div>
                     </div>
                     <div class="exam-type-card" data-type="vocab">
                         <div class="exam-type-icon">&#x8A00;</div>
-                        <div class="exam-type-title">Vocabulaire seul</div>
-                        <div class="exam-type-desc">Signification et lecture</div>
+                        <div class="exam-type-title">${I18n.t('exam_type_vocab')}</div>
+                        <div class="exam-type-desc">${I18n.t('exam_type_vocab_desc')}</div>
                     </div>
                 </div>
 
                 <div style="margin-bottom:24px;">
-                    <label style="color:var(--text-secondary); font-size:14px;">Nombre de questions :</label>
+                    <label style="color:var(--text-secondary); font-size:14px;">${I18n.t('exam_questions')}</label>
                     <div style="display:flex; gap:8px; justify-content:center; margin-top:8px;">
                         <button class="filter-chip" data-count="10">10</button>
                         <button class="filter-chip active" data-count="20">20</button>
@@ -65,20 +65,20 @@ window.ExamModule = {
                 </div>
 
                 <div style="margin-bottom:24px;">
-                    <label style="color:var(--text-secondary); font-size:14px;">Chronometre :</label>
+                    <label style="color:var(--text-secondary); font-size:14px;">${I18n.t('exam_timer')}</label>
                     <div style="display:flex; gap:8px; justify-content:center; margin-top:8px;">
-                        <button class="filter-chip timer-chip" data-time="0">Sans limite</button>
+                        <button class="filter-chip timer-chip" data-time="0">${I18n.t('exam_no_limit')}</button>
                         <button class="filter-chip timer-chip active" data-time="30">30 min</button>
                         <button class="filter-chip timer-chip" data-time="60">60 min</button>
                     </div>
                 </div>
 
                 <button class="btn btn-primary btn-lg" id="btn-start-exam">
-                    Commencer l'examen
+                    ${I18n.t('exam_start')}
                 </button>
 
                 <p style="color:var(--text-muted); font-size:12px; margin-top:16px;">
-                    Niveau actuel : ${level === 'all' ? 'N5 + N4' : level}
+                    ${I18n.t('exam_current_level')} ${level === 'all' ? 'N5 + N4' : level}
                 </p>
             </div>`;
 
@@ -146,7 +146,7 @@ window.ExamModule = {
                         .sort(() => Math.random() - 0.5).slice(0, 3).map(x => x.meaning);
                     questions.push({
                         type: 'kanji',
-                        text: `Quelle est la signification du kanji <span style="font-size:36px; font-family:'Noto Sans JP';">${k.kanji}</span> ?`,
+                        text: `${I18n.t('exam_kanji_meaning')} <span style="font-size:36px; font-family:'Noto Sans JP';">${k.kanji}</span> ?`,
                         choices: [k.meaning, ...wrongs].sort(() => Math.random() - 0.5),
                         correct: k.meaning,
                         detail: `${k.kanji} : ${k.meaning} (ON: ${k.on}, KUN: ${k.kun})`
@@ -156,7 +156,7 @@ window.ExamModule = {
                         .sort(() => Math.random() - 0.5).slice(0, 3).map(x => x.on || x.kun);
                     questions.push({
                         type: 'kanji',
-                        text: `Quelle est la lecture du kanji <span style="font-size:36px; font-family:'Noto Sans JP';">${k.kanji}</span> ?`,
+                        text: `${I18n.t('exam_kanji_reading')} <span style="font-size:36px; font-family:'Noto Sans JP';">${k.kanji}</span> ?`,
                         choices: [k.on || k.kun, ...wrongs].sort(() => Math.random() - 0.5),
                         correct: k.on || k.kun,
                         detail: `${k.kanji} : ON: ${k.on}, KUN: ${k.kun} = ${k.meaning}`
@@ -176,7 +176,7 @@ window.ExamModule = {
 
                 questions.push({
                     type: 'grammar',
-                    text: `Que signifie la structure <strong>${g.title}</strong> ?<br>
+                    text: `${I18n.t('exam_grammar_meaning')} <strong>${g.title}</strong> ?<br>
                            <span style="color:var(--text-muted); font-size:13px;">${g.structure}</span>`,
                     choices: [g.meaning, ...wrongs].sort(() => Math.random() - 0.5),
                     correct: g.meaning,
@@ -196,7 +196,7 @@ window.ExamModule = {
 
                 questions.push({
                     type: 'vocab',
-                    text: `Que signifie <span style="font-size:28px; font-family:'Noto Sans JP';">${w.kanji || w.kana}</span> ?
+                    text: `${I18n.t('exam_vocab_meaning')} <span style="font-size:28px; font-family:'Noto Sans JP';">${w.kanji || w.kana}</span> ?
                            ${w.kanji ? `<br><span style="color:var(--accent-light);">${w.kana}</span>` : ''}`,
                     choices: [w.meaning, ...wrongs].sort(() => Math.random() - 0.5),
                     correct: w.meaning,
@@ -263,11 +263,15 @@ window.ExamModule = {
         const q = es.questions[es.current];
         const answered = es.answers[es.current] !== null;
 
+        const qTypeLabel = q.type === 'kanji' ? I18n.t('exam_q_kanji') :
+                           q.type === 'grammar' ? I18n.t('exam_q_grammar') :
+                           I18n.t('exam_q_vocab');
+
         const timeDisplay = es.timeLimit > 0
             ? `<span class="timer-display" id="exam-timer-display">
                 ${String(Math.floor(es.timeRemaining / 60)).padStart(2, '0')}:${String(es.timeRemaining % 60).padStart(2, '0')}
                </span>`
-            : '<span style="color:var(--text-muted);">Sans limite</span>';
+            : `<span style="color:var(--text-muted);">${I18n.t('exam_no_limit')}</span>`;
 
         // Question navigation dots
         const dots = es.questions.map((_, i) => {
@@ -281,15 +285,15 @@ window.ExamModule = {
             <div class="exam-timer">
                 <div style="display:flex; align-items:center; gap:12px;">
                     ${timeDisplay}
-                    <span style="color:var(--text-muted); font-size:13px;">Question ${es.current + 1}/${es.questions.length}</span>
+                    <span style="color:var(--text-muted); font-size:13px;">${I18n.t('exam_question')} ${es.current + 1}/${es.questions.length}</span>
                 </div>
-                <button class="btn btn-danger btn-sm" id="exam-finish">Terminer</button>
+                <button class="btn btn-danger btn-sm" id="exam-finish">${I18n.t('exam_finish')}</button>
             </div>
             <div style="display:flex; flex-wrap:wrap; gap:4px; margin-bottom:20px; justify-content:center;">
                 ${dots}
             </div>
             <div class="exam-question">
-                <div class="exam-q-number">Question ${es.current + 1} - ${q.type === 'kanji' ? 'Kanji' : q.type === 'grammar' ? 'Grammaire' : 'Vocabulaire'}</div>
+                <div class="exam-q-number">${I18n.t('exam_question')} ${es.current + 1} - ${qTypeLabel}</div>
                 <div class="exam-q-text">${q.text}</div>
                 <div class="quiz-options">
                     ${q.choices.map((c, i) => {
@@ -303,15 +307,15 @@ window.ExamModule = {
                 </div>
                 ${answered ? `
                     <div class="quiz-feedback show ${es.answers[es.current] === q.correct ? 'correct-fb' : 'incorrect-fb'}">
-                        ${es.answers[es.current] === q.correct ? 'Correct !' : `Incorrect. ${q.detail}`}
+                        ${es.answers[es.current] === q.correct ? I18n.t('correct') : `${I18n.t('incorrect')} ${q.detail}`}
                     </div>
                 ` : ''}
             </div>
             <div style="display:flex; justify-content:space-between; margin-top:16px;">
-                <button class="btn btn-secondary" id="exam-prev" ${es.current === 0 ? 'disabled' : ''}>Precedent</button>
+                <button class="btn btn-secondary" id="exam-prev" ${es.current === 0 ? 'disabled' : ''}>${I18n.t('previous')}</button>
                 ${es.current < es.questions.length - 1
-                    ? `<button class="btn btn-primary" id="exam-next-q">Suivant</button>`
-                    : `<button class="btn btn-success" id="exam-submit">Voir les resultats</button>`
+                    ? `<button class="btn btn-primary" id="exam-next-q">${I18n.t('next')}</button>`
+                    : `<button class="btn btn-success" id="exam-submit">${I18n.t('exam_submit')}</button>`
                 }
             </div>`;
 
@@ -346,8 +350,9 @@ window.ExamModule = {
                 }
             });
         }
+
         document.getElementById('exam-finish')?.addEventListener('click', () => {
-            if (confirm('Etes-vous sur de vouloir terminer l\'examen ?')) {
+            if (confirm(I18n.t('exam_confirm_finish'))) {
                 this.finishExam();
             }
         });
@@ -403,42 +408,42 @@ window.ExamModule = {
         const durSec = r.duration % 60;
 
         let verdict = '';
-        if (r.pct >= 90) verdict = 'Excellent ! Vous etes pret(e) pour l\'examen !';
-        else if (r.pct >= 70) verdict = 'Bien ! Encore un peu de pratique et c\'est bon !';
-        else if (r.pct >= 50) verdict = 'Pas mal, mais continuez a reviser.';
-        else verdict = 'Il faut encore travailler. Ne lachez pas !';
+        if (r.pct >= 90) verdict = I18n.t('exam_result_excellent');
+        else if (r.pct >= 70) verdict = I18n.t('exam_result_good');
+        else if (r.pct >= 50) verdict = I18n.t('exam_result_ok');
+        else verdict = I18n.t('exam_result_bad');
 
         container.innerHTML = `
             <div class="exam-results">
                 <div style="font-size:48px; margin-bottom:16px;">&#x1F4CA;</div>
                 <div class="exam-results-score">${r.pct}%</div>
-                <p style="font-size:18px; color:var(--text-secondary); margin-top:8px;">${r.correct}/${r.total} bonnes reponses</p>
+                <p style="font-size:18px; color:var(--text-secondary); margin-top:8px;">${r.correct}/${r.total} ${I18n.t('good_answers')}</p>
                 <p style="font-size:16px; color:var(--accent-light); margin-top:8px;">${verdict}</p>
                 <p style="font-size:14px; color:var(--text-muted); margin-top:4px;">
-                    Duree : ${durMin}min ${durSec}s
+                    ${I18n.t('exam_duration')} ${durMin}min ${durSec}s
                 </p>
 
                 <div class="exam-results-detail">
                     ${r.kanji.total > 0 ? `
                     <div class="exam-detail-item">
                         <div class="exam-detail-value" style="color:var(--accent-light);">${r.kanji.correct}/${r.kanji.total}</div>
-                        <div class="exam-detail-label">Kanji</div>
+                        <div class="exam-detail-label">${I18n.t('exam_q_kanji')}</div>
                     </div>` : ''}
                     ${r.grammar.total > 0 ? `
                     <div class="exam-detail-item">
                         <div class="exam-detail-value" style="color:var(--sakura);">${r.grammar.correct}/${r.grammar.total}</div>
-                        <div class="exam-detail-label">Grammaire</div>
+                        <div class="exam-detail-label">${I18n.t('exam_q_grammar')}</div>
                     </div>` : ''}
                     ${r.vocab.total > 0 ? `
                     <div class="exam-detail-item">
                         <div class="exam-detail-value" style="color:var(--success);">${r.vocab.correct}/${r.vocab.total}</div>
-                        <div class="exam-detail-label">Vocabulaire</div>
+                        <div class="exam-detail-label">${I18n.t('exam_q_vocab')}</div>
                     </div>` : ''}
                 </div>
 
                 <div style="margin-top:32px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
-                    <button class="btn btn-primary" id="exam-retry">Refaire un examen</button>
-                    <button class="btn btn-secondary" id="exam-review">Revoir les erreurs</button>
+                    <button class="btn btn-primary" id="exam-retry">${I18n.t('exam_retry')}</button>
+                    <button class="btn btn-secondary" id="exam-review">${I18n.t('exam_review')}</button>
                 </div>
             </div>`;
 
@@ -463,8 +468,8 @@ window.ExamModule = {
             container.innerHTML = `
                 <div style="text-align:center; padding:40px;">
                     <div style="font-size:48px; margin-bottom:16px;">&#x1F389;</div>
-                    <h2>Parfait ! Aucune erreur !</h2>
-                    <button class="btn btn-primary" id="exam-back-results" style="margin-top:24px;">Retour</button>
+                    <h2>${I18n.t('exam_perfect')}</h2>
+                    <button class="btn btn-primary" id="exam-back-results" style="margin-top:24px;">${I18n.t('back')}</button>
                 </div>`;
             document.getElementById('exam-back-results')?.addEventListener('click', () => this.render());
             return;
@@ -472,22 +477,22 @@ window.ExamModule = {
 
         container.innerHTML = `
             <div style="max-width:700px; margin:0 auto;">
-                <h2 style="margin-bottom:24px;">Revue des erreurs (${errors.length})</h2>
+                <h2 style="margin-bottom:24px;">${I18n.t('exam_review_title')} (${errors.length})</h2>
                 ${errors.map(q => `
                     <div class="exam-question" style="margin-bottom:16px;">
-                        <div class="exam-q-number">Question ${q.index + 1} - ${q.type}</div>
+                        <div class="exam-q-number">${I18n.t('exam_question')} ${q.index + 1} - ${q.type}</div>
                         <div class="exam-q-text">${q.text}</div>
                         <div style="padding:8px 12px; border-radius:8px; background:rgba(248,113,113,0.1); border:1px solid rgba(248,113,113,0.3); margin-bottom:8px;">
-                            <span style="color:var(--danger);">Votre reponse :</span> ${q.userAnswer || '(pas de reponse)'}
+                            <span style="color:var(--danger);">${I18n.t('exam_your_answer')}</span> ${q.userAnswer || I18n.t('exam_no_answer')}
                         </div>
                         <div style="padding:8px 12px; border-radius:8px; background:rgba(52,211,153,0.1); border:1px solid rgba(52,211,153,0.3);">
-                            <span style="color:var(--success);">Bonne reponse :</span> ${q.correct}
+                            <span style="color:var(--success);">${I18n.t('exam_correct_answer')}</span> ${q.correct}
                         </div>
                         <div style="font-size:13px; color:var(--text-muted); margin-top:8px;">${q.detail}</div>
                     </div>
                 `).join('')}
                 <div style="text-align:center; margin-top:24px;">
-                    <button class="btn btn-primary" id="exam-back-results">Retour aux resultats</button>
+                    <button class="btn btn-primary" id="exam-back-results">${I18n.t('exam_back_results')}</button>
                 </div>
             </div>`;
 
