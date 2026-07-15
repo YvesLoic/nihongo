@@ -2102,12 +2102,109 @@ body {
         grid-template-columns: repeat(2, 1fr);
     }
 
+    .quiz-container {
+        max-width: 100%;
+    }
+
+    .quiz-card {
+        padding: 24px 16px;
+        margin-bottom: 16px;
+    }
+
     .quiz-prompt {
-        font-size: 48px;
+        font-size: 40px !important;
+    }
+
+    .quiz-hint {
+        font-size: 13px;
     }
 
     .quiz-options {
         grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .quiz-option {
+        padding: 14px 12px;
+        font-size: 14px;
+    }
+
+    .quiz-input-wrap {
+        flex-direction: column;
+    }
+
+    .quiz-input {
+        font-size: 16px;
+        padding: 12px 14px;
+    }
+
+    .quiz-score-value {
+        font-size: 48px;
+    }
+
+    .quiz-score-label {
+        font-size: 14px;
+    }
+
+    .quiz-feedback {
+        font-size: 13px;
+        padding: 12px;
+    }
+
+    .flashcard-container {
+        max-width: 100%;
+    }
+
+    .flashcard {
+        min-height: 240px;
+    }
+
+    .flashcard-face {
+        min-height: 240px;
+        padding: 20px 16px;
+    }
+
+    .flashcard-char {
+        font-size: 56px;
+    }
+
+    .flashcard-meaning {
+        font-size: 18px;
+    }
+
+    .flashcard-reading {
+        font-size: 16px;
+    }
+
+    .flashcard-examples {
+        font-size: 12px;
+    }
+
+    .flashcard-nav {
+        gap: 10px;
+        margin-top: 16px;
+    }
+
+    .srs-buttons {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .srs-btn {
+        padding: 8px 14px;
+        font-size: 12px;
+    }
+
+    .exercise-container {
+        max-width: 100%;
+    }
+
+    .exercise-card {
+        padding: 16px;
+    }
+
+    .exercise-question {
+        font-size: 14px;
     }
 
     .vocab-word-item {
@@ -2120,6 +2217,35 @@ body {
 
     .exam-type-grid {
         grid-template-columns: 1fr;
+    }
+
+    .exam-type-card {
+        padding: 20px 16px;
+    }
+
+    .exam-setup h2 {
+        font-size: 20px;
+    }
+
+    .exam-timer {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    .timer-display {
+        font-size: 18px;
+    }
+
+    .exam-question {
+        padding: 16px;
+    }
+
+    .exam-q-text {
+        font-size: 14px;
+    }
+
+    .exam-results-score {
+        font-size: 48px;
     }
 
     .exam-results-detail {
@@ -2275,6 +2401,45 @@ body {
 
     .profile-stats-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .quiz-prompt {
+        font-size: 32px !important;
+    }
+
+    .quiz-card {
+        padding: 20px 12px;
+    }
+
+    .flashcard {
+        min-height: 200px;
+    }
+
+    .flashcard-face {
+        min-height: 200px;
+        padding: 16px 12px;
+    }
+
+    .flashcard-char {
+        font-size: 44px;
+    }
+
+    .flashcard-meaning {
+        font-size: 16px;
+    }
+
+    .srs-buttons {
+        gap: 6px;
+    }
+
+    .srs-btn {
+        padding: 6px 10px;
+        font-size: 11px;
+    }
+
+    .flashcard-nav .btn {
+        padding: 8px 12px;
+        font-size: 12px;
     }
 
     .admin-stats-grid {
