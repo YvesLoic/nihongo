@@ -21,9 +21,10 @@ window.App = {
         VocabModule.init();
         ExamModule.init();
 
-        // Initialize auth & sync
+        // Initialize auth, sync & admin
         Auth.init();
         Sync.init();
+        AdminModule.init();
 
         // Update streak
         Storage.updateStreak();
@@ -70,6 +71,7 @@ window.App = {
         if (page === 'vocabulary') VocabModule.render();
         if (page === 'exam') ExamModule.render();
         if (page === 'profile') this.renderProfile();
+        if (page === 'admin') AdminModule.render();
     },
 
     // ---- Level Selector ----
@@ -264,7 +266,7 @@ window.App = {
                 : '-';
 
             accountHtml = `
-                <div class="profile-section">
+                <div class="profile-section full-width">
                     <div class="profile-section-title">${I18n.t('profile_account')}</div>
                     <div class="profile-user-card">
                         <div class="profile-avatar">${avatarContent}</div>
@@ -295,7 +297,7 @@ window.App = {
                 </div>`;
         } else {
             accountHtml = `
-                <div class="profile-section">
+                <div class="profile-section full-width">
                     <div class="profile-section-title">${I18n.t('profile_account')}</div>
                     <div class="profile-not-connected">
                         <div class="profile-not-connected-icon">&#x1F464;</div>
@@ -308,7 +310,7 @@ window.App = {
 
         // Stats section
         const statsHtml = `
-            <div class="profile-section">
+            <div class="profile-section full-width">
                 <div class="profile-section-title">${I18n.t('profile_stats')}</div>
                 <div class="profile-stats-grid">
                     <div class="profile-stat-card">

@@ -1682,13 +1682,21 @@ body {
 /* ========================================
    PROFILE PAGE
    ======================================== */
+.profile-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
 .profile-section {
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius);
     padding: 28px 32px;
-    margin-bottom: 20px;
-    max-width: 600px;
+}
+
+.profile-section.full-width {
+    grid-column: 1 / -1;
 }
 
 .profile-section-title {
@@ -1867,11 +1875,203 @@ body {
 }
 
 /* ========================================
+   ADMIN DASHBOARD
+   ======================================== */
+.admin-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.admin-stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    text-align: center;
+}
+
+.admin-stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--sakura));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 4px;
+}
+
+.admin-stat-label {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.admin-toolbar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.admin-toolbar .search-input {
+    max-width: 320px;
+}
+
+.admin-loading {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+    font-size: 16px;
+}
+
+.admin-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg-card);
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.admin-table thead {
+    background: var(--bg-secondary);
+}
+
+.admin-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--border);
+}
+
+.admin-sortable {
+    cursor: pointer;
+    user-select: none;
+    transition: color var(--transition);
+}
+
+.admin-sortable:hover {
+    color: var(--accent-light);
+}
+
+.admin-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+}
+
+.admin-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.admin-table tbody tr:hover {
+    background: var(--bg-card-hover);
+}
+
+.admin-user-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 200px;
+}
+
+.admin-user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--sakura));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    color: white;
+    flex-shrink: 0;
+}
+
+.admin-user-name {
+    font-weight: 600;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.admin-user-email {
+    font-size: 12px;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.admin-num {
+    text-align: center;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+}
+
+.admin-date {
+    font-size: 12px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+.admin-empty {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 40px 16px;
+}
+
+/* Admin detail modal */
+.admin-detail-modal h2 {
+    font-size: 22px;
+}
+
+.admin-progress-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.admin-progress-item {
+    display: grid;
+    grid-template-columns: 80px 1fr 120px;
+    align-items: center;
+    gap: 12px;
+}
+
+.admin-progress-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.admin-progress-vals {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: right;
+}
+
+/* ========================================
    RESPONSIVE
    ======================================== */
 @media (max-width: 1024px) {
     .dashboard-sections {
         grid-template-columns: 1fr;
+    }
+
+    .admin-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .admin-progress-item {
+        grid-template-columns: 70px 1fr 90px;
     }
 }
 
@@ -1926,6 +2126,10 @@ body {
         grid-template-columns: 1fr;
     }
 
+    .profile-content {
+        grid-template-columns: 1fr;
+    }
+
     .profile-section {
         padding: 20px 16px;
     }
@@ -1957,6 +2161,27 @@ body {
     .profile-user-name,
     .profile-user-email {
         text-align: center;
+    }
+
+    .admin-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .admin-toolbar {
+        flex-direction: column;
+    }
+
+    .admin-toolbar .search-input {
+        max-width: 100%;
+    }
+
+    .admin-progress-item {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+
+    .admin-progress-vals {
+        text-align: left;
     }
 }
 

@@ -58,6 +58,10 @@
                 <span class="nav-icon">&#x2699;</span>
                 <span class="nav-label" data-i18n="nav_profile">Profil</span>
             </li>
+            <li class="nav-item" data-page="admin" style="display:none;">
+                <span class="nav-icon">&#x1F6E1;</span>
+                <span class="nav-label" data-i18n="nav_admin">Admin</span>
+            </li>
         </ul>
         <!-- Account Section -->
         <div class="account-section">
@@ -267,6 +271,15 @@
             </div>
             <div id="profile-content" class="profile-content"></div>
         </section>
+
+        <!-- Admin Page -->
+        <section id="page-admin" class="page">
+            <div class="page-header">
+                <h1 data-i18n="admin_title">Administration</h1>
+                <p class="page-subtitle" data-i18n="admin_subtitle">Vue d'ensemble des utilisateurs</p>
+            </div>
+            <div id="admin-content" class="admin-content"></div>
+        </section>
     </main>
 
     <!-- Toast notification -->
@@ -292,6 +305,7 @@
     <script src="js/grammar.js"></script>
     <script src="js/vocab.js"></script>
     <script src="js/exam.js"></script>
+    <script src="js/admin.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>
