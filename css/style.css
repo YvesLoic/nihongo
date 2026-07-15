@@ -581,11 +581,27 @@ body {
     font-weight: 500;
     display: block;
     margin-bottom: 4px;
+    white-space: nowrap;
+    letter-spacing: -0.05em;
 }
 
 .kana-romaji {
     font-size: 11px;
     color: var(--text-muted);
+}
+
+/* Combo / Youon cells - wider to fit 2 characters horizontally */
+.kana-grid-combo {
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+}
+
+.kana-cell.combo {
+    min-width: 90px;
+}
+
+.kana-cell.combo .kana-char {
+    font-size: 26px;
+    letter-spacing: 0;
 }
 
 .kana-section-title {
@@ -647,6 +663,8 @@ body {
     background: linear-gradient(135deg, var(--text-primary), var(--accent-light));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    white-space: nowrap;
+    letter-spacing: -0.02em;
 }
 
 .quiz-hint {
@@ -1717,5 +1735,9 @@ body {
 
     .kana-grid {
         grid-template-columns: repeat(5, 1fr);
+    }
+
+    .kana-grid-combo {
+        grid-template-columns: repeat(3, 1fr);
     }
 }
