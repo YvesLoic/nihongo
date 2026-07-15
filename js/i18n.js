@@ -198,7 +198,23 @@ window.I18n = {
             profile_reset_desc: 'Supprimer toutes vos donnees de progression locale.',
             profile_reset_btn: 'Reinitialiser',
             profile_reset_confirm: 'Etes-vous sur ? Toute votre progression locale sera perdue.',
-            profile_reset_done: 'Progression reinitialisee.'
+            profile_reset_done: 'Progression reinitialisee.',
+
+            profile_account: 'Compte',
+            profile_not_connected: 'Non connecte',
+            profile_not_connected_desc: 'Connectez-vous pour sauvegarder votre progression sur tous vos appareils.',
+            profile_connect_btn: 'Se connecter',
+            profile_name: 'Nom',
+            profile_email: 'Email',
+            profile_provider: 'Connexion via',
+            profile_member_since: 'Membre depuis',
+            profile_logout: 'Se deconnecter',
+
+            profile_stats: 'Statistiques',
+            profile_stats_studied: 'Elements etudies',
+            profile_stats_mastered: 'Elements maitrises',
+            profile_stats_accuracy: 'Precision',
+            profile_stats_streak: 'Serie actuelle'
         },
 
         // =============================================
@@ -393,7 +409,23 @@ window.I18n = {
             profile_reset_desc: 'Delete all your local progress data.',
             profile_reset_btn: 'Reset',
             profile_reset_confirm: 'Are you sure? All your local progress will be lost.',
-            profile_reset_done: 'Progress reset.'
+            profile_reset_done: 'Progress reset.',
+
+            profile_account: 'Account',
+            profile_not_connected: 'Not signed in',
+            profile_not_connected_desc: 'Sign in to save your progress across all your devices.',
+            profile_connect_btn: 'Sign in',
+            profile_name: 'Name',
+            profile_email: 'Email',
+            profile_provider: 'Signed in via',
+            profile_member_since: 'Member since',
+            profile_logout: 'Sign out',
+
+            profile_stats: 'Statistics',
+            profile_stats_studied: 'Items studied',
+            profile_stats_mastered: 'Items mastered',
+            profile_stats_accuracy: 'Accuracy',
+            profile_stats_streak: 'Current streak'
         }
     },
 
