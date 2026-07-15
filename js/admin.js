@@ -216,11 +216,11 @@ window.AdminModule = {
                         </div>
                     </div>
                 </td>
-                <td class="admin-num">${u.totalStudied}</td>
-                <td class="admin-num">${u.totalMastered}</td>
-                <td class="admin-num">${u.accuracy}%</td>
-                <td class="admin-num">${u.streak}</td>
-                <td class="admin-date">${lastSyncStr}</td>
+                <td class="admin-num" data-label="${I18n.t('admin_col_studied')}">${u.totalStudied}</td>
+                <td class="admin-num" data-label="${I18n.t('admin_col_mastered')}">${u.totalMastered}</td>
+                <td class="admin-num" data-label="${I18n.t('admin_col_accuracy')}">${u.accuracy}%</td>
+                <td class="admin-num" data-label="${I18n.t('admin_col_streak')}">${u.streak}</td>
+                <td class="admin-date" data-label="${I18n.t('admin_col_last_sync')}">${lastSyncStr}</td>
                 <td><button class="btn btn-secondary btn-sm admin-detail-btn" data-uid="${u.uid}">${I18n.t('admin_view')}</button></td>
             </tr>`;
     },

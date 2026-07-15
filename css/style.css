@@ -2165,6 +2165,15 @@ body {
 
     .admin-stats-grid {
         grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .admin-stat-card {
+        padding: 14px 10px;
+    }
+
+    .admin-stat-value {
+        font-size: 22px;
     }
 
     .admin-toolbar {
@@ -2173,6 +2182,72 @@ body {
 
     .admin-toolbar .search-input {
         max-width: 100%;
+    }
+
+    /* Hide table, show cards on mobile */
+    .admin-table thead {
+        display: none;
+    }
+
+    .admin-table,
+    .admin-table tbody,
+    .admin-table tr,
+    .admin-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .admin-table tr {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        margin-bottom: 12px;
+        padding: 16px;
+    }
+
+    .admin-table-wrap {
+        border: none;
+        background: transparent;
+        overflow-x: visible;
+    }
+
+    .admin-table td {
+        padding: 4px 0;
+        border-bottom: none;
+        text-align: left;
+    }
+
+    .admin-table td::before {
+        content: attr(data-label);
+        display: inline-block;
+        font-size: 11px;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        min-width: 100px;
+        margin-right: 8px;
+    }
+
+    .admin-table td:first-child::before {
+        display: none;
+    }
+
+    .admin-table td:last-child {
+        margin-top: 8px;
+    }
+
+    .admin-table td:last-child .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .admin-user-cell {
+        min-width: 0;
+        margin-bottom: 8px;
+    }
+
+    .admin-num {
+        text-align: left;
     }
 
     .admin-progress-item {
@@ -2200,5 +2275,22 @@ body {
 
     .profile-stats-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .admin-stats-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .admin-stat-card {
+        padding: 12px 8px;
+    }
+
+    .admin-stat-value {
+        font-size: 20px;
+    }
+
+    .admin-stat-label {
+        font-size: 10px;
     }
 }
