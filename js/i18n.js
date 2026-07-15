@@ -214,7 +214,34 @@ window.I18n = {
             profile_stats_studied: 'Elements etudies',
             profile_stats_mastered: 'Elements maitrises',
             profile_stats_accuracy: 'Precision',
-            profile_stats_streak: 'Serie actuelle'
+            profile_stats_streak: 'Serie actuelle',
+
+            // -- Admin --
+            nav_admin: 'Admin',
+            admin_title: 'Administration',
+            admin_subtitle: 'Vue d\'ensemble des utilisateurs',
+            admin_no_access: 'Acces refuse. Vous n\'etes pas administrateur.',
+            admin_loading: 'Chargement des utilisateurs...',
+            admin_error_load: 'Erreur lors du chargement des utilisateurs.',
+            admin_total_users: 'Utilisateurs',
+            admin_active_today: 'Actifs aujourd\'hui',
+            admin_avg_accuracy: 'Precision moyenne',
+            admin_avg_streak: 'Serie moyenne',
+            admin_search: 'Rechercher un utilisateur...',
+            admin_refresh: 'Actualiser',
+            admin_col_user: 'Utilisateur',
+            admin_col_studied: 'Etudies',
+            admin_col_mastered: 'Maitrises',
+            admin_col_accuracy: 'Precision',
+            admin_col_streak: 'Serie',
+            admin_col_last_sync: 'Derniere sync',
+            admin_col_details: 'Details',
+            admin_no_users: 'Aucun utilisateur trouve.',
+            admin_view: 'Voir',
+            admin_progress_detail: 'Progression detaillee',
+            admin_items: 'elements',
+            admin_last_study: 'Derniere etude',
+            admin_today: 'Aujourd\'hui'
         },
 
         // =============================================
@@ -425,7 +452,34 @@ window.I18n = {
             profile_stats_studied: 'Items studied',
             profile_stats_mastered: 'Items mastered',
             profile_stats_accuracy: 'Accuracy',
-            profile_stats_streak: 'Current streak'
+            profile_stats_streak: 'Current streak',
+
+            // -- Admin --
+            nav_admin: 'Admin',
+            admin_title: 'Administration',
+            admin_subtitle: 'Users overview',
+            admin_no_access: 'Access denied. You are not an administrator.',
+            admin_loading: 'Loading users...',
+            admin_error_load: 'Error loading users.',
+            admin_total_users: 'Users',
+            admin_active_today: 'Active today',
+            admin_avg_accuracy: 'Avg. accuracy',
+            admin_avg_streak: 'Avg. streak',
+            admin_search: 'Search a user...',
+            admin_refresh: 'Refresh',
+            admin_col_user: 'User',
+            admin_col_studied: 'Studied',
+            admin_col_mastered: 'Mastered',
+            admin_col_accuracy: 'Accuracy',
+            admin_col_streak: 'Streak',
+            admin_col_last_sync: 'Last sync',
+            admin_col_details: 'Details',
+            admin_no_users: 'No users found.',
+            admin_view: 'View',
+            admin_progress_detail: 'Detailed progress',
+            admin_items: 'items',
+            admin_last_study: 'Last study',
+            admin_today: 'Today'
         }
     },
 
