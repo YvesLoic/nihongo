@@ -239,8 +239,100 @@ window.App = {
     renderProfile() {
         const container = document.getElementById('profile-content');
         const currentLocale = I18n.locale;
+        const user = Auth.currentUser;
+        const progress = Storage.getProgress();
+
+        // Calculate stats
+        const totalStudied = Object.keys(progress.kana || {}).length +
+                             Object.keys(progress.kanji || {}).length +
+                             Object.keys(progress.grammar || {}).length +
+                             Object.keys(progress.vocab || {}).length;
+        const totalMastered = Storage.getTotalMastered();
+        const accuracy = Storage.getAccuracy();
+        const streak = progress.streak || 0;
+
+        // User account section
+        let accountHtml = '';
+        if (user) {
+            const initial = (user.displayName || user.email || 'U')[0].toUpperCase();
+            const avatarContent = user.photoURL
+                ? `<img src="${user.photoURL}" alt="Avatar" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`
+                : initial;
+            const provider = user.providerData?.[0]?.providerId === 'google.com' ? 'Google' : 'Email';
+            const createdAt = user.metadata?.creationTime
+                ? new Date(user.metadata.creationTime).toLocaleDateString(currentLocale === 'en' ? 'en-US' : 'fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })
+                : '-';
+
+            accountHtml = `
+                <div class="profile-section">
+                    <div class="profile-section-title">${I18n.t('profile_account')}</div>
+                    <div class="profile-user-card">
+                        <div class="profile-avatar">${avatarContent}</div>
+                        <div class="profile-user-info">
+                            <div class="profile-user-name">${user.displayName || '-'}</div>
+                            <div class="profile-user-email">${user.email}</div>
+                        </div>
+                    </div>
+                    <div class="profile-details">
+                        <div class="profile-detail-row">
+                            <span class="profile-detail-label">${I18n.t('profile_name')}</span>
+                            <span class="profile-detail-value">${user.displayName || '-'}</span>
+                        </div>
+                        <div class="profile-detail-row">
+                            <span class="profile-detail-label">${I18n.t('profile_email')}</span>
+                            <span class="profile-detail-value">${user.email}</span>
+                        </div>
+                        <div class="profile-detail-row">
+                            <span class="profile-detail-label">${I18n.t('profile_provider')}</span>
+                            <span class="profile-detail-value">${provider}</span>
+                        </div>
+                        <div class="profile-detail-row">
+                            <span class="profile-detail-label">${I18n.t('profile_member_since')}</span>
+                            <span class="profile-detail-value">${createdAt}</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-danger btn-sm" id="profile-logout" style="margin-top:16px;">${I18n.t('profile_logout')}</button>
+                </div>`;
+        } else {
+            accountHtml = `
+                <div class="profile-section">
+                    <div class="profile-section-title">${I18n.t('profile_account')}</div>
+                    <div class="profile-not-connected">
+                        <div class="profile-not-connected-icon">&#x1F464;</div>
+                        <div class="profile-not-connected-text">${I18n.t('profile_not_connected')}</div>
+                        <div class="profile-section-desc">${I18n.t('profile_not_connected_desc')}</div>
+                        <button class="btn btn-primary" id="profile-connect">${I18n.t('profile_connect_btn')}</button>
+                    </div>
+                </div>`;
+        }
+
+        // Stats section
+        const statsHtml = `
+            <div class="profile-section">
+                <div class="profile-section-title">${I18n.t('profile_stats')}</div>
+                <div class="profile-stats-grid">
+                    <div class="profile-stat-card">
+                        <div class="profile-stat-value">${totalStudied}</div>
+                        <div class="profile-stat-label">${I18n.t('profile_stats_studied')}</div>
+                    </div>
+                    <div class="profile-stat-card">
+                        <div class="profile-stat-value">${totalMastered}</div>
+                        <div class="profile-stat-label">${I18n.t('profile_stats_mastered')}</div>
+                    </div>
+                    <div class="profile-stat-card">
+                        <div class="profile-stat-value">${accuracy}%</div>
+                        <div class="profile-stat-label">${I18n.t('profile_stats_accuracy')}</div>
+                    </div>
+                    <div class="profile-stat-card">
+                        <div class="profile-stat-value">${streak}</div>
+                        <div class="profile-stat-label">${I18n.t('profile_stats_streak')}</div>
+                    </div>
+                </div>
+            </div>`;
 
         container.innerHTML = `
+            ${accountHtml}
+            ${statsHtml}
             <div class="profile-section">
                 <div class="profile-section-title">${I18n.t('profile_language')}</div>
                 <div class="profile-section-desc">${I18n.t('profile_language_desc')}</div>
@@ -261,14 +353,13 @@ window.App = {
                 <button class="btn btn-danger" id="profile-reset">${I18n.t('profile_reset_btn')}</button>
             </div>`;
 
+        // Bind events
         container.querySelectorAll('.lang-option').forEach(btn => {
             btn.addEventListener('click', () => {
                 const lang = btn.dataset.lang;
                 I18n.setLocale(lang);
                 App.toast(I18n.t('profile_saved'), 'success');
-                // Re-render the entire current view
                 this.renderProfile();
-                // Re-render current page tabs and content
                 this.refreshAllModules();
             });
         });
@@ -278,8 +369,19 @@ window.App = {
                 Storage.resetProgress();
                 this.updateDashboard();
                 this.updateBadges();
+                this.renderProfile();
                 App.toast(I18n.t('profile_reset_done'), 'success');
             }
+        });
+
+        document.getElementById('profile-connect')?.addEventListener('click', () => {
+            Auth.showAuthModal();
+        });
+
+        document.getElementById('profile-logout')?.addEventListener('click', () => {
+            Auth.logout().then(() => {
+                this.renderProfile();
+            });
         });
     },
 

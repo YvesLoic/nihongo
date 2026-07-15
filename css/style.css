@@ -1739,6 +1739,133 @@ body {
     margin-bottom: 8px;
 }
 
+/* Profile - User Card */
+.profile-user-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    padding: 16px;
+    background: var(--bg-input);
+    border-radius: var(--radius-sm);
+}
+
+.profile-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--sakura));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 24px;
+    color: white;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.profile-user-info {
+    min-width: 0;
+}
+
+.profile-user-name {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.profile-user-email {
+    font-size: 13px;
+    color: var(--text-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.profile-details {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profile-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.profile-detail-row:last-child {
+    border-bottom: none;
+}
+
+.profile-detail-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.profile-detail-value {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 60%;
+    text-align: right;
+}
+
+/* Profile - Not Connected */
+.profile-not-connected {
+    text-align: center;
+    padding: 24px 0;
+}
+
+.profile-not-connected-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+    opacity: 0.5;
+}
+
+.profile-not-connected-text {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+/* Profile - Stats */
+.profile-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.profile-stat-card {
+    text-align: center;
+    padding: 16px 8px;
+    background: var(--bg-input);
+    border-radius: var(--radius-sm);
+}
+
+.profile-stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent), var(--sakura));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 4px;
+}
+
+.profile-stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
 /* ========================================
    RESPONSIVE
    ======================================== */
@@ -1798,6 +1925,39 @@ body {
     .exam-results-detail {
         grid-template-columns: 1fr;
     }
+
+    .profile-section {
+        padding: 20px 16px;
+    }
+
+    .profile-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .lang-options {
+        flex-direction: column;
+    }
+
+    .profile-detail-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
+
+    .profile-detail-value {
+        max-width: 100%;
+        text-align: left;
+    }
+
+    .profile-user-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .profile-user-name,
+    .profile-user-email {
+        text-align: center;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1811,5 +1971,9 @@ body {
 
     .kana-grid-combo {
         grid-template-columns: repeat(3, 1fr);
+    }
+
+    .profile-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
