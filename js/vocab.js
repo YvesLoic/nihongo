@@ -333,12 +333,22 @@ window.VocabModule = {
 
                 Storage.recordStudy('vocab', q.kana, correct);
                 nextBtn.style.display = 'inline-flex';
+                nextBtn.focus();
             });
         });
 
         nextBtn.addEventListener('click', () => {
             qs.current++;
             this.renderQuiz(container);
+        });
+
+        document.addEventListener('keydown', function onEnter(e) {
+            if (e.key === 'Enter' && answered) {
+                document.removeEventListener('keydown', onEnter);
+                qs.current++;
+                VocabModule.quizState.current = qs.current;
+                VocabModule.renderQuiz(container);
+            }
         });
     },
 

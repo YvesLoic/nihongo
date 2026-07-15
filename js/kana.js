@@ -224,7 +224,16 @@ window.KanaModule = {
         };
 
         submitBtn.addEventListener('click', checkAnswer);
-        input.addEventListener('keydown', e => { if (e.key === 'Enter') checkAnswer(); });
+        input.addEventListener('keydown', e => {
+            if (e.key === 'Enter') {
+                if (input.disabled) {
+                    qs.current++;
+                    this.renderQuiz(container);
+                } else {
+                    checkAnswer();
+                }
+            }
+        });
         input.focus();
 
         nextBtn.addEventListener('click', () => {
@@ -291,12 +300,21 @@ window.KanaModule = {
 
                 Storage.recordStudy('kana', q.char, correct);
                 nextBtn.style.display = 'inline-flex';
+                nextBtn.focus();
             });
         });
 
         nextBtn.addEventListener('click', () => {
             qs.current++;
             this.renderQuiz(container);
+        });
+
+        document.addEventListener('keydown', function onEnter(e) {
+            if (e.key === 'Enter' && answered) {
+                document.removeEventListener('keydown', onEnter);
+                qs.current++;
+                KanaModule.renderQuiz(container);
+            }
         });
     },
 

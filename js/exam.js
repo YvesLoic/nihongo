@@ -332,6 +332,20 @@ window.ExamModule = {
             if (es.current < es.questions.length - 1) { es.current++; this.renderExam(container); }
         });
         document.getElementById('exam-submit')?.addEventListener('click', () => this.finishExam());
+
+        if (answered) {
+            document.addEventListener('keydown', function onEnter(e) {
+                if (e.key === 'Enter') {
+                    document.removeEventListener('keydown', onEnter);
+                    if (es.current < es.questions.length - 1) {
+                        es.current++;
+                        ExamModule.renderExam(container);
+                    } else {
+                        ExamModule.finishExam();
+                    }
+                }
+            });
+        }
         document.getElementById('exam-finish')?.addEventListener('click', () => {
             if (confirm('Etes-vous sur de vouloir terminer l\'examen ?')) {
                 this.finishExam();
