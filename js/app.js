@@ -6,6 +6,8 @@ window.App = {
     currentPage: 'dashboard',
 
     init() {
+        I18n.init();
+
         this.bindNavigation();
         this.bindLevelSelector();
         this.bindMobileMenu();
@@ -67,6 +69,7 @@ window.App = {
         if (page === 'grammar') GrammarModule.render();
         if (page === 'vocabulary') VocabModule.render();
         if (page === 'exam') ExamModule.render();
+        if (page === 'profile') this.renderProfile();
     },
 
     // ---- Level Selector ----
@@ -197,31 +200,30 @@ window.App = {
         const allDue = [...reviews.kana, ...reviews.kanji, ...reviews.grammar, ...reviews.vocab];
 
         if (allDue.length === 0) {
-            container.innerHTML = '<p class="empty-state">Aucune revision pour le moment. Commencez a etudier !</p>';
+            container.innerHTML = `<p class="empty-state">${I18n.t('dash_no_review')}</p>`;
             btn.style.display = 'none';
             return;
         }
 
         const items = allDue.slice(0, 10);
         container.innerHTML = items.map(r => {
-            const typeLabel = reviews.kana.includes(r) ? 'Kana' :
-                              reviews.kanji.includes(r) ? 'Kanji' :
-                              reviews.grammar.includes(r) ? 'Grammaire' : 'Vocabulaire';
+            const typeLabel = reviews.kana.includes(r) ? I18n.t('dash_type_kana') :
+                              reviews.kanji.includes(r) ? I18n.t('dash_type_kanji') :
+                              reviews.grammar.includes(r) ? I18n.t('dash_type_grammar') : I18n.t('dash_type_vocab');
             return `
                 <div class="review-item">
                     <span class="review-item-char">${r.id}</span>
-                    <span class="review-item-info">${typeLabel} - Niveau ${r.level}/5</span>
+                    <span class="review-item-info">${typeLabel} - ${I18n.t('dash_level_prefix')} ${r.level}/5</span>
                 </div>`;
         }).join('');
 
         if (allDue.length > 10) {
-            container.innerHTML += `<p style="text-align:center; color:var(--text-muted); font-size:13px;">...et ${allDue.length - 10} autres</p>`;
+            container.innerHTML += `<p style="text-align:center; color:var(--text-muted); font-size:13px;">${I18n.t('dash_and_more', {n: allDue.length - 10})}</p>`;
         }
 
         btn.style.display = 'inline-flex';
-        btn.textContent = `Commencer la revision (${allDue.length})`;
+        btn.textContent = `${I18n.t('dash_start_review')} (${allDue.length})`;
         btn.onclick = () => {
-            // Navigate to the category with the most due reviews
             const counts = {
                 kana: reviews.kana.length,
                 kanji: reviews.kanji.length,
@@ -231,6 +233,59 @@ window.App = {
             const maxCat = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
             this.navigateTo(maxCat);
         };
+    },
+
+    // ---- Profile Page ----
+    renderProfile() {
+        const container = document.getElementById('profile-content');
+        const currentLocale = I18n.locale;
+
+        container.innerHTML = `
+            <div class="profile-section">
+                <div class="profile-section-title">${I18n.t('profile_language')}</div>
+                <div class="profile-section-desc">${I18n.t('profile_language_desc')}</div>
+                <div class="lang-options">
+                    <button class="lang-option ${currentLocale === 'fr' ? 'active' : ''}" data-lang="fr">
+                        <span class="lang-flag">FR</span>
+                        ${I18n.t('profile_lang_fr')}
+                    </button>
+                    <button class="lang-option ${currentLocale === 'en' ? 'active' : ''}" data-lang="en">
+                        <span class="lang-flag">EN</span>
+                        ${I18n.t('profile_lang_en')}
+                    </button>
+                </div>
+            </div>
+            <div class="profile-section">
+                <div class="profile-section-title">${I18n.t('profile_reset_title')}</div>
+                <div class="profile-section-desc">${I18n.t('profile_reset_desc')}</div>
+                <button class="btn btn-danger" id="profile-reset">${I18n.t('profile_reset_btn')}</button>
+            </div>`;
+
+        container.querySelectorAll('.lang-option').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.dataset.lang;
+                I18n.setLocale(lang);
+                App.toast(I18n.t('profile_saved'), 'success');
+                // Re-render the entire current view
+                this.renderProfile();
+                // Re-render current page tabs and content
+                this.refreshAllModules();
+            });
+        });
+
+        document.getElementById('profile-reset')?.addEventListener('click', () => {
+            if (confirm(I18n.t('profile_reset_confirm'))) {
+                Storage.resetProgress();
+                this.updateDashboard();
+                this.updateBadges();
+                App.toast(I18n.t('profile_reset_done'), 'success');
+            }
+        });
+    },
+
+    refreshAllModules() {
+        // Re-apply i18n to all static DOM elements
+        I18n.applyToDOM();
     }
 };
 

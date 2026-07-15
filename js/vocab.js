@@ -57,7 +57,7 @@ window.VocabModule = {
                     <div class="vocab-theme-card" data-index="${i}">
                         <div class="vocab-theme-icon">${t.icon}</div>
                         <div class="vocab-theme-name">${t.theme}</div>
-                        <div class="vocab-theme-count">${t.words.length} mots</div>
+                        <div class="vocab-theme-count">${t.words.length} ${I18n.t('vocab_words')}</div>
                     </div>
                 `).join('')}
             </div>`;
@@ -76,13 +76,13 @@ window.VocabModule = {
         container.innerHTML = `
             <div class="vocab-back-btn">
                 <button class="btn btn-secondary" id="vocab-back">
-                    &larr; Retour aux themes
+                    &larr; ${I18n.t('vocab_back_themes')}
                 </button>
                 <span style="margin-left:16px; font-size:24px;">${t.icon}</span>
                 <span style="margin-left:8px; font-size:20px; font-weight:600;">${t.theme}</span>
             </div>
             <div class="filter-bar">
-                <input type="text" class="search-input" id="vocab-search" placeholder="Rechercher un mot...">
+                <input type="text" class="search-input" id="vocab-search" placeholder="${I18n.t('vocab_search')}">
             </div>
             <div class="vocab-word-list" id="vocab-word-list">
                 ${t.words.map(w => `
@@ -95,8 +95,8 @@ window.VocabModule = {
                 `).join('')}
             </div>
             <div style="margin-top:24px; text-align:center;">
-                <button class="btn btn-primary" id="vocab-quiz-theme">Quiz sur ce theme</button>
-                <button class="btn btn-secondary" id="vocab-speak" style="margin-left:12px;">Ecouter</button>
+                <button class="btn btn-primary" id="vocab-quiz-theme">${I18n.t('vocab_quiz_theme')}</button>
+                <button class="btn btn-secondary" id="vocab-speak" style="margin-left:12px;">${I18n.t('listen')}</button>
             </div>`;
 
         document.getElementById('vocab-back').addEventListener('click', () => {
@@ -118,13 +118,13 @@ window.VocabModule = {
 
         document.getElementById('vocab-speak')?.addEventListener('click', () => {
             if ('speechSynthesis' in window) {
-                const words = t.words.map(w => w.kana).join('、');
+                const words = t.words.map(w => w.kana).join('\u3001');
                 const utterance = new SpeechSynthesisUtterance(words);
                 utterance.lang = 'ja-JP';
                 utterance.rate = 0.8;
                 speechSynthesis.speak(utterance);
             } else {
-                App.toast('Text-to-speech non supporte dans ce navigateur', 'error');
+                App.toast(I18n.t('tts_unsupported'), 'error');
             }
         });
 
@@ -153,7 +153,7 @@ window.VocabModule = {
         }
 
         if (this.flashcardList.length === 0) {
-            container.innerHTML = '<div class="empty-state">Aucun vocabulaire disponible.</div>';
+            container.innerHTML = `<div class="empty-state">${I18n.t('vocab_no_data')}</div>`;
             return;
         }
 
@@ -165,7 +165,7 @@ window.VocabModule = {
                     <div class="flashcard-face">
                         <div class="flashcard-char" style="font-size:60px;">${w.kanji || w.kana}</div>
                         ${w.kanji ? `<div class="flashcard-reading" style="font-size:16px;">${w.kana}</div>` : ''}
-                        <div style="margin-top:12px; font-size:14px; color:var(--text-muted);">Cliquez pour voir la traduction</div>
+                        <div style="margin-top:12px; font-size:14px; color:var(--text-muted);">${I18n.t('click_to_see')}</div>
                     </div>
                     <div class="flashcard-face flashcard-back">
                         <div class="flashcard-char" style="font-size:48px;">${w.kanji || w.kana}</div>
@@ -175,19 +175,19 @@ window.VocabModule = {
                     </div>
                 </div>
                 <div class="srs-buttons" id="vocab-srs" style="display:none;">
-                    <button class="srs-btn again" data-score="0">A revoir</button>
-                    <button class="srs-btn hard" data-score="1">Difficile</button>
-                    <button class="srs-btn good" data-score="2">Bien</button>
-                    <button class="srs-btn easy" data-score="3">Facile</button>
+                    <button class="srs-btn again" data-score="0">${I18n.t('srs_again')}</button>
+                    <button class="srs-btn hard" data-score="1">${I18n.t('srs_hard')}</button>
+                    <button class="srs-btn good" data-score="2">${I18n.t('srs_good')}</button>
+                    <button class="srs-btn easy" data-score="3">${I18n.t('srs_easy')}</button>
                 </div>
                 <div class="flashcard-nav">
-                    <button class="btn btn-secondary" id="vfc-prev">Precedent</button>
+                    <button class="btn btn-secondary" id="vfc-prev">${I18n.t('previous')}</button>
                     <span class="flashcard-counter">${this.flashcardIndex + 1} / ${this.flashcardList.length}</span>
-                    <button class="btn btn-secondary" id="vfc-next">Suivant</button>
+                    <button class="btn btn-secondary" id="vfc-next">${I18n.t('next')}</button>
                 </div>
                 <div style="text-align:center; margin-top:12px;">
-                    <button class="btn btn-secondary btn-sm" id="vfc-shuffle">Melanger</button>
-                    <button class="btn btn-secondary btn-sm" id="vfc-speak" style="margin-left:8px;">Ecouter</button>
+                    <button class="btn btn-secondary btn-sm" id="vfc-shuffle">${I18n.t('shuffle')}</button>
+                    <button class="btn btn-secondary btn-sm" id="vfc-speak" style="margin-left:8px;">${I18n.t('listen')}</button>
                 </div>
             </div>`;
 
@@ -233,7 +233,7 @@ window.VocabModule = {
     startThemeQuiz(theme) {
         const words = theme.words;
         if (words.length < 4) {
-            App.toast('Pas assez de mots pour un quiz', 'error');
+            App.toast(I18n.t('vocab_not_enough'), 'error');
             return;
         }
 
@@ -250,11 +250,11 @@ window.VocabModule = {
         if (!this.quizState) {
             const allWords = this.getAllWords();
             if (allWords.length < 4) {
-                container.innerHTML = '<div class="empty-state">Pas assez de vocabulaire disponible.</div>';
+                container.innerHTML = `<div class="empty-state">${I18n.t('vocab_no_data')}</div>`;
                 return;
             }
             const shuffled = allWords.sort(() => Math.random() - 0.5).slice(0, 15);
-            this.quizState = { questions: shuffled, allWords: allWords, current: 0, score: 0, answers: [], theme: 'Tous' };
+            this.quizState = { questions: shuffled, allWords: allWords, current: 0, score: 0, answers: [], theme: I18n.t('all') };
         }
 
         const qs = this.quizState;
@@ -267,7 +267,6 @@ window.VocabModule = {
         const q = qs.questions[qs.current];
         const pct = (qs.current / qs.questions.length) * 100;
 
-        // Randomly decide direction: JP->FR or FR->JP
         const jpToFr = Math.random() > 0.5;
 
         let prompt, correctAnswer, wrongAnswers;
@@ -294,7 +293,7 @@ window.VocabModule = {
                 </div>
                 <div class="quiz-card">
                     <div class="quiz-prompt" style="font-size:${jpToFr ? '56px' : '28px'}">${prompt}</div>
-                    <div class="quiz-hint">${jpToFr ? 'Quelle est la traduction ?' : 'Quel est le mot japonais ?'}</div>
+                    <div class="quiz-hint">${jpToFr ? I18n.t('vocab_what_translation') : I18n.t('vocab_what_japanese')}</div>
                 </div>
                 <div class="quiz-options">
                     ${choices.map(c => `
@@ -303,7 +302,7 @@ window.VocabModule = {
                 </div>
                 <div class="quiz-feedback" id="vocab-feedback"></div>
                 <div class="quiz-actions">
-                    <button class="btn btn-secondary" id="vocab-next" style="display:none">Suivant</button>
+                    <button class="btn btn-secondary" id="vocab-next" style="display:none">${I18n.t('next')}</button>
                 </div>
             </div>`;
 
@@ -323,12 +322,12 @@ window.VocabModule = {
                 if (correct) {
                     opt.classList.add('correct');
                     feedback.className = 'quiz-feedback show correct-fb';
-                    feedback.textContent = `Correct ! ${q.kanji || q.kana} = ${q.meaning}`;
+                    feedback.textContent = `${I18n.t('correct')} ${q.kanji || q.kana} = ${q.meaning}`;
                 } else {
                     opt.classList.add('incorrect');
                     container.querySelector(`[data-answer="${correctAnswer}"]`)?.classList.add('correct');
                     feedback.className = 'quiz-feedback show incorrect-fb';
-                    feedback.innerHTML = `Incorrect. <strong>${q.kanji || q.kana}</strong> (${q.kana}) = ${q.meaning}`;
+                    feedback.innerHTML = `${I18n.t('incorrect')} <strong>${q.kanji || q.kana}</strong> (${q.kana}) = ${q.meaning}`;
                 }
 
                 Storage.recordStudy('vocab', q.kana, correct);
@@ -346,7 +345,6 @@ window.VocabModule = {
             if (e.key === 'Enter' && answered) {
                 document.removeEventListener('keydown', onEnter);
                 qs.current++;
-                VocabModule.quizState.current = qs.current;
                 VocabModule.renderQuiz(container);
             }
         });
@@ -360,10 +358,10 @@ window.VocabModule = {
             <div class="quiz-container">
                 <div class="quiz-score">
                     <div class="quiz-score-value">${pct}%</div>
-                    <div class="quiz-score-label">${qs.score}/${qs.questions.length} - Theme : ${qs.theme}</div>
+                    <div class="quiz-score-label">${qs.score}/${qs.questions.length} - ${qs.theme}</div>
                     <div style="margin-top:24px; display:flex; gap:12px; justify-content:center;">
-                        <button class="btn btn-primary" id="vocab-retry">Recommencer</button>
-                        <button class="btn btn-secondary" id="vocab-back-themes">Retour aux themes</button>
+                        <button class="btn btn-primary" id="vocab-retry">${I18n.t('retry')}</button>
+                        <button class="btn btn-secondary" id="vocab-back-themes">${I18n.t('vocab_back_themes')}</button>
                     </div>
                 </div>
             </div>`;
