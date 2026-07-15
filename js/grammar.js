@@ -157,12 +157,21 @@ window.GrammarModule = {
 
                 Storage.recordStudy('grammar', q.id, correct);
                 nextBtn.style.display = 'inline-flex';
+                nextBtn.focus();
             });
         });
 
         nextBtn.addEventListener('click', () => {
             es.current++;
             this.renderExercises(container);
+        });
+
+        document.addEventListener('keydown', function onEnter(e) {
+            if (e.key === 'Enter' && answered) {
+                document.removeEventListener('keydown', onEnter);
+                es.current++;
+                GrammarModule.renderExercises(container);
+            }
         });
     },
 
