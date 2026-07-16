@@ -51,6 +51,7 @@ window.Sync = {
 
             await docRef.set({
                 progress: progress,
+                locale: I18n.locale,
                 displayName: Auth.currentUser.displayName || '',
                 email: Auth.currentUser.email || '',
                 lastSync: firebase.firestore.FieldValue.serverTimestamp(),
@@ -84,12 +85,18 @@ window.Sync = {
             const doc = await docRef.get();
 
             if (doc.exists && doc.data().progress) {
-                const cloudProgress = doc.data().progress;
+                const cloudData = doc.data();
+                const cloudProgress = cloudData.progress;
                 const localProgress = Storage.getProgress();
 
                 // Merge strategy: take the one with more data
                 const merged = this.mergeProgress(localProgress, cloudProgress);
                 Storage.saveProgress(merged);
+
+                // Restore locale from cloud
+                if (cloudData.locale) {
+                    I18n.setLocale(cloudData.locale);
+                }
 
                 this.lastSyncTime = new Date();
                 this.updateSyncUI('synced');

@@ -808,7 +808,7 @@ body {
 
 .flashcard {
     width: 100%;
-    min-height: 300px;
+    min-height: 280px;
     position: relative;
     cursor: pointer;
     transform-style: preserve-3d;
@@ -821,8 +821,7 @@ body {
 
 .flashcard-face {
     position: absolute;
-    width: 100%;
-    min-height: 300px;
+    inset: 0;
     backface-visibility: hidden;
     background: var(--bg-card);
     border: 1px solid var(--border);
@@ -831,8 +830,8 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 32px;
-    overflow: hidden;
+    padding: 32px 24px;
+    overflow-y: auto;
 }
 
 .flashcard-back {
@@ -844,6 +843,7 @@ body {
     font-size: 80px;
     font-weight: 700;
     margin-bottom: 12px;
+    flex-shrink: 0;
 }
 
 .flashcard-reading {
@@ -851,6 +851,7 @@ body {
     color: var(--accent-light);
     margin-bottom: 8px;
     font-family: 'Noto Sans JP', sans-serif;
+    flex-shrink: 0;
 }
 
 .flashcard-meaning {
@@ -861,6 +862,7 @@ body {
     word-break: break-word;
     text-align: center;
     max-width: 100%;
+    flex-shrink: 0;
 }
 
 .flashcard-examples {
@@ -868,6 +870,8 @@ body {
     color: var(--text-secondary);
     text-align: center;
     line-height: 1.8;
+    flex-shrink: 0;
+    width: 100%;
 }
 
 .flashcard-nav {
@@ -876,6 +880,7 @@ body {
     justify-content: center;
     gap: 16px;
     margin-top: 24px;
+    flex-wrap: wrap;
 }
 
 .flashcard-counter {
@@ -1298,6 +1303,157 @@ body {
     font-size: 12px;
     color: var(--text-muted);
     margin-top: 4px;
+}
+
+/* Exam JLPT styles */
+.exam-jp-lg {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.exam-jp-md {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+.exam-reading {
+    font-size: 14px;
+    color: var(--accent-light);
+}
+
+.exam-fr-prompt {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.exam-q-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.exam-q-sub {
+    font-size: 12px;
+    color: var(--accent-light);
+    background: rgba(124,91,245,0.1);
+    padding: 2px 10px;
+    border-radius: 12px;
+}
+
+.exam-q-hint {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+}
+
+.exam-q-translation {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-style: italic;
+    margin-bottom: 16px;
+    padding: 8px 12px;
+    background: rgba(124,91,245,0.05);
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--accent);
+}
+
+.exam-detail-explanation {
+    margin-top: 8px;
+    font-size: 13px;
+    font-style: italic;
+    opacity: 0.9;
+}
+
+.exam-detail-translation {
+    margin-top: 6px;
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+.exam-nav-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+    gap: 12px;
+}
+
+.exam-reading-excerpt {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    padding: 10px 12px;
+    background: var(--bg-input);
+    border-radius: var(--radius-sm);
+    max-height: 120px;
+    overflow-y: auto;
+}
+
+/* Exam review */
+.exam-review-container {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.exam-review-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 16px;
+}
+
+.exam-review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.exam-review-answers {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 12px 0;
+}
+
+.exam-review-wrong {
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    background: rgba(248,113,113,0.1);
+    border: 1px solid rgba(248,113,113,0.3);
+    font-size: 14px;
+}
+
+.exam-review-correct {
+    padding: 10px 12px;
+    border-radius: var(--radius-sm);
+    background: rgba(52,211,153,0.1);
+    border: 1px solid rgba(52,211,153,0.3);
+    font-size: 14px;
+}
+
+.exam-review-label {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+    opacity: 0.7;
+}
+
+.exam-review-detail {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-style: italic;
+    line-height: 1.5;
 }
 
 /* ========================================
@@ -1875,6 +2031,108 @@ body {
 }
 
 /* ========================================
+   READING COMPREHENSION
+   ======================================== */
+.reading-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.reading-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.reading-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.reading-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.reading-card-title {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.reading-card-subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.reading-card-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.reading-back {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.reading-passage {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+}
+
+.reading-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+.reading-title-en {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.reading-text-jp {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 17px;
+    line-height: 2;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+}
+
+.reading-translation {
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+}
+
+.reading-translation summary {
+    cursor: pointer;
+    color: var(--accent-light);
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.reading-text-fr {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-style: italic;
+}
+
+/* ========================================
    ADMIN DASHBOARD
    ======================================== */
 .admin-stats-grid {
@@ -2156,33 +2414,43 @@ body {
     }
 
     .flashcard {
-        min-height: 240px;
+        min-height: 220px;
     }
 
     .flashcard-face {
-        min-height: 240px;
-        padding: 20px 16px;
+        padding: 20px 14px;
     }
 
     .flashcard-char {
-        font-size: 56px;
+        font-size: 50px;
     }
 
     .flashcard-meaning {
-        font-size: 18px;
+        font-size: 17px;
+        margin-bottom: 10px;
     }
 
     .flashcard-reading {
-        font-size: 16px;
+        font-size: 15px;
     }
 
     .flashcard-examples {
-        font-size: 12px;
+        font-size: 11px;
+        line-height: 1.6;
+    }
+
+    .flashcard-examples div {
+        margin-bottom: 2px;
     }
 
     .flashcard-nav {
         gap: 10px;
         margin-top: 16px;
+    }
+
+    .flashcard-nav .btn {
+        padding: 8px 14px;
+        font-size: 13px;
     }
 
     .srs-buttons {
@@ -2213,6 +2481,23 @@ body {
 
     .vocab-level-col {
         display: none;
+    }
+
+    .reading-list {
+        grid-template-columns: 1fr;
+    }
+
+    .reading-passage {
+        padding: 20px 16px;
+    }
+
+    .reading-text-jp {
+        font-size: 15px;
+        line-height: 1.8;
+    }
+
+    .reading-title {
+        font-size: 18px;
     }
 
     .exam-type-grid {
@@ -2249,7 +2534,32 @@ body {
     }
 
     .exam-results-detail {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .exam-jp-lg {
+        font-size: 36px;
+    }
+
+    .exam-fr-prompt {
+        font-size: 18px;
+    }
+
+    .exam-review-answers {
         grid-template-columns: 1fr;
+    }
+
+    .exam-review-container {
+        max-width: 100%;
+    }
+
+    .exam-nav-buttons {
+        flex-wrap: wrap;
+    }
+
+    .exam-reading-excerpt {
+        font-size: 13px;
+        max-height: 100px;
     }
 
     .profile-content {
@@ -2412,20 +2722,28 @@ body {
     }
 
     .flashcard {
-        min-height: 200px;
+        min-height: 180px;
     }
 
     .flashcard-face {
-        min-height: 200px;
-        padding: 16px 12px;
+        padding: 14px 10px;
     }
 
     .flashcard-char {
-        font-size: 44px;
+        font-size: 40px;
     }
 
     .flashcard-meaning {
-        font-size: 16px;
+        font-size: 15px;
+        margin-bottom: 8px;
+    }
+
+    .flashcard-reading {
+        font-size: 13px;
+    }
+
+    .flashcard-examples {
+        font-size: 10px;
     }
 
     .srs-buttons {
