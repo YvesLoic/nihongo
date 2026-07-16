@@ -185,6 +185,16 @@ window.I18n = {
             exam_no_answer: '(pas de reponse)',
             exam_correct_answer: 'Bonne reponse :',
             exam_back_results: 'Retour aux resultats',
+            exam_sec_kanji: 'Kanji & Vocabulaire',
+            exam_sec_vocab: 'Vocabulaire',
+            exam_sec_grammar: 'Grammaire',
+            exam_sec_reading: 'Comprehension',
+            exam_part_reading: 'Lecture des kanji',
+            exam_part_meaning: 'Signification',
+            exam_part_structures: 'Structures',
+            exam_part_word: 'Mot japonais',
+            exam_kanji_reading_q: 'Quelle est la lecture ?',
+            exam_kanji_meaning_q: 'Quelle est la signification ?',
 
             // -- Profile --
             profile_title: 'Profil',
@@ -215,6 +225,15 @@ window.I18n = {
             profile_stats_mastered: 'Elements maitrises',
             profile_stats_accuracy: 'Precision',
             profile_stats_streak: 'Serie actuelle',
+
+            // -- Reading --
+            nav_reading: 'Lecture',
+            reading_title: 'Comprehension de texte',
+            reading_subtitle: 'Lisez des textes et repondez aux questions',
+            reading_questions: 'questions',
+            reading_show_translation: 'Voir la traduction',
+            reading_start_quiz: 'Repondre aux questions',
+            reading_reread: 'Relire le texte',
 
             // -- Admin --
             nav_admin: 'Admin',
@@ -423,6 +442,16 @@ window.I18n = {
             exam_no_answer: '(no answer)',
             exam_correct_answer: 'Correct answer:',
             exam_back_results: 'Back to results',
+            exam_sec_kanji: 'Kanji & Vocabulary',
+            exam_sec_vocab: 'Vocabulary',
+            exam_sec_grammar: 'Grammar',
+            exam_sec_reading: 'Reading',
+            exam_part_reading: 'Kanji reading',
+            exam_part_meaning: 'Meaning',
+            exam_part_structures: 'Structures',
+            exam_part_word: 'Japanese word',
+            exam_kanji_reading_q: 'What is the reading?',
+            exam_kanji_meaning_q: 'What is the meaning?',
 
             // -- Profile --
             profile_title: 'Profile',
@@ -453,6 +482,15 @@ window.I18n = {
             profile_stats_mastered: 'Items mastered',
             profile_stats_accuracy: 'Accuracy',
             profile_stats_streak: 'Current streak',
+
+            // -- Reading --
+            nav_reading: 'Reading',
+            reading_title: 'Reading Comprehension',
+            reading_subtitle: 'Read texts and answer questions',
+            reading_questions: 'questions',
+            reading_show_translation: 'Show translation',
+            reading_start_quiz: 'Answer questions',
+            reading_reread: 'Re-read the text',
 
             // -- Admin --
             nav_admin: 'Admin',

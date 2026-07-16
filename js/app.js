@@ -19,6 +19,7 @@ window.App = {
         KanjiModule.init();
         GrammarModule.init();
         VocabModule.init();
+        ReadingModule.init();
         ExamModule.init();
 
         // Initialize auth, sync & admin
@@ -69,6 +70,7 @@ window.App = {
         if (page === 'kanji') KanjiModule.render();
         if (page === 'grammar') GrammarModule.render();
         if (page === 'vocabulary') VocabModule.render();
+        if (page === 'reading') ReadingModule.render();
         if (page === 'exam') ExamModule.render();
         if (page === 'profile') this.renderProfile();
         if (page === 'admin') AdminModule.render();
@@ -360,6 +362,10 @@ window.App = {
             btn.addEventListener('click', () => {
                 const lang = btn.dataset.lang;
                 I18n.setLocale(lang);
+                // Sync locale to cloud if logged in
+                if (Auth.currentUser) {
+                    Sync.pushToCloud(true);
+                }
                 App.toast(I18n.t('profile_saved'), 'success');
                 this.renderProfile();
                 this.refreshAllModules();
