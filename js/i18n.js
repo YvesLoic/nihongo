@@ -234,6 +234,7 @@ window.I18n = {
             reading_show_translation: 'Voir la traduction',
             reading_start_quiz: 'Repondre aux questions',
             reading_reread: 'Relire le texte',
+            reading_generate: 'Generer un nouveau texte',
 
             // -- Admin --
             nav_admin: 'Admin',
@@ -491,6 +492,7 @@ window.I18n = {
             reading_show_translation: 'Show translation',
             reading_start_quiz: 'Answer questions',
             reading_reread: 'Re-read the text',
+            reading_generate: 'Generate a new text',
 
             // -- Admin --
             nav_admin: 'Admin',

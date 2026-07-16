@@ -1,123 +1,255 @@
 // ========================================
 // Reading Comprehension Module
+// with Template-based Text Generator
 // ========================================
 
 window.ReadingModule = {
-    currentTextIndex: null,
+    currentText: null,
     quizState: null,
 
-    // N5 Reading passages with questions
+    // =============================================
+    // STATIC TEXTS (pre-written, high quality)
+    // =============================================
     textsN5: [
         {
-            id: 'n5_1',
-            title: 'My Daily Life',
-            titleJp: '私の一日',
-            text: '私はたなかゆきです。毎朝(まいあさ)六時半(ろくじはん)に起(お)きます。七時(しちじ)に朝(あさ)ご飯(はん)を食(た)べます。朝ご飯はパンと卵(たまご)とコーヒーです。八時(はちじ)に家(いえ)を出(で)て、電車(でんしゃ)で学校(がっこう)に行(い)きます。学校は九時(くじ)から三時(さんじ)までです。学校の後(あと)、図書館(としょかん)で日本語(にほんご)を勉強(べんきょう)します。六時(ろくじ)に家に帰(かえ)ります。晩(ばん)ご飯(はん)の後、テレビを見(み)たり、本(ほん)を読(よ)んだりします。十一時(じゅういちじ)に寝(ね)ます。',
+            id: 'n5_1', title: 'My Daily Life', titleJp: '\u79C1\u306E\u4E00\u65E5', level: 'N5',
+            text: '\u79C1\u306F\u305F\u306A\u304B\u3086\u304D\u3067\u3059\u3002\u6BCE\u671D(\u307E\u3044\u3042\u3055)\u516D\u6642\u534A(\u308D\u304F\u3058\u306F\u3093)\u306B\u8D77(\u304A)\u304D\u307E\u3059\u3002\u4E03\u6642(\u3057\u3061\u3058)\u306B\u671D(\u3042\u3055)\u3054\u98EF(\u306F\u3093)\u3092\u98DF(\u305F)\u3079\u307E\u3059\u3002\u671D\u3054\u98EF\u306F\u30D1\u30F3\u3068\u5375(\u305F\u307E\u3054)\u3068\u30B3\u30FC\u30D2\u30FC\u3067\u3059\u3002\u516B\u6642(\u306F\u3061\u3058)\u306B\u5BB6(\u3044\u3048)\u3092\u51FA(\u3067)\u3066\u3001\u96FB\u8ECA(\u3067\u3093\u3057\u3083)\u3067\u5B66\u6821(\u304C\u3063\u3053\u3046)\u306B\u884C(\u3044)\u304D\u307E\u3059\u3002\u5B66\u6821\u306F\u4E5D\u6642(\u304F\u3058)\u304B\u3089\u4E09\u6642(\u3055\u3093\u3058)\u307E\u3067\u3067\u3059\u3002\u5B66\u6821\u306E\u5F8C(\u3042\u3068)\u3001\u56F3\u66F8\u9928(\u3068\u3057\u3087\u304B\u3093)\u3067\u65E5\u672C\u8A9E(\u306B\u307B\u3093\u3054)\u3092\u52C9\u5F37(\u3079\u3093\u304D\u3087\u3046)\u3057\u307E\u3059\u3002\u516D\u6642(\u308D\u304F\u3058)\u306B\u5BB6\u306B\u5E30(\u304B\u3048)\u308A\u307E\u3059\u3002\u6669(\u3070\u3093)\u3054\u98EF(\u306F\u3093)\u306E\u5F8C\u3001\u30C6\u30EC\u30D3\u3092\u898B(\u307F)\u305F\u308A\u3001\u672C(\u307B\u3093)\u3092\u8AAD(\u3088)\u3093\u3060\u308A\u3057\u307E\u3059\u3002\u5341\u4E00\u6642(\u3058\u3085\u3046\u3044\u3061\u3058)\u306B\u5BDD(\u306D)\u307E\u3059\u3002',
             translation: "Je suis Tanaka Yuki. Chaque matin, je me leve a 6h30. Je mange le petit-dejeuner a 7h. C'est du pain, des oeufs et du cafe. Je quitte la maison a 8h et vais a l'ecole en train. L'ecole est de 9h a 15h. Apres l'ecole, j'etudie le japonais a la bibliotheque. Je rentre a la maison a 18h. Apres le diner, je regarde la tele ou lis des livres. Je me couche a 23h.",
-            level: 'N5',
             questions: [
-                { q: 'たなかさんは何時(なんじ)に起(お)きますか？', choices: ['六時', '六時半', '七時', '七時半'], correct: '六時半', explanation: 'Le texte dit: 六時半に起きます = se lever a 6h30' },
-                { q: '朝(あさ)ご飯(はん)に何(なに)を食(た)べますか？', choices: ['ご飯と魚', 'パンと卵とコーヒー', 'おにぎりとお茶', 'パンと牛乳'], correct: 'パンと卵とコーヒー', explanation: 'Le texte dit: パンと卵とコーヒーです = pain, oeufs et cafe' },
-                { q: '学校(がっこう)に何(なに)で行(い)きますか？', choices: ['バス', '自転車', '電車', '歩いて'], correct: '電車', explanation: 'Le texte dit: 電車で学校に行きます = aller en train' },
-                { q: '学校の後(あと)、どこで勉強(べんきょう)しますか？', choices: ['家', 'カフェ', '図書館', '学校'], correct: '図書館', explanation: 'Le texte dit: 図書館で日本語を勉強します = etudier a la bibliotheque' },
-                { q: '何時(なんじ)に寝(ね)ますか？', choices: ['十時', '十一時', '十二時', '九時'], correct: '十一時', explanation: 'Le texte dit: 十一時に寝ます = se coucher a 23h' }
+                { q: '\u305F\u306A\u304B\u3055\u3093\u306F\u4F55\u6642(\u306A\u3093\u3058)\u306B\u8D77(\u304A)\u304D\u307E\u3059\u304B\uFF1F', choices: ['\u516D\u6642', '\u516D\u6642\u534A', '\u4E03\u6642', '\u4E03\u6642\u534A'], correct: '\u516D\u6642\u534A', explanation: '\u516D\u6642\u534A\u306B\u8D77\u304D\u307E\u3059 = se lever a 6h30' },
+                { q: '\u671D\u3054\u98EF\u306B\u4F55\u3092\u98DF\u3079\u307E\u3059\u304B\uFF1F', choices: ['\u3054\u98EF\u3068\u9B5A', '\u30D1\u30F3\u3068\u5375\u3068\u30B3\u30FC\u30D2\u30FC', '\u304A\u306B\u304E\u308A\u3068\u304A\u8336', '\u30D1\u30F3\u3068\u725B\u4E73'], correct: '\u30D1\u30F3\u3068\u5375\u3068\u30B3\u30FC\u30D2\u30FC', explanation: '\u30D1\u30F3\u3068\u5375\u3068\u30B3\u30FC\u30D2\u30FC\u3067\u3059 = pain, oeufs et cafe' },
+                { q: '\u5B66\u6821\u306B\u4F55\u3067\u884C\u304D\u307E\u3059\u304B\uFF1F', choices: ['\u30D0\u30B9', '\u81EA\u8EE2\u8ECA', '\u96FB\u8ECA', '\u6B69\u3044\u3066'], correct: '\u96FB\u8ECA', explanation: '\u96FB\u8ECA\u3067\u5B66\u6821\u306B\u884C\u304D\u307E\u3059 = aller en train' },
+                { q: '\u5B66\u6821\u306E\u5F8C\u3001\u3069\u3053\u3067\u52C9\u5F37\u3057\u307E\u3059\u304B\uFF1F', choices: ['\u5BB6', '\u30AB\u30D5\u30A7', '\u56F3\u66F8\u9928', '\u5B66\u6821'], correct: '\u56F3\u66F8\u9928', explanation: '\u56F3\u66F8\u9928\u3067\u52C9\u5F37\u3057\u307E\u3059 = etudier a la bibliotheque' },
+                { q: '\u4F55\u6642\u306B\u5BDD\u307E\u3059\u304B\uFF1F', choices: ['\u5341\u6642', '\u5341\u4E00\u6642', '\u5341\u4E8C\u6642', '\u4E5D\u6642'], correct: '\u5341\u4E00\u6642', explanation: '\u5341\u4E00\u6642\u306B\u5BDD\u307E\u3059 = se coucher a 23h' }
             ]
         },
         {
-            id: 'n5_2',
-            title: 'At the Restaurant',
-            titleJp: 'レストランで',
-            text: '土曜日(どようび)に友達(ともだち)のさとうさんと日本(にほん)のレストランに行(い)きました。レストランは駅(えき)の近(ちか)くにあります。私(わたし)は魚(さかな)の料理(りょうり)を食(た)べました。とてもおいしかったです。さとうさんは肉(にく)の料理を食べました。飲(の)み物(もの)はお茶(ちゃ)を飲みました。全部(ぜんぶ)で三千円(さんぜんえん)でした。安(やす)くておいしいレストランでした。また行(い)きたいです。',
+            id: 'n5_2', title: 'At the Restaurant', titleJp: '\u30EC\u30B9\u30C8\u30E9\u30F3\u3067', level: 'N5',
+            text: '\u571F\u66DC\u65E5(\u3069\u3088\u3046\u3073)\u306B\u53CB\u9054(\u3068\u3082\u3060\u3061)\u306E\u3055\u3068\u3046\u3055\u3093\u3068\u65E5\u672C(\u306B\u307B\u3093)\u306E\u30EC\u30B9\u30C8\u30E9\u30F3\u306B\u884C(\u3044)\u304D\u307E\u3057\u305F\u3002\u30EC\u30B9\u30C8\u30E9\u30F3\u306F\u99C5(\u3048\u304D)\u306E\u8FD1(\u3061\u304B)\u304F\u306B\u3042\u308A\u307E\u3059\u3002\u79C1(\u308F\u305F\u3057)\u306F\u9B5A(\u3055\u304B\u306A)\u306E\u6599\u7406(\u308A\u3087\u3046\u308A)\u3092\u98DF(\u305F)\u3079\u307E\u3057\u305F\u3002\u3068\u3066\u3082\u304A\u3044\u3057\u304B\u3063\u305F\u3067\u3059\u3002\u3055\u3068\u3046\u3055\u3093\u306F\u8089(\u306B\u304F)\u306E\u6599\u7406\u3092\u98DF\u3079\u307E\u3057\u305F\u3002\u98F2(\u306E)\u307F\u7269(\u3082\u306E)\u306F\u304A\u8336(\u3061\u3083)\u3092\u98F2\u307F\u307E\u3057\u305F\u3002\u5168\u90E8(\u305C\u3093\u3076)\u3067\u4E09\u5343\u5186(\u3055\u3093\u305C\u3093\u3048\u3093)\u3067\u3057\u305F\u3002\u5B89(\u3084\u3059)\u304F\u3066\u304A\u3044\u3057\u3044\u30EC\u30B9\u30C8\u30E9\u30F3\u3067\u3057\u305F\u3002\u307E\u305F\u884C(\u3044)\u304D\u305F\u3044\u3067\u3059\u3002',
             translation: "Samedi, je suis alle dans un restaurant japonais avec mon ami Sato. Le restaurant est pres de la gare. J'ai mange un plat de poisson. C'etait tres bon. Sato a mange un plat de viande. Comme boisson, nous avons bu du the. Au total, c'etait 3000 yens. C'etait un restaurant pas cher et delicieux. Je veux y retourner.",
-            level: 'N5',
             questions: [
-                { q: 'いつレストランに行(い)きましたか？', choices: ['日曜日', '土曜日', '金曜日', '月曜日'], correct: '土曜日', explanation: '土曜日に行きました = samedi' },
-                { q: 'レストランはどこにありますか？', choices: ['学校の近く', '家の近く', '駅の近く', '公園の近く'], correct: '駅の近く', explanation: '駅の近くにあります = pres de la gare' },
-                { q: '私(わたし)は何(なに)を食(た)べましたか？', choices: ['肉の料理', '魚の料理', '野菜の料理', 'ラーメン'], correct: '魚の料理', explanation: '魚の料理を食べました = plat de poisson' },
-                { q: 'いくらでしたか？', choices: ['千円', '二千円', '三千円', '五千円'], correct: '三千円', explanation: '全部で三千円でした = 3000 yens au total' },
-                { q: 'レストランはどうでしたか？', choices: ['高くておいしい', '安くておいしい', '高くてまずい', '安くてまずい'], correct: '安くておいしい', explanation: '安くておいしいレストランでした = pas cher et delicieux' }
-            ]
-        },
-        {
-            id: 'n5_3',
-            title: 'My Family',
-            titleJp: '私の家族',
-            text: '私(わたし)の家族(かぞく)は五人(ごにん)です。父(ちち)と母(はは)と姉(あね)と弟(おとうと)と私です。父は会社員(かいしゃいん)で、毎日(まいにち)電車(でんしゃ)で会社(かいしゃ)に行(い)きます。母は病院(びょういん)で働(はたら)いています。姉は大学生(だいがくせい)で、英語(えいご)を勉強(べんきょう)しています。弟は中学生(ちゅうがくせい)で、サッカーが好(す)きです。日曜日(にちようび)に家族で公園(こうえん)に行(い)ったり、映画(えいが)を見(み)たりします。',
-            translation: "Ma famille est composee de 5 personnes. Mon pere, ma mere, ma grande soeur, mon petit frere et moi. Mon pere est employe et va au bureau en train tous les jours. Ma mere travaille a l'hopital. Ma grande soeur est etudiante et etudie l'anglais. Mon petit frere est collegien et aime le football. Le dimanche, nous allons au parc ou regardons des films en famille.",
-            level: 'N5',
-            questions: [
-                { q: '家族(かぞく)は何人(なんにん)ですか？', choices: ['三人', '四人', '五人', '六人'], correct: '五人', explanation: '家族は五人です = 5 personnes' },
-                { q: 'お父(とう)さんの仕事(しごと)は何(なん)ですか？', choices: ['先生', '医者', '会社員', '店員'], correct: '会社員', explanation: '父は会社員で = employe de bureau' },
-                { q: 'お母(かあ)さんはどこで働(はたら)いていますか？', choices: ['学校', '病院', '会社', 'レストラン'], correct: '病院', explanation: '母は病院で働いています = travaille a l\'hopital' },
-                { q: 'お姉(ねえ)さんは何(なに)を勉強(べんきょう)していますか？', choices: ['日本語', '英語', 'フランス語', '数学'], correct: '英語', explanation: '英語を勉強しています = etudie l\'anglais' },
-                { q: '弟(おとうと)は何(なに)が好(す)きですか？', choices: ['野球', 'テニス', 'サッカー', 'バスケ'], correct: 'サッカー', explanation: 'サッカーが好きです = aime le football' }
-            ]
-        },
-        {
-            id: 'n5_4',
-            title: 'Asking for Directions',
-            titleJp: '道を聞く',
-            text: 'すみません、郵便局(ゆうびんきょく)はどこですか？\nまっすぐ行(い)って、二(ふた)つ目(め)の信号(しんごう)を右(みぎ)に曲(ま)がってください。大(おお)きい白(しろ)い建物(たてもの)の隣(となり)にあります。\n歩(ある)いてどのくらいですか？\n十五分(じゅうごふん)ぐらいです。\nありがとうございます。',
-            translation: "Excusez-moi, ou est la poste ?\nAllez tout droit, puis tournez a droite au deuxieme feu. C'est a cote du grand batiment blanc.\nCombien de temps a pied ?\nEnviron 15 minutes.\nMerci.",
-            level: 'N5',
-            questions: [
-                { q: 'この人(ひと)はどこを探(さが)していますか？', choices: ['銀行', '病院', '郵便局', '駅'], correct: '郵便局', explanation: '郵便局はどこですか = ou est la poste' },
-                { q: '何番目(なんばんめ)の信号(しんごう)を曲(ま)がりますか？', choices: ['一つ目', '二つ目', '三つ目', '四つ目'], correct: '二つ目', explanation: '二つ目の信号 = deuxieme feu' },
-                { q: 'どちらに曲(ま)がりますか？', choices: ['左', '右', 'まっすぐ', '後ろ'], correct: '右', explanation: '右に曲がってください = tournez a droite' },
-                { q: '郵便局(ゆうびんきょく)の近(ちか)くに何(なに)がありますか？', choices: ['小さい店', '大きい白い建物', '公園', '学校'], correct: '大きい白い建物', explanation: '大きい白い建物の隣 = a cote du grand batiment blanc' },
-                { q: '歩(ある)いてどのくらいですか？', choices: ['五分', '十分', '十五分', '二十分'], correct: '十五分', explanation: '十五分ぐらい = environ 15 minutes' }
+                { q: '\u3044\u3064\u30EC\u30B9\u30C8\u30E9\u30F3\u306B\u884C\u304D\u307E\u3057\u305F\u304B\uFF1F', choices: ['\u65E5\u66DC\u65E5', '\u571F\u66DC\u65E5', '\u91D1\u66DC\u65E5', '\u6708\u66DC\u65E5'], correct: '\u571F\u66DC\u65E5', explanation: '\u571F\u66DC\u65E5\u306B\u884C\u304D\u307E\u3057\u305F = samedi' },
+                { q: '\u30EC\u30B9\u30C8\u30E9\u30F3\u306F\u3069\u3053\u306B\u3042\u308A\u307E\u3059\u304B\uFF1F', choices: ['\u5B66\u6821\u306E\u8FD1\u304F', '\u5BB6\u306E\u8FD1\u304F', '\u99C5\u306E\u8FD1\u304F', '\u516C\u5712\u306E\u8FD1\u304F'], correct: '\u99C5\u306E\u8FD1\u304F', explanation: '\u99C5\u306E\u8FD1\u304F = pres de la gare' },
+                { q: '\u79C1\u306F\u4F55\u3092\u98DF\u3079\u307E\u3057\u305F\u304B\uFF1F', choices: ['\u8089\u306E\u6599\u7406', '\u9B5A\u306E\u6599\u7406', '\u91CE\u83DC\u306E\u6599\u7406', '\u30E9\u30FC\u30E1\u30F3'], correct: '\u9B5A\u306E\u6599\u7406', explanation: '\u9B5A\u306E\u6599\u7406\u3092\u98DF\u3079\u307E\u3057\u305F = plat de poisson' },
+                { q: '\u3044\u304F\u3089\u3067\u3057\u305F\u304B\uFF1F', choices: ['\u5343\u5186', '\u4E8C\u5343\u5186', '\u4E09\u5343\u5186', '\u4E94\u5343\u5186'], correct: '\u4E09\u5343\u5186', explanation: '\u4E09\u5343\u5186\u3067\u3057\u305F = 3000 yens' },
+                { q: '\u30EC\u30B9\u30C8\u30E9\u30F3\u306F\u3069\u3046\u3067\u3057\u305F\u304B\uFF1F', choices: ['\u9AD8\u304F\u3066\u304A\u3044\u3057\u3044', '\u5B89\u304F\u3066\u304A\u3044\u3057\u3044', '\u9AD8\u304F\u3066\u307E\u305A\u3044', '\u5B89\u304F\u3066\u307E\u305A\u3044'], correct: '\u5B89\u304F\u3066\u304A\u3044\u3057\u3044', explanation: '\u5B89\u304F\u3066\u304A\u3044\u3057\u3044 = pas cher et delicieux' }
             ]
         }
     ],
 
     textsN4: [
         {
-            id: 'n4_1',
-            title: 'Travel Plans',
-            titleJp: '旅行の計画',
-            text: '来月(らいげつ)、友達(ともだち)と京都(きょうと)に旅行(りょこう)に行(い)く予定(よてい)です。京都には有名(ゆうめい)なお寺(てら)や神社(じんじゃ)がたくさんあります。特(とく)に金閣寺(きんかくじ)に行(い)ってみたいです。旅行は二泊三日(にはくみっか)の予定です。ホテルはインターネットで予約(よやく)しました。一泊(いっぱく)八千円(はっせんえん)でした。京都までは新幹線(しんかんせん)で行(い)きます。二時間(にじかん)ぐらいかかります。京都の料理(りょうり)も楽(たの)しみです。特に湯豆腐(ゆどうふ)が食(た)べたいです。天気(てんき)がよければ、嵐山(あらしやま)も散歩(さんぽ)したいと思(おも)います。',
-            translation: "Le mois prochain, je prevois de voyager a Kyoto avec des amis. A Kyoto, il y a beaucoup de temples et sanctuaires celebres. Je veux surtout visiter le Kinkaku-ji. Le voyage est prevu pour 2 nuits et 3 jours. J'ai reserve l'hotel sur internet. C'etait 8000 yens par nuit. On ira a Kyoto en shinkansen. Ca prend environ 2 heures. J'ai aussi hate de gouter la cuisine de Kyoto. Je veux surtout manger du yudofu. S'il fait beau, je voudrais aussi me promener a Arashiyama.",
-            level: 'N4',
+            id: 'n4_1', title: 'Travel Plans', titleJp: '\u65C5\u884C\u306E\u8A08\u753B', level: 'N4',
+            text: '\u6765\u6708(\u3089\u3044\u3052\u3064)\u3001\u53CB\u9054(\u3068\u3082\u3060\u3061)\u3068\u4EAC\u90FD(\u304D\u3087\u3046\u3068)\u306B\u65C5\u884C(\u308A\u3087\u3053\u3046)\u306B\u884C(\u3044)\u304F\u4E88\u5B9A(\u3088\u3066\u3044)\u3067\u3059\u3002\u4EAC\u90FD\u306B\u306F\u6709\u540D(\u3086\u3046\u3081\u3044)\u306A\u304A\u5BFA(\u3066\u3089)\u3084\u795E\u793E(\u3058\u3093\u3058\u3083)\u304C\u305F\u304F\u3055\u3093\u3042\u308A\u307E\u3059\u3002\u65C5\u884C\u306F\u4E8C\u6CCA\u4E09\u65E5(\u306B\u306F\u304F\u307F\u3063\u304B)\u306E\u4E88\u5B9A\u3067\u3059\u3002\u30DB\u30C6\u30EB\u306F\u30A4\u30F3\u30BF\u30FC\u30CD\u30C3\u30C8\u3067\u4E88\u7D04(\u3088\u3084\u304F)\u3057\u307E\u3057\u305F\u3002\u4E00\u6CCA(\u3044\u3063\u3071\u304F)\u516B\u5343\u5186(\u306F\u3063\u305B\u3093\u3048\u3093)\u3067\u3057\u305F\u3002\u4EAC\u90FD\u307E\u3067\u306F\u65B0\u5E79\u7DDA(\u3057\u3093\u304B\u3093\u305B\u3093)\u3067\u884C\u304D\u307E\u3059\u3002\u4E8C\u6642\u9593(\u306B\u3058\u304B\u3093)\u304F\u3089\u3044\u304B\u304B\u308A\u307E\u3059\u3002',
+            translation: "Le mois prochain, je prevois de voyager a Kyoto avec des amis. A Kyoto, il y a beaucoup de temples et sanctuaires celebres. Le voyage est prevu pour 2 nuits et 3 jours. J'ai reserve l'hotel sur internet. C'etait 8000 yens par nuit. On ira a Kyoto en shinkansen. Ca prend environ 2 heures.",
             questions: [
-                { q: 'いつ京都(きょうと)に行(い)きますか？', choices: ['来週', '来月', '来年', '今月'], correct: '来月', explanation: '来月 = le mois prochain' },
-                { q: '旅行(りょこう)は何日間(なんにちかん)ですか？', choices: ['一泊二日', '二泊三日', '三泊四日', '日帰り'], correct: '二泊三日', explanation: '二泊三日 = 2 nuits 3 jours' },
-                { q: 'ホテルは一泊(いっぱく)いくらですか？', choices: ['五千円', '六千円', '八千円', '一万円'], correct: '八千円', explanation: '一泊八千円 = 8000 yens par nuit' },
-                { q: '京都(きょうと)まで何(なに)で行(い)きますか？', choices: ['飛行機', 'バス', '電車', '新幹線'], correct: '新幹線', explanation: '新幹線で行きます = en shinkansen' },
-                { q: '京都(きょうと)で何(なに)が食(た)べたいですか？', choices: ['寿司', 'ラーメン', '湯豆腐', '焼肉'], correct: '湯豆腐', explanation: '湯豆腐が食べたい = veut manger du yudofu' }
-            ]
-        },
-        {
-            id: 'n4_2',
-            title: 'Part-time Job',
-            titleJp: 'アルバイト',
-            text: '私(わたし)は大学生(だいがくせい)で、カフェでアルバイトをしています。月曜日(げつようび)から金曜日(きんようび)まで大学(だいがく)に行(い)って、土曜日(どようび)と日曜日(にちようび)にカフェで働(はたら)いています。時給(じきゅう)は千円(せんえん)で、朝九時(くじ)から夕方(ゆうがた)五時(ごじ)まで働きます。店長(てんちょう)はとても優(やさ)しい人(ひと)で、わからないことがあれば、いつも教(おし)えてくれます。お客(きゃく)さんと話(はな)すのが楽(たの)しいです。このアルバイトのおかげで、敬語(けいご)も上手(じょうず)になりました。将来(しょうらい)、自分(じぶん)のカフェを開(ひら)きたいと思(おも)っています。',
-            translation: "Je suis etudiant et je travaille a temps partiel dans un cafe. Du lundi au vendredi je vais a l'universite, et le samedi et dimanche je travaille au cafe. Le salaire horaire est de 1000 yens, et je travaille de 9h a 17h. Le gerant est une personne tres gentille, et quand je ne comprends pas quelque chose, il m'explique toujours. C'est amusant de parler avec les clients. Grace a ce travail, je suis devenu bon en langage poli. A l'avenir, je voudrais ouvrir mon propre cafe.",
-            level: 'N4',
-            questions: [
-                { q: 'この人(ひと)はいつアルバイトをしますか？', choices: ['月曜と火曜', '水曜と木曜', '金曜と土曜', '土曜と日曜'], correct: '土曜と日曜', explanation: '土曜日と日曜日にカフェで働いています' },
-                { q: '時給(じきゅう)はいくらですか？', choices: ['八百円', '九百円', '千円', '千二百円'], correct: '千円', explanation: '時給は千円 = 1000 yens de l\'heure' },
-                { q: '店長(てんちょう)はどんな人(ひと)ですか？', choices: ['厳しい', '優しい', '面白い', '静か'], correct: '優しい', explanation: 'とても優しい人で = personne tres gentille' },
-                { q: 'アルバイトで何(なに)が上手(じょうず)になりましたか？', choices: ['料理', '英語', '敬語', '日本語'], correct: '敬語', explanation: '敬語も上手になりました = devenu bon en langage poli' },
-                { q: '将来(しょうらい)、何(なに)をしたいですか？', choices: ['先生になる', '会社を作る', 'カフェを開く', '外国に行く'], correct: 'カフェを開く', explanation: '自分のカフェを開きたい = ouvrir son propre cafe' }
-            ]
-        },
-        {
-            id: 'n4_3',
-            title: 'Weather and Seasons',
-            titleJp: '日本の季節',
-            text: '日本(にほん)には四(よっ)つの季節(きせつ)があります。春(はる)は三月(さんがつ)から五月(ごがつ)までで、桜(さくら)がとてもきれいです。多(おお)くの人(ひと)がお花見(はなみ)をします。夏(なつ)は六月(ろくがつ)から八月(はちがつ)までで、とても暑(あつ)くて湿度(しつど)が高(たか)いです。夏には花火大会(はなびたいかい)があります。秋(あき)は九月(くがつ)から十一月(じゅういちがつ)までで、紅葉(こうよう)がきれいです。秋の食(た)べ物(もの)もおいしいです。冬(ふゆ)は十二月(じゅうにがつ)から二月(にがつ)までで、寒(さむ)いですが、雪(ゆき)がきれいです。北海道(ほっかいどう)では雪(ゆき)がたくさん降(ふ)ります。',
-            translation: "Le Japon a 4 saisons. Le printemps va de mars a mai, et les cerisiers sont tres beaux. Beaucoup de gens font le hanami. L'ete va de juin a aout, il fait tres chaud et humide. En ete il y a des feux d'artifice. L'automne va de septembre a novembre, les feuilles d'automne sont belles. La nourriture d'automne est aussi delicieuse. L'hiver va de decembre a fevrier, il fait froid mais la neige est belle. A Hokkaido, il neige beaucoup.",
-            level: 'N4',
-            questions: [
-                { q: '春(はる)はいつからいつまでですか？', choices: ['1月～3月', '3月～5月', '4月～6月', '2月～4月'], correct: '3月～5月', explanation: '三月から五月まで = de mars a mai' },
-                { q: '春(はる)に何(なに)をしますか？', choices: ['花火を見る', 'お花見', '雪まつり', '紅葉を見る'], correct: 'お花見', explanation: 'お花見をします = faire le hanami' },
-                { q: '夏(なつ)はどんな天気(てんき)ですか？', choices: ['寒い', '涼しい', '暑くて湿度が高い', '暖かい'], correct: '暑くて湿度が高い', explanation: '暑くて湿度が高い = chaud et humide' },
-                { q: '秋(あき)に何(なに)がきれいですか？', choices: ['桜', '雪', '紅葉', '花火'], correct: '紅葉', explanation: '紅葉がきれい = les feuilles d\'automne sont belles' },
-                { q: 'どこで雪(ゆき)がたくさん降(ふ)りますか？', choices: ['東京', '大阪', '京都', '北海道'], correct: '北海道', explanation: '北海道では雪がたくさん降ります = beaucoup de neige a Hokkaido' }
+                { q: '\u3044\u3064\u4EAC\u90FD\u306B\u884C\u304D\u307E\u3059\u304B\uFF1F', choices: ['\u6765\u9031', '\u6765\u6708', '\u6765\u5E74', '\u4ECA\u6708'], correct: '\u6765\u6708', explanation: '\u6765\u6708 = le mois prochain' },
+                { q: '\u65C5\u884C\u306F\u4F55\u65E5\u9593\u3067\u3059\u304B\uFF1F', choices: ['\u4E00\u6CCA\u4E8C\u65E5', '\u4E8C\u6CCA\u4E09\u65E5', '\u4E09\u6CCA\u56DB\u65E5', '\u65E5\u5E30\u308A'], correct: '\u4E8C\u6CCA\u4E09\u65E5', explanation: '\u4E8C\u6CCA\u4E09\u65E5 = 2 nuits 3 jours' },
+                { q: '\u30DB\u30C6\u30EB\u306F\u4E00\u6CCA\u3044\u304F\u3089\u3067\u3059\u304B\uFF1F', choices: ['\u4E94\u5343\u5186', '\u516D\u5343\u5186', '\u516B\u5343\u5186', '\u4E00\u4E07\u5186'], correct: '\u516B\u5343\u5186', explanation: '\u4E00\u6CCA\u516B\u5343\u5186 = 8000 yens par nuit' },
+                { q: '\u4EAC\u90FD\u307E\u3067\u4F55\u3067\u884C\u304D\u307E\u3059\u304B\uFF1F', choices: ['\u98DB\u884C\u6A5F', '\u30D0\u30B9', '\u96FB\u8ECA', '\u65B0\u5E79\u7DDA'], correct: '\u65B0\u5E79\u7DDA', explanation: '\u65B0\u5E79\u7DDA\u3067\u884C\u304D\u307E\u3059 = en shinkansen' }
             ]
         }
     ],
 
+    // =============================================
+    // TEXT GENERATOR (template-based)
+    // =============================================
+    _generatorData: {
+        names: [
+            { name: '\u3084\u307E\u3060', full: '\u5C71\u7530' }, { name: '\u3059\u305A\u304D', full: '\u9234\u6728' },
+            { name: '\u305F\u306A\u304B', full: '\u7530\u4E2D' }, { name: '\u3055\u3068\u3046', full: '\u4F50\u85E4' },
+            { name: '\u306F\u306A\u3053', full: '\u82B1\u5B50' }, { name: '\u3051\u3093\u305F', full: '\u5065\u592A' },
+            { name: '\u3086\u3046\u304D', full: '\u512A\u5E0C' }, { name: '\u305F\u304F\u307F', full: '\u62D3\u5B9F' }
+        ],
+        wakeUp: [
+            { jp: '\u516D\u6642', fr: '6h' }, { jp: '\u516D\u6642\u534A', fr: '6h30' },
+            { jp: '\u4E03\u6642', fr: '7h' }, { jp: '\u4E94\u6642\u534A', fr: '5h30' }
+        ],
+        sleep: [
+            { jp: '\u5341\u6642', fr: '22h' }, { jp: '\u5341\u4E00\u6642', fr: '23h' },
+            { jp: '\u5341\u4E8C\u6642', fr: 'minuit' }, { jp: '\u5341\u6642\u534A', fr: '22h30' }
+        ],
+        breakfast: [
+            { jp: '\u30D1\u30F3\u3068\u30B3\u30FC\u30D2\u30FC', fr: 'du pain et du cafe' },
+            { jp: '\u3054\u98EF\u3068\u307F\u305D\u3057\u308B', fr: 'du riz et de la soupe miso' },
+            { jp: '\u5375\u3068\u30B8\u30E5\u30FC\u30B9', fr: 'des oeufs et du jus' },
+            { jp: '\u30D1\u30F3\u3068\u725B\u4E73', fr: 'du pain et du lait' }
+        ],
+        transport: [
+            { jp: '\u96FB\u8ECA', fr: 'train' }, { jp: '\u30D0\u30B9', fr: 'bus' },
+            { jp: '\u81EA\u8EE2\u8ECA', fr: 'velo' }, { jp: '\u6B69\u3044\u3066', fr: 'a pied' }
+        ],
+        destination: [
+            { jp: '\u5B66\u6821', fr: "l'ecole" }, { jp: '\u4F1A\u793E', fr: "l'entreprise" },
+            { jp: '\u5927\u5B66', fr: "l'universite" }
+        ],
+        hobby: [
+            { jp: '\u30C6\u30EC\u30D3\u3092\u898B\u307E\u3059', fr: 'regarde la tele' },
+            { jp: '\u672C\u3092\u8AAD\u307F\u307E\u3059', fr: 'lit des livres' },
+            { jp: '\u97F3\u697D\u3092\u805E\u304D\u307E\u3059', fr: 'ecoute de la musique' },
+            { jp: '\u30B2\u30FC\u30E0\u3092\u3057\u307E\u3059', fr: 'joue aux jeux video' },
+            { jp: '\u6599\u7406\u3092\u3057\u307E\u3059', fr: 'fait la cuisine' }
+        ],
+        food1: [
+            { jp: '\u9B5A(\u3055\u304B\u306A)\u306E\u6599\u7406', fr: 'plat de poisson' },
+            { jp: '\u8089(\u306B\u304F)\u306E\u6599\u7406', fr: 'plat de viande' },
+            { jp: '\u30E9\u30FC\u30E1\u30F3', fr: 'ramen' },
+            { jp: '\u5BFF\u53F8(\u3059\u3057)', fr: 'sushi' },
+            { jp: '\u30AB\u30EC\u30FC', fr: 'curry' }
+        ],
+        food2: [
+            { jp: '\u5929\u3077\u3089', fr: 'tempura' },
+            { jp: '\u3046\u3069\u3093', fr: 'udon' },
+            { jp: '\u91CE\u83DC(\u3084\u3055\u3044)\u306E\u6599\u7406', fr: 'plat de legumes' },
+            { jp: '\u304A\u306B\u304E\u308A', fr: 'onigiri' },
+            { jp: '\u7126\u304D\u8089(\u3084\u304D\u306B\u304F)', fr: 'yakiniku' }
+        ],
+        drink: [
+            { jp: '\u304A\u8336', fr: 'the' }, { jp: '\u30B3\u30FC\u30D2\u30FC', fr: 'cafe' },
+            { jp: '\u6C34', fr: 'eau' }, { jp: '\u30B8\u30E5\u30FC\u30B9', fr: 'jus' }
+        ],
+        price: [
+            { jp: '\u4E8C\u5343\u5186', fr: '2000 yens' }, { jp: '\u4E09\u5343\u5186', fr: '3000 yens' },
+            { jp: '\u5343\u4E94\u767E\u5186', fr: '1500 yens' }, { jp: '\u56DB\u5343\u5186', fr: '4000 yens' }
+        ],
+        day: [
+            { jp: '\u6708\u66DC\u65E5', fr: 'lundi' }, { jp: '\u706B\u66DC\u65E5', fr: 'mardi' },
+            { jp: '\u6C34\u66DC\u65E5', fr: 'mercredi' }, { jp: '\u6728\u66DC\u65E5', fr: 'jeudi' },
+            { jp: '\u91D1\u66DC\u65E5', fr: 'vendredi' }, { jp: '\u571F\u66DC\u65E5', fr: 'samedi' },
+            { jp: '\u65E5\u66DC\u65E5', fr: 'dimanche' }
+        ],
+        place: [
+            { jp: '\u99C5(\u3048\u304D)\u306E\u8FD1(\u3061\u304B)\u304F', fr: 'pres de la gare' },
+            { jp: '\u516C\u5712(\u3053\u3046\u3048\u3093)\u306E\u524D(\u307E\u3048)', fr: 'devant le parc' },
+            { jp: '\u5B66\u6821(\u304C\u3063\u3053\u3046)\u306E\u3068\u306A\u308A', fr: 'a cote de l\'ecole' },
+            { jp: '\u5927\u304D\u3044\u901A(\u3068\u304A)\u308A\u306E\u305D\u3070', fr: 'pres de la grande avenue' }
+        ],
+        season: [
+            { jp: '\u6625(\u306F\u308B)', fr: 'printemps' }, { jp: '\u590F(\u306A\u3064)', fr: 'ete' },
+            { jp: '\u79CB(\u3042\u304D)', fr: 'automne' }, { jp: '\u51AC(\u3075\u3086)', fr: 'hiver' }
+        ]
+    },
+
+    _pick(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    },
+
+    _pickExcept(arr, ...exclude) {
+        const filtered = arr.filter(x => !exclude.includes(x));
+        return filtered[Math.floor(Math.random() * filtered.length)];
+    },
+
+    _shuffle(arr) {
+        return [...arr].sort(() => Math.random() - 0.5);
+    },
+
+    generateText(level) {
+        const d = this._generatorData;
+        const templateIndex = Math.floor(Math.random() * 3);
+
+        if (templateIndex === 0) return this._genDailyLife(d, level);
+        if (templateIndex === 1) return this._genRestaurant(d, level);
+        return this._genWeekend(d, level);
+    },
+
+    _genDailyLife(d, level) {
+        const name = this._pick(d.names);
+        const wake = this._pick(d.wakeUp);
+        const sleep = this._pick(d.sleep);
+        const bf = this._pick(d.breakfast);
+        const tr = this._pick(d.transport);
+        const dest = this._pick(d.destination);
+        const hob = this._pick(d.hobby);
+
+        const text = `${name.full}\u3055\u3093\u306F\u6BCE\u671D(\u307E\u3044\u3042\u3055)${wake.jp}\u306B\u8D77(\u304A)\u304D\u307E\u3059\u3002\u671D(\u3042\u3055)\u3054\u98EF(\u306F\u3093)\u306F${bf.jp}\u3067\u3059\u3002${tr.jp}\u3067${dest.jp}\u306B\u884C(\u3044)\u304D\u307E\u3059\u3002${dest.jp}\u306F\u4E5D\u6642(\u304F\u3058)\u304B\u3089\u4E94\u6642(\u3054\u3058)\u307E\u3067\u3067\u3059\u3002\u5BB6(\u3044\u3048)\u306B\u5E30(\u304B\u3048)\u3063\u3066\u304B\u3089\u3001${hob.jp}\u3002${sleep.jp}\u306B\u5BDD(\u306D)\u307E\u3059\u3002`;
+        const translation = `${name.full} se leve a ${wake.fr} chaque matin. Le petit-dejeuner c'est ${bf.fr}. Il/elle va a ${dest.fr} en ${tr.fr}. ${dest.fr === "l'ecole" ? "L'ecole" : dest.fr === "l'universite" ? "L'universite" : "L'entreprise"} est de 9h a 17h. Apres etre rentre(e), il/elle ${hob.fr}. Il/elle se couche a ${sleep.fr}.`;
+
+        const wW = this._pickExcept(d.wakeUp, wake); const wW2 = this._pickExcept(d.wakeUp, wake, wW); const wW3 = this._pickExcept(d.wakeUp, wake, wW, wW2);
+        const bW = this._pickExcept(d.breakfast, bf); const bW2 = this._pickExcept(d.breakfast, bf, bW); const bW3 = this._pickExcept(d.breakfast, bf, bW, bW2);
+        const tW = this._pickExcept(d.transport, tr); const tW2 = this._pickExcept(d.transport, tr, tW); const tW3 = this._pickExcept(d.transport, tr, tW, tW2);
+        const sW = this._pickExcept(d.sleep, sleep); const sW2 = this._pickExcept(d.sleep, sleep, sW); const sW3 = this._pickExcept(d.sleep, sleep, sW, sW2);
+
+        return {
+            id: 'gen_' + Date.now(),
+            title: `${name.full}'s Day`,
+            titleJp: `${name.full}\u3055\u3093\u306E\u4E00\u65E5`,
+            text, translation, level,
+            questions: [
+                { q: `${name.full}\u3055\u3093\u306F\u4F55\u6642\u306B\u8D77\u304D\u307E\u3059\u304B\uFF1F`, choices: this._shuffle([wake.jp, wW.jp, wW2.jp, wW3.jp]), correct: wake.jp, explanation: `${wake.jp}\u306B\u8D77\u304D\u307E\u3059 = se leve a ${wake.fr}` },
+                { q: '\u671D\u3054\u98EF\u306F\u4F55\u3067\u3059\u304B\uFF1F', choices: this._shuffle([bf.jp, bW.jp, bW2.jp, bW3.jp]), correct: bf.jp, explanation: `${bf.jp}\u3067\u3059 = c'est ${bf.fr}` },
+                { q: `${dest.jp}\u306B\u4F55\u3067\u884C\u304D\u307E\u3059\u304B\uFF1F`, choices: this._shuffle([tr.jp, tW.jp, tW2.jp, tW3.jp]), correct: tr.jp, explanation: `${tr.jp}\u3067\u884C\u304D\u307E\u3059 = en ${tr.fr}` },
+                { q: '\u4F55\u6642\u306B\u5BDD\u307E\u3059\u304B\uFF1F', choices: this._shuffle([sleep.jp, sW.jp, sW2.jp, sW3.jp]), correct: sleep.jp, explanation: `${sleep.jp}\u306B\u5BDD\u307E\u3059 = se couche a ${sleep.fr}` }
+            ]
+        };
+    },
+
+    _genRestaurant(d, level) {
+        const name = this._pick(d.names);
+        const day = this._pick(d.day);
+        const pl = this._pick(d.place);
+        const f1 = this._pick(d.food1);
+        const f2 = this._pickExcept(d.food2, f1);
+        const dr = this._pick(d.drink);
+        const pr = this._pick(d.price);
+
+        const text = `${day.jp}\u306B\u53CB\u9054(\u3068\u3082\u3060\u3061)\u306E${name.full}\u3055\u3093\u3068\u30EC\u30B9\u30C8\u30E9\u30F3\u306B\u884C(\u3044)\u304D\u307E\u3057\u305F\u3002\u30EC\u30B9\u30C8\u30E9\u30F3\u306F${pl.jp}\u306B\u3042\u308A\u307E\u3059\u3002\u79C1(\u308F\u305F\u3057)\u306F${f1.jp}\u3092\u98DF(\u305F)\u3079\u307E\u3057\u305F\u3002${name.full}\u3055\u3093\u306F${f2.jp}\u3092\u98DF\u3079\u307E\u3057\u305F\u3002\u98F2(\u306E)\u307F\u7269(\u3082\u306E)\u306F${dr.jp}\u3092\u98F2\u307F\u307E\u3057\u305F\u3002\u5168\u90E8(\u305C\u3093\u3076)\u3067${pr.jp}\u3067\u3057\u305F\u3002\u3068\u3066\u3082\u304A\u3044\u3057\u304B\u3063\u305F\u3067\u3059\u3002`;
+        const translation = `${day.fr}, je suis alle(e) au restaurant avec mon ami(e) ${name.full}. Le restaurant est ${pl.fr}. J'ai mange du ${f1.fr}. ${name.full} a mange du ${f2.fr}. Comme boisson, nous avons bu du ${dr.fr}. Au total, c'etait ${pr.fr}. C'etait tres bon.`;
+
+        const dW = this._pickExcept(d.day, day); const dW2 = this._pickExcept(d.day, day, dW); const dW3 = this._pickExcept(d.day, day, dW, dW2);
+        const pW = this._pickExcept(d.place, pl); const pW2 = this._pickExcept(d.place, pl, pW); const pW3 = this._pickExcept(d.place, pl, pW, pW2);
+        const fW = this._pickExcept(d.food1.concat(d.food2), f1); const fW2 = this._pickExcept(d.food1.concat(d.food2), f1, fW); const fW3 = this._pickExcept(d.food1.concat(d.food2), f1, fW, fW2);
+        const prW = this._pickExcept(d.price, pr); const prW2 = this._pickExcept(d.price, pr, prW); const prW3 = this._pickExcept(d.price, pr, prW, prW2);
+        const drW = this._pickExcept(d.drink, dr); const drW2 = this._pickExcept(d.drink, dr, drW); const drW3 = this._pickExcept(d.drink, dr, drW, drW2);
+
+        return {
+            id: 'gen_' + Date.now(),
+            title: 'At the Restaurant',
+            titleJp: '\u30EC\u30B9\u30C8\u30E9\u30F3\u3067',
+            text, translation, level,
+            questions: [
+                { q: '\u3044\u3064\u30EC\u30B9\u30C8\u30E9\u30F3\u306B\u884C\u304D\u307E\u3057\u305F\u304B\uFF1F', choices: this._shuffle([day.jp, dW.jp, dW2.jp, dW3.jp]), correct: day.jp, explanation: `${day.jp}\u306B\u884C\u304D\u307E\u3057\u305F = ${day.fr}` },
+                { q: '\u30EC\u30B9\u30C8\u30E9\u30F3\u306F\u3069\u3053\u306B\u3042\u308A\u307E\u3059\u304B\uFF1F', choices: this._shuffle([pl.jp, pW.jp, pW2.jp, pW3.jp]), correct: pl.jp, explanation: `${pl.jp}\u306B\u3042\u308A\u307E\u3059 = ${pl.fr}` },
+                { q: '\u79C1\u306F\u4F55\u3092\u98DF\u3079\u307E\u3057\u305F\u304B\uFF1F', choices: this._shuffle([f1.jp, fW.jp, fW2.jp, fW3.jp]), correct: f1.jp, explanation: `${f1.jp}\u3092\u98DF\u3079\u307E\u3057\u305F = ${f1.fr}` },
+                { q: '\u98F2\u307F\u7269\u306F\u4F55\u3067\u3057\u305F\u304B\uFF1F', choices: this._shuffle([dr.jp, drW.jp, drW2.jp, drW3.jp]), correct: dr.jp, explanation: `${dr.jp}\u3092\u98F2\u307F\u307E\u3057\u305F = ${dr.fr}` },
+                { q: '\u5168\u90E8\u3067\u3044\u304F\u3089\u3067\u3057\u305F\u304B\uFF1F', choices: this._shuffle([pr.jp, prW.jp, prW2.jp, prW3.jp]), correct: pr.jp, explanation: `${pr.jp}\u3067\u3057\u305F = ${pr.fr}` }
+            ]
+        };
+    },
+
+    _genWeekend(d, level) {
+        const name = this._pick(d.names);
+        const season = this._pick(d.season);
+        const tr = this._pick(d.transport);
+        const hob1 = this._pick(d.hobby);
+        const hob2 = this._pickExcept(d.hobby, hob1);
+        const f = this._pick(d.food1);
+        const dr = this._pick(d.drink);
+
+        const text = `\u65E5\u66DC\u65E5(\u306B\u3061\u3088\u3046\u3073)\u306B${name.full}\u3055\u3093\u3068\u904A(\u3042\u305D)\u3073\u307E\u3057\u305F\u3002\u4ECA(\u3044\u307E)\u306F${season.jp}\u3067\u3059\u3002\u5348\u524D(\u3054\u305C\u3093)\u306F\u516C\u5712(\u3053\u3046\u3048\u3093)\u3067\u6563\u6B69(\u3055\u3093\u307D)\u3092\u3057\u307E\u3057\u305F\u3002\u305D\u308C\u304B\u3089\u3001${tr.jp}\u3067\u753A(\u307E\u3061)\u306B\u884C\u304D\u307E\u3057\u305F\u3002\u304A\u663C(\u3072\u308B)\u306B${f.jp}\u3092\u98DF(\u305F)\u3079\u3066\u3001${dr.jp}\u3092\u98F2(\u306E)\u307F\u307E\u3057\u305F\u3002\u5348\u5F8C(\u3054\u3054)\u306F\u5BB6(\u3044\u3048)\u3067${hob1.jp}\u3002\u591C(\u3088\u308B)\u306F${hob2.jp}\u3002\u3068\u3066\u3082\u697D(\u305F\u306E)\u3057\u3044\u4E00\u65E5(\u3044\u3061\u306B\u3061)\u3067\u3057\u305F\u3002`;
+        const translation = `Dimanche, j'ai passe du temps avec ${name.full}. C'est actuellement ${season.fr}. Le matin, nous nous sommes promenes au parc. Ensuite, nous sommes alles en ville en ${tr.fr}. A midi, nous avons mange du ${f.fr} et bu du ${dr.fr}. L'apres-midi, a la maison, il/elle ${hob1.fr}. Le soir, il/elle ${hob2.fr}. C'etait une journee tres agreable.`;
+
+        const sW = this._pickExcept(d.season, season); const sW2 = this._pickExcept(d.season, season, sW); const sW3 = this._pickExcept(d.season, season, sW, sW2);
+        const tW = this._pickExcept(d.transport, tr); const tW2 = this._pickExcept(d.transport, tr, tW); const tW3 = this._pickExcept(d.transport, tr, tW, tW2);
+        const fW = this._pickExcept(d.food1, f); const fW2 = this._pickExcept(d.food1, f, fW); const fW3 = this._pickExcept(d.food1, f, fW, fW2);
+        const drW = this._pickExcept(d.drink, dr); const drW2 = this._pickExcept(d.drink, dr, drW); const drW3 = this._pickExcept(d.drink, dr, drW, drW2);
+
+        return {
+            id: 'gen_' + Date.now(),
+            title: 'My Weekend',
+            titleJp: '\u697D\u3057\u3044\u9031\u672B',
+            text, translation, level,
+            questions: [
+                { q: '\u4ECA\u306F\u3069\u306E\u5B63\u7BC0(\u304D\u305B\u3064)\u3067\u3059\u304B\uFF1F', choices: this._shuffle([season.jp, sW.jp, sW2.jp, sW3.jp]), correct: season.jp, explanation: `${season.jp}\u3067\u3059 = c'est ${season.fr}` },
+                { q: '\u753A\u306B\u4F55\u3067\u884C\u304D\u307E\u3057\u305F\u304B\uFF1F', choices: this._shuffle([tr.jp, tW.jp, tW2.jp, tW3.jp]), correct: tr.jp, explanation: `${tr.jp}\u3067\u884C\u304D\u307E\u3057\u305F = en ${tr.fr}` },
+                { q: '\u304A\u663C\u306B\u4F55\u3092\u98DF\u3079\u307E\u3057\u305F\u304B\uFF1F', choices: this._shuffle([f.jp, fW.jp, fW2.jp, fW3.jp]), correct: f.jp, explanation: `${f.jp}\u3092\u98DF\u3079\u307E\u3057\u305F = ${f.fr}` },
+                { q: '\u4F55\u3092\u98F2\u307F\u307E\u3057\u305F\u304B\uFF1F', choices: this._shuffle([dr.jp, drW.jp, drW2.jp, drW3.jp]), correct: dr.jp, explanation: `${dr.jp}\u3092\u98F2\u307F\u307E\u3057\u305F = ${dr.fr}` }
+            ]
+        };
+    },
+
+    // =============================================
+    // MODULE LOGIC
+    // =============================================
     init() {
         this.render();
     },
@@ -135,7 +267,7 @@ window.ReadingModule = {
 
         if (this.quizState) {
             this.renderQuiz(container);
-        } else if (this.currentTextIndex !== null) {
+        } else if (this.currentText) {
             this.renderText(container);
         } else {
             this.renderList(container);
@@ -146,9 +278,14 @@ window.ReadingModule = {
         const texts = this.getFilteredTexts();
 
         container.innerHTML = `
+            <div style="text-align:center; margin-bottom:24px;">
+                <button class="btn btn-primary btn-lg" id="reading-generate">
+                    ${I18n.t('reading_generate')}
+                </button>
+            </div>
             <div class="reading-list">
                 ${texts.map((t, i) => `
-                    <div class="reading-card" data-index="${i}">
+                    <div class="reading-card" data-index="${i}" data-src="static">
                         <div class="reading-card-header">
                             <span class="reading-card-title">${t.titleJp}</span>
                             <span class="kanji-level-tag ${t.level.toLowerCase()}">${t.level}</span>
@@ -159,17 +296,23 @@ window.ReadingModule = {
                 `).join('')}
             </div>`;
 
+        document.getElementById('reading-generate').addEventListener('click', () => {
+            const level = LevelFilter.get() === 'all' ? (Math.random() > 0.5 ? 'N5' : 'N4') : LevelFilter.get();
+            this.currentText = this.generateText(level);
+            this.render();
+        });
+
         container.querySelectorAll('.reading-card').forEach(card => {
             card.addEventListener('click', () => {
-                this.currentTextIndex = parseInt(card.dataset.index);
+                const idx = parseInt(card.dataset.index);
+                this.currentText = this.getFilteredTexts()[idx];
                 this.render();
             });
         });
     },
 
     renderText(container) {
-        const texts = this.getFilteredTexts();
-        const t = texts[this.currentTextIndex];
+        const t = this.currentText;
 
         container.innerHTML = `
             <div class="reading-back">
@@ -178,7 +321,7 @@ window.ReadingModule = {
             </div>
 
             <div class="reading-passage">
-                <h2 class="reading-title">${t.titleJp} <span class="reading-title-en">— ${t.title}</span></h2>
+                <h2 class="reading-title">${t.titleJp} <span class="reading-title-en">\u2014 ${t.title}</span></h2>
                 <div class="reading-text-jp">${t.text.replace(/\n/g, '<br>')}</div>
                 <details class="reading-translation">
                     <summary>${I18n.t('reading_show_translation')}</summary>
@@ -186,18 +329,26 @@ window.ReadingModule = {
                 </details>
             </div>
 
-            <div style="text-align:center; margin-top:24px;">
+            <div style="text-align:center; margin-top:24px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
                 <button class="btn btn-primary btn-lg" id="reading-start-quiz">${I18n.t('reading_start_quiz')}</button>
+                <button class="btn btn-secondary" id="reading-generate-new">${I18n.t('reading_generate')}</button>
             </div>`;
 
         document.getElementById('reading-back').addEventListener('click', () => {
-            this.currentTextIndex = null;
+            this.currentText = null;
             this.quizState = null;
             this.render();
         });
 
         document.getElementById('reading-start-quiz').addEventListener('click', () => {
             this.quizState = { questions: t.questions, current: 0, score: 0, answers: [], text: t };
+            this.render();
+        });
+
+        document.getElementById('reading-generate-new').addEventListener('click', () => {
+            const level = LevelFilter.get() === 'all' ? (Math.random() > 0.5 ? 'N5' : 'N4') : LevelFilter.get();
+            this.currentText = this.generateText(level);
+            this.quizState = null;
             this.render();
         });
     },
@@ -284,9 +435,10 @@ window.ReadingModule = {
             <div class="quiz-container">
                 <div class="quiz-score">
                     <div class="quiz-score-value">${pct}%</div>
-                    <div class="quiz-score-label">${qs.score}/${qs.questions.length} — ${qs.text.titleJp}</div>
+                    <div class="quiz-score-label">${qs.score}/${qs.questions.length} \u2014 ${qs.text.titleJp}</div>
                     <div style="margin-top:24px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
                         <button class="btn btn-primary" id="reading-reread">${I18n.t('reading_reread')}</button>
+                        <button class="btn btn-secondary" id="reading-generate-again">${I18n.t('reading_generate')}</button>
                         <button class="btn btn-secondary" id="reading-back-list">${I18n.t('back')}</button>
                     </div>
                 </div>
@@ -297,8 +449,15 @@ window.ReadingModule = {
             this.render();
         });
 
+        document.getElementById('reading-generate-again')?.addEventListener('click', () => {
+            const level = LevelFilter.get() === 'all' ? (Math.random() > 0.5 ? 'N5' : 'N4') : LevelFilter.get();
+            this.currentText = this.generateText(level);
+            this.quizState = null;
+            this.render();
+        });
+
         document.getElementById('reading-back-list')?.addEventListener('click', () => {
-            this.currentTextIndex = null;
+            this.currentText = null;
             this.quizState = null;
             this.render();
         });
