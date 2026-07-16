@@ -585,6 +585,106 @@ grammarN5: [
             {jp:"毎日勉強し<span class='highlight'>なければなりません</span>。",reading:"まいにちべんきょうしなければなりません。",fr:"Je dois etudier chaque jour."},
             {jp:"明日早く起き<span class='highlight'>なければなりません</span>。",reading:"あしたはやくおきなければなりません。",fr:"Je dois me lever tot demain."}
         ]
+    },
+    {
+        id:"n5-26", title:"ましょう", structure:"V ましょう", level:"N5",
+        meaning:"Proposer de faire ensemble (allons...)",
+        explanation:"Forme polie du volitif. Propose une action commune.",
+        examples:[
+            {jp:"一緒に食べ<span class='highlight'>ましょう</span>。",fr:"Mangeons ensemble."},
+            {jp:"映画を見<span class='highlight'>ましょう</span>。",fr:"Allons voir un film."}
+        ]
+    },
+    {
+        id:"n5-27", title:"ませんか", structure:"V ませんか", level:"N5",
+        meaning:"Invitation polie (voulez-vous... ?)",
+        explanation:"Plus poli que ましょう. Sert a inviter quelqu'un.",
+        examples:[
+            {jp:"お茶を飲み<span class='highlight'>ませんか</span>。",fr:"Voulez-vous boire du the ?"},
+            {jp:"一緒に行き<span class='highlight'>ませんか</span>。",fr:"Voulez-vous venir avec moi ?"}
+        ]
+    },
+    {
+        id:"n5-28", title:"たことがある", structure:"V た + ことがある", level:"N5",
+        meaning:"Avoir l'experience de (avoir deja fait)",
+        explanation:"Exprime une experience vecue dans le passe. Utilise la forme た du verbe.",
+        examples:[
+            {jp:"日本に行っ<span class='highlight'>たことがあります</span>。",fr:"Je suis deja alle au Japon."},
+            {jp:"寿司を食べ<span class='highlight'>たことがありません</span>。",fr:"Je n'ai jamais mange de sushi."}
+        ]
+    },
+    {
+        id:"n5-29", title:"に行く/に来る", structure:"V ます形 + に行く/来る", level:"N5",
+        meaning:"Aller/venir pour faire quelque chose",
+        explanation:"Exprime le but d'un deplacement. Le verbe est a la forme ます sans ます.",
+        examples:[
+            {jp:"映画を見<span class='highlight'>に行きます</span>。",fr:"Je vais voir un film."},
+            {jp:"友達に会い<span class='highlight'>に来ました</span>。",fr:"Je suis venu voir un ami."}
+        ]
+    },
+    {
+        id:"n5-30", title:"前に / 後で", structure:"V る前に / V た後で", level:"N5",
+        meaning:"Avant de / Apres avoir",
+        explanation:"前に utilise la forme dictionnaire. 後で utilise la forme た.",
+        examples:[
+            {jp:"寝る<span class='highlight'>前に</span>歯を磨きます。",fr:"Avant de dormir, je me brosse les dents."},
+            {jp:"ご飯を食べた<span class='highlight'>後で</span>散歩します。",fr:"Apres avoir mange, je me promene."}
+        ]
+    },
+    {
+        id:"n5-31", title:"より / の方が", structure:"A より B の方が ～", level:"N5",
+        meaning:"B est plus ~ que A (comparaison)",
+        explanation:"より marque l'element compare. の方が marque le superieur.",
+        examples:[
+            {jp:"夏<span class='highlight'>より</span>冬<span class='highlight'>の方が</span>好きです。",fr:"Je prefere l'hiver a l'ete."},
+            {jp:"バス<span class='highlight'>より</span>電車<span class='highlight'>の方が</span>速いです。",fr:"Le train est plus rapide que le bus."}
+        ]
+    },
+    {
+        id:"n5-32", title:"一番", structure:"(の中で) 一番 ～", level:"N5",
+        meaning:"Le plus ~ (superlatif)",
+        explanation:"一番 (いちばん) = le numero un, le plus.",
+        examples:[
+            {jp:"果物の中で<span class='highlight'>一番</span>好きなのはりんごです。",fr:"Parmi les fruits, ce que j'aime le plus c'est la pomme."},
+            {jp:"日本で<span class='highlight'>一番</span>高い山は富士山です。",fr:"La montagne la plus haute du Japon est le Mont Fuji."}
+        ]
+    },
+    {
+        id:"n5-33", title:"あげる/もらう/くれる", structure:"V てあげる / てもらう / てくれる", level:"N5",
+        meaning:"Donner/recevoir un service",
+        explanation:"あげる=donner (je→autre). もらう=recevoir. くれる=recevoir (autre→moi).",
+        examples:[
+            {jp:"友達に本を<span class='highlight'>あげました</span>。",fr:"J'ai donne un livre a mon ami."},
+            {jp:"母に料理を作って<span class='highlight'>もらいました</span>。",fr:"Ma mere m'a fait la cuisine."},
+            {jp:"先生が教えて<span class='highlight'>くれました</span>。",fr:"Le professeur m'a enseigne."}
+        ]
+    },
+    {
+        id:"n5-34", title:"と思う", structure:"～ と思う", level:"N5",
+        meaning:"Je pense que...",
+        explanation:"Exprime une opinion ou pensee personnelle.",
+        examples:[
+            {jp:"明日は雨だ<span class='highlight'>と思います</span>。",fr:"Je pense qu'il va pleuvoir demain."},
+            {jp:"日本語は面白い<span class='highlight'>と思います</span>。",fr:"Je pense que le japonais est interessant."}
+        ]
+    },
+    {
+        id:"n5-35", title:"でしょう", structure:"～ でしょう", level:"N5",
+        meaning:"Probablement, n'est-ce pas",
+        explanation:"Exprime une supposition ou demande de confirmation.",
+        examples:[
+            {jp:"明日は晴れ<span class='highlight'>でしょう</span>。",fr:"Il fera probablement beau demain."},
+            {jp:"この映画は面白い<span class='highlight'>でしょう</span>？",fr:"Ce film est interessant, n'est-ce pas ?"}
+        ]
+    },
+    {
+        id:"n5-36", title:"すぎる", structure:"V ます形 / Adj + すぎる", level:"N5",
+        meaning:"Trop (exces)",
+        explanation:"Verbe: forme ます sans ます + すぎる. い-adj: enlever い + すぎる. な-adj: + すぎる.",
+        examples:[
+            {jp:"食べ<span class='highlight'>すぎました</span>。",fr:"J'ai trop mange."},
+            {jp:"この鞄は高<span class='highlight'>すぎます</span>。",fr:"Ce sac est trop cher."}
+        ]
     }
 ],
 
@@ -779,6 +879,60 @@ grammarN4: [
             {jp:"ここに来<span class='highlight'>い</span>！",reading:"ここにこい！",fr:"Viens ici !"},
             {jp:"触る<span class='highlight'>な</span>！",reading:"さわるな！",fr:"Ne touche pas !"}
         ]
+    },
+    {
+        id:"n4-21", title:"意向形 ～よう", structure:"V volitional (よう/おう)", level:"N4",
+        meaning:"Forme volitionnelle (intention, allons...)",
+        explanation:"Groupe 1: う→おう. Groupe 2: る→よう. する→しよう. くる→こよう. Forme informelle de ましょう.",
+        examples:[
+            {jp:"映画を見<span class='highlight'>よう</span>。",reading:"えいがをみよう。",fr:"Allons voir un film. / Je vais voir un film."},
+            {jp:"明日早く起き<span class='highlight'>よう</span>と思います。",reading:"あしたはやくおきようとおもいます。",fr:"Je pense me lever tot demain."}
+        ]
+    },
+    {
+        id:"n4-22", title:"～たり～たりする", structure:"V1たり V2たり する", level:"N4",
+        meaning:"Faire des choses comme V1 et V2 (liste non exhaustive)",
+        explanation:"Exprime une liste d'actions non exhaustive. Forme た + り pour chaque verbe, termine par する.",
+        examples:[
+            {jp:"週末は本を読ん<span class='highlight'>だり</span>映画を見<span class='highlight'>たり</span>します。",fr:"Le week-end, je lis des livres, regarde des films, etc."},
+            {jp:"日本で寿司を食べ<span class='highlight'>たり</span>お寺に行っ<span class='highlight'>たり</span>しました。",fr:"Au Japon, j'ai mange des sushis, visite des temples, etc."}
+        ]
+    },
+    {
+        id:"n4-23", title:"間/間に", structure:"V ている間 / N の間に", level:"N4",
+        meaning:"Pendant que / durant",
+        explanation:"間 = pendant toute la duree. 間に = a un moment pendant la duree.",
+        examples:[
+            {jp:"母が寝ている<span class='highlight'>間に</span>掃除しました。",reading:"ははがねているあいだにそうじしました。",fr:"J'ai nettoye pendant que ma mere dormait."},
+            {jp:"夏休みの<span class='highlight'>間</span>、毎日泳ぎました。",fr:"Pendant les vacances d'ete, j'ai nage tous les jours."}
+        ]
+    },
+    {
+        id:"n4-24", title:"～し～し", structure:"～し、～し", level:"N4",
+        meaning:"Enumeration de raisons",
+        explanation:"Enumere plusieurs raisons ou caracteristiques. Plus doux que から.",
+        examples:[
+            {jp:"この店は安い<span class='highlight'>し</span>、おいしい<span class='highlight'>し</span>、好きです。",fr:"Ce restaurant est pas cher et bon, donc je l'aime."},
+            {jp:"雨だ<span class='highlight'>し</span>、寒い<span class='highlight'>し</span>、家にいます。",fr:"Il pleut et il fait froid, donc je reste a la maison."}
+        ]
+    },
+    {
+        id:"n4-25", title:"らしい", structure:"V/Adj/N + らしい", level:"N4",
+        meaning:"Il parait que, apparemment",
+        explanation:"Base sur des informations indirectes (on m'a dit, j'ai entendu). Moins certain que そうです.",
+        examples:[
+            {jp:"明日は雪が降る<span class='highlight'>らしい</span>です。",fr:"Il parait qu'il va neiger demain."},
+            {jp:"あの映画は面白い<span class='highlight'>らしい</span>。",fr:"Apparemment ce film est interessant."}
+        ]
+    },
+    {
+        id:"n4-26", title:"みたい", structure:"V/Adj/N + みたい", level:"N4",
+        meaning:"Ressembler a, on dirait que",
+        explanation:"Exprime une ressemblance ou une impression basee sur l'observation. Plus familier que ようだ.",
+        examples:[
+            {jp:"雨が降る<span class='highlight'>みたい</span>です。",fr:"On dirait qu'il va pleuvoir."},
+            {jp:"この料理は日本の料理<span class='highlight'>みたい</span>です。",fr:"Ce plat ressemble a un plat japonais."}
+        ]
     }
 ],
 
@@ -910,6 +1064,30 @@ vocabN5: [
         {kanji:"毎日",kana:"まいにち",meaning:"chaque jour",level:"N5"},
         {kanji:"時間",kana:"じかん",meaning:"temps / heure",level:"N5"}
     ]},
+    {theme:"Jours / Mois",icon:"📅",words:[
+        {kanji:"月曜日",kana:"げつようび",meaning:"lundi",level:"N5"},
+        {kanji:"火曜日",kana:"かようび",meaning:"mardi",level:"N5"},
+        {kanji:"水曜日",kana:"すいようび",meaning:"mercredi",level:"N5"},
+        {kanji:"木曜日",kana:"もくようび",meaning:"jeudi",level:"N5"},
+        {kanji:"金曜日",kana:"きんようび",meaning:"vendredi",level:"N5"},
+        {kanji:"土曜日",kana:"どようび",meaning:"samedi",level:"N5"},
+        {kanji:"日曜日",kana:"にちようび",meaning:"dimanche",level:"N5"},
+        {kanji:"一月",kana:"いちがつ",meaning:"janvier",level:"N5"},
+        {kanji:"二月",kana:"にがつ",meaning:"fevrier",level:"N5"},
+        {kanji:"三月",kana:"さんがつ",meaning:"mars",level:"N5"},
+        {kanji:"四月",kana:"しがつ",meaning:"avril",level:"N5"},
+        {kanji:"五月",kana:"ごがつ",meaning:"mai",level:"N5"},
+        {kanji:"六月",kana:"ろくがつ",meaning:"juin",level:"N5"},
+        {kanji:"七月",kana:"しちがつ",meaning:"juillet",level:"N5"},
+        {kanji:"八月",kana:"はちがつ",meaning:"aout",level:"N5"},
+        {kanji:"九月",kana:"くがつ",meaning:"septembre",level:"N5"},
+        {kanji:"十月",kana:"じゅうがつ",meaning:"octobre",level:"N5"},
+        {kanji:"十一月",kana:"じゅういちがつ",meaning:"novembre",level:"N5"},
+        {kanji:"十二月",kana:"じゅうにがつ",meaning:"decembre",level:"N5"},
+        {kanji:"週末",kana:"しゅうまつ",meaning:"week-end",level:"N5"},
+        {kanji:"平日",kana:"へいじつ",meaning:"jour de semaine",level:"N5"},
+        {kanji:"休み",kana:"やすみ",meaning:"repos / vacances / jour de conge",level:"N5"}
+    ]},
     {theme:"Adjectifs",icon:"✨",words:[
         {kanji:"大きい",kana:"おおきい",meaning:"grand",level:"N5"},
         {kanji:"小さい",kana:"ちいさい",meaning:"petit",level:"N5"},
@@ -929,6 +1107,106 @@ vocabN5: [
         {kanji:"便利",kana:"べんり",meaning:"pratique",level:"N5"},
         {kanji:"好き",kana:"すき",meaning:"aimer",level:"N5"},
         {kanji:"嫌い",kana:"きらい",meaning:"detester",level:"N5"}
+    ]},
+    {theme:"Couleurs",icon:"🎨",words:[
+        {kanji:"赤",kana:"あか",meaning:"rouge",level:"N5"},
+        {kanji:"青",kana:"あお",meaning:"bleu",level:"N5"},
+        {kanji:"白",kana:"しろ",meaning:"blanc",level:"N5"},
+        {kanji:"黒",kana:"くろ",meaning:"noir",level:"N5"},
+        {kanji:"黄色",kana:"きいろ",meaning:"jaune",level:"N5"},
+        {kanji:"緑",kana:"みどり",meaning:"vert",level:"N5"},
+        {kanji:"茶色",kana:"ちゃいろ",meaning:"marron",level:"N5"},
+        {kanji:"",kana:"オレンジ",meaning:"orange",level:"N5"},
+        {kanji:"",kana:"ピンク",meaning:"rose",level:"N5"},
+        {kanji:"灰色",kana:"はいいろ",meaning:"gris",level:"N5"}
+    ]},
+    {theme:"Positions",icon:"📍",words:[
+        {kanji:"上",kana:"うえ",meaning:"dessus, au-dessus",level:"N5"},
+        {kanji:"下",kana:"した",meaning:"dessous, en-dessous",level:"N5"},
+        {kanji:"前",kana:"まえ",meaning:"devant, avant",level:"N5"},
+        {kanji:"後ろ",kana:"うしろ",meaning:"derriere",level:"N5"},
+        {kanji:"中",kana:"なか",meaning:"interieur, dedans",level:"N5"},
+        {kanji:"外",kana:"そと",meaning:"exterieur, dehors",level:"N5"},
+        {kanji:"右",kana:"みぎ",meaning:"droite",level:"N5"},
+        {kanji:"左",kana:"ひだり",meaning:"gauche",level:"N5"},
+        {kanji:"隣",kana:"となり",meaning:"a cote",level:"N5"},
+        {kanji:"間",kana:"あいだ",meaning:"entre",level:"N5"},
+        {kanji:"近く",kana:"ちかく",meaning:"pres, proximite",level:"N5"},
+        {kanji:"遠く",kana:"とおく",meaning:"loin",level:"N5"},
+        {kanji:"向こう",kana:"むこう",meaning:"de l'autre cote",level:"N5"},
+        {kanji:"横",kana:"よこ",meaning:"a cote (horizontal)",level:"N5"}
+    ]},
+    {theme:"Nombres / Compteurs",icon:"🔢",words:[
+        {kanji:"一つ",kana:"ひとつ",meaning:"un (objet)",level:"N5"},
+        {kanji:"二つ",kana:"ふたつ",meaning:"deux (objets)",level:"N5"},
+        {kanji:"三つ",kana:"みっつ",meaning:"trois (objets)",level:"N5"},
+        {kanji:"四つ",kana:"よっつ",meaning:"quatre (objets)",level:"N5"},
+        {kanji:"五つ",kana:"いつつ",meaning:"cinq (objets)",level:"N5"},
+        {kanji:"六つ",kana:"むっつ",meaning:"six (objets)",level:"N5"},
+        {kanji:"七つ",kana:"ななつ",meaning:"sept (objets)",level:"N5"},
+        {kanji:"八つ",kana:"やっつ",meaning:"huit (objets)",level:"N5"},
+        {kanji:"九つ",kana:"ここのつ",meaning:"neuf (objets)",level:"N5"},
+        {kanji:"十",kana:"とお",meaning:"dix (objets)",level:"N5"},
+        {kanji:"一人",kana:"ひとり",meaning:"une personne",level:"N5"},
+        {kanji:"二人",kana:"ふたり",meaning:"deux personnes",level:"N5"},
+        {kanji:"一枚",kana:"いちまい",meaning:"un (objet plat)",level:"N5"},
+        {kanji:"一本",kana:"いっぽん",meaning:"un (objet long)",level:"N5"},
+        {kanji:"一杯",kana:"いっぱい",meaning:"un (verre/bol)",level:"N5"},
+        {kanji:"一匹",kana:"いっぴき",meaning:"un (petit animal)",level:"N5"},
+        {kanji:"一台",kana:"いちだい",meaning:"un (machine/vehicule)",level:"N5"},
+        {kanji:"一冊",kana:"いっさつ",meaning:"un (livre)",level:"N5"}
+    ]},
+    {theme:"Objets quotidiens",icon:"🎒",words:[
+        {kanji:"本",kana:"ほん",meaning:"livre",level:"N5"},
+        {kanji:"",kana:"ペン",meaning:"stylo",level:"N5"},
+        {kanji:"鉛筆",kana:"えんぴつ",meaning:"crayon",level:"N5"},
+        {kanji:"鍵",kana:"かぎ",meaning:"cle",level:"N5"},
+        {kanji:"傘",kana:"かさ",meaning:"parapluie",level:"N5"},
+        {kanji:"時計",kana:"とけい",meaning:"montre / horloge",level:"N5"},
+        {kanji:"電話",kana:"でんわ",meaning:"telephone",level:"N5"},
+        {kanji:"写真",kana:"しゃしん",meaning:"photo",level:"N5"},
+        {kanji:"新聞",kana:"しんぶん",meaning:"journal",level:"N5"},
+        {kanji:"雑誌",kana:"ざっし",meaning:"magazine",level:"N5"},
+        {kanji:"手紙",kana:"てがみ",meaning:"lettre",level:"N5"},
+        {kanji:"切手",kana:"きって",meaning:"timbre",level:"N5"},
+        {kanji:"財布",kana:"さいふ",meaning:"portefeuille",level:"N5"},
+        {kanji:"",kana:"かばん",meaning:"sac",level:"N5"},
+        {kanji:"眼鏡",kana:"めがね",meaning:"lunettes",level:"N5"},
+        {kanji:"帽子",kana:"ぼうし",meaning:"chapeau",level:"N5"},
+        {kanji:"靴",kana:"くつ",meaning:"chaussures",level:"N5"},
+        {kanji:"服",kana:"ふく",meaning:"vetements",level:"N5"}
+    ]},
+    {theme:"Personnes",icon:"👥",words:[
+        {kanji:"人",kana:"ひと",meaning:"personne",level:"N5"},
+        {kanji:"男の人",kana:"おとこのひと",meaning:"homme",level:"N5"},
+        {kanji:"女の人",kana:"おんなのひと",meaning:"femme",level:"N5"},
+        {kanji:"男の子",kana:"おとこのこ",meaning:"garcon",level:"N5"},
+        {kanji:"女の子",kana:"おんなのこ",meaning:"fille",level:"N5"},
+        {kanji:"先生",kana:"せんせい",meaning:"professeur",level:"N5"},
+        {kanji:"学生",kana:"がくせい",meaning:"etudiant",level:"N5"},
+        {kanji:"友達",kana:"ともだち",meaning:"ami",level:"N5"},
+        {kanji:"皆さん",kana:"みなさん",meaning:"tout le monde (poli)",level:"N5"},
+        {kanji:"私",kana:"わたし",meaning:"je / moi",level:"N5"},
+        {kanji:"",kana:"あなた",meaning:"tu / vous",level:"N5"},
+        {kanji:"彼",kana:"かれ",meaning:"il / lui / petit ami",level:"N5"},
+        {kanji:"彼女",kana:"かのじょ",meaning:"elle / petite amie",level:"N5"},
+        {kanji:"自分",kana:"じぶん",meaning:"soi-meme",level:"N5"}
+    ]},
+    {theme:"Maison",icon:"🏠",words:[
+        {kanji:"部屋",kana:"へや",meaning:"chambre / piece",level:"N5"},
+        {kanji:"台所",kana:"だいどころ",meaning:"cuisine (piece)",level:"N5"},
+        {kanji:"お風呂",kana:"おふろ",meaning:"bain / salle de bain",level:"N5"},
+        {kanji:"トイレ",kana:"トイレ",meaning:"toilettes",level:"N5"},
+        {kanji:"玄関",kana:"げんかん",meaning:"entree (maison)",level:"N5"},
+        {kanji:"庭",kana:"にわ",meaning:"jardin",level:"N5"},
+        {kanji:"窓",kana:"まど",meaning:"fenetre",level:"N5"},
+        {kanji:"ドア",kana:"ドア",meaning:"porte",level:"N5"},
+        {kanji:"机",kana:"つくえ",meaning:"bureau (meuble)",level:"N5"},
+        {kanji:"椅子",kana:"いす",meaning:"chaise",level:"N5"},
+        {kanji:"テーブル",kana:"テーブル",meaning:"table",level:"N5"},
+        {kanji:"ベッド",kana:"ベッド",meaning:"lit",level:"N5"},
+        {kanji:"電気",kana:"でんき",meaning:"electricite / lumiere",level:"N5"},
+        {kanji:"エアコン",kana:"エアコン",meaning:"climatisation",level:"N5"}
     ]},
     {theme:"Ko-so-a-do (demonstratifs)",icon:"👆",words:[
         {kanji:"",kana:"これ",meaning:"ceci (pres du locuteur)",level:"N5"},
