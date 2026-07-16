@@ -56,77 +56,97 @@ window.ReadingModule = {
     // =============================================
     _generatorData: {
         names: [
-            { name: '\u3084\u307E\u3060', full: '\u5C71\u7530' }, { name: '\u3059\u305A\u304D', full: '\u9234\u6728' },
-            { name: '\u305F\u306A\u304B', full: '\u7530\u4E2D' }, { name: '\u3055\u3068\u3046', full: '\u4F50\u85E4' },
-            { name: '\u306F\u306A\u3053', full: '\u82B1\u5B50' }, { name: '\u3051\u3093\u305F', full: '\u5065\u592A' },
-            { name: '\u3086\u3046\u304D', full: '\u512A\u5E0C' }, { name: '\u305F\u304F\u307F', full: '\u62D3\u5B9F' }
+            { name: '\u3084\u307E\u3060', full: '\u5C71\u7530(\u3084\u307E\u3060)' },
+            { name: '\u3059\u305A\u304D', full: '\u9234\u6728(\u3059\u305A\u304D)' },
+            { name: '\u305F\u306A\u304B', full: '\u7530\u4E2D(\u305F\u306A\u304B)' },
+            { name: '\u3055\u3068\u3046', full: '\u4F50\u85E4(\u3055\u3068\u3046)' },
+            { name: '\u306F\u306A\u3053', full: '\u82B1\u5B50(\u306F\u306A\u3053)' },
+            { name: '\u3051\u3093\u305F', full: '\u5065\u592A(\u3051\u3093\u305F)' },
+            { name: '\u3086\u3046\u304D', full: '\u512A\u5E0C(\u3086\u3046\u304D)' },
+            { name: '\u305F\u304F\u307F', full: '\u62D3\u5B9F(\u305F\u304F\u307F)' }
         ],
         wakeUp: [
-            { jp: '\u516D\u6642', fr: '6h' }, { jp: '\u516D\u6642\u534A', fr: '6h30' },
-            { jp: '\u4E03\u6642', fr: '7h' }, { jp: '\u4E94\u6642\u534A', fr: '5h30' }
+            { jp: '\u516D\u6642(\u308D\u304F\u3058)', fr: '6h' },
+            { jp: '\u516D\u6642\u534A(\u308D\u304F\u3058\u306F\u3093)', fr: '6h30' },
+            { jp: '\u4E03\u6642(\u3057\u3061\u3058)', fr: '7h' },
+            { jp: '\u4E94\u6642\u534A(\u3054\u3058\u306F\u3093)', fr: '5h30' }
         ],
         sleep: [
-            { jp: '\u5341\u6642', fr: '22h' }, { jp: '\u5341\u4E00\u6642', fr: '23h' },
-            { jp: '\u5341\u4E8C\u6642', fr: 'minuit' }, { jp: '\u5341\u6642\u534A', fr: '22h30' }
+            { jp: '\u5341\u6642(\u3058\u3085\u3046\u3058)', fr: '22h' },
+            { jp: '\u5341\u4E00\u6642(\u3058\u3085\u3046\u3044\u3061\u3058)', fr: '23h' },
+            { jp: '\u5341\u4E8C\u6642(\u3058\u3085\u3046\u306B\u3058)', fr: 'minuit' },
+            { jp: '\u5341\u6642\u534A(\u3058\u3085\u3046\u3058\u306F\u3093)', fr: '22h30' }
         ],
         breakfast: [
             { jp: '\u30D1\u30F3\u3068\u30B3\u30FC\u30D2\u30FC', fr: 'du pain et du cafe' },
-            { jp: '\u3054\u98EF\u3068\u307F\u305D\u3057\u308B', fr: 'du riz et de la soupe miso' },
-            { jp: '\u5375\u3068\u30B8\u30E5\u30FC\u30B9', fr: 'des oeufs et du jus' },
-            { jp: '\u30D1\u30F3\u3068\u725B\u4E73', fr: 'du pain et du lait' }
+            { jp: '\u3054\u98EF(\u306F\u3093)\u3068\u307F\u305D\u3057\u308B', fr: 'du riz et de la soupe miso' },
+            { jp: '\u5375(\u305F\u307E\u3054)\u3068\u30B8\u30E5\u30FC\u30B9', fr: 'des oeufs et du jus' },
+            { jp: '\u30D1\u30F3\u3068\u725B\u4E73(\u304E\u3085\u3046\u306B\u3085\u3046)', fr: 'du pain et du lait' }
         ],
         transport: [
-            { jp: '\u96FB\u8ECA', fr: 'train' }, { jp: '\u30D0\u30B9', fr: 'bus' },
-            { jp: '\u81EA\u8EE2\u8ECA', fr: 'velo' }, { jp: '\u6B69\u3044\u3066', fr: 'a pied' }
+            { jp: '\u96FB\u8ECA(\u3067\u3093\u3057\u3083)', fr: 'train' },
+            { jp: '\u30D0\u30B9', fr: 'bus' },
+            { jp: '\u81EA\u8EE2\u8ECA(\u3058\u3066\u3093\u3057\u3083)', fr: 'velo' },
+            { jp: '\u6B69(\u3042\u308B)\u3044\u3066', fr: 'a pied' }
         ],
         destination: [
-            { jp: '\u5B66\u6821', fr: "l'ecole" }, { jp: '\u4F1A\u793E', fr: "l'entreprise" },
-            { jp: '\u5927\u5B66', fr: "l'universite" }
+            { jp: '\u5B66\u6821(\u304C\u3063\u3053\u3046)', fr: "l'ecole" },
+            { jp: '\u4F1A\u793E(\u304B\u3044\u3057\u3083)', fr: "l'entreprise" },
+            { jp: '\u5927\u5B66(\u3060\u3044\u304C\u304F)', fr: "l'universite" }
         ],
         hobby: [
-            { jp: '\u30C6\u30EC\u30D3\u3092\u898B\u307E\u3059', fr: 'regarde la tele' },
-            { jp: '\u672C\u3092\u8AAD\u307F\u307E\u3059', fr: 'lit des livres' },
-            { jp: '\u97F3\u697D\u3092\u805E\u304D\u307E\u3059', fr: 'ecoute de la musique' },
+            { jp: '\u30C6\u30EC\u30D3\u3092\u898B(\u307F)\u307E\u3059', fr: 'regarde la tele' },
+            { jp: '\u672C(\u307B\u3093)\u3092\u8AAD(\u3088)\u307F\u307E\u3059', fr: 'lit des livres' },
+            { jp: '\u97F3\u697D(\u304A\u3093\u304C\u304F)\u3092\u805E(\u304D)\u304D\u307E\u3059', fr: 'ecoute de la musique' },
             { jp: '\u30B2\u30FC\u30E0\u3092\u3057\u307E\u3059', fr: 'joue aux jeux video' },
-            { jp: '\u6599\u7406\u3092\u3057\u307E\u3059', fr: 'fait la cuisine' }
+            { jp: '\u6599\u7406(\u308A\u3087\u3046\u308A)\u3092\u3057\u307E\u3059', fr: 'fait la cuisine' }
         ],
         food1: [
-            { jp: '\u9B5A(\u3055\u304B\u306A)\u306E\u6599\u7406', fr: 'plat de poisson' },
-            { jp: '\u8089(\u306B\u304F)\u306E\u6599\u7406', fr: 'plat de viande' },
+            { jp: '\u9B5A(\u3055\u304B\u306A)\u306E\u6599\u7406(\u308A\u3087\u3046\u308A)', fr: 'plat de poisson' },
+            { jp: '\u8089(\u306B\u304F)\u306E\u6599\u7406(\u308A\u3087\u3046\u308A)', fr: 'plat de viande' },
             { jp: '\u30E9\u30FC\u30E1\u30F3', fr: 'ramen' },
             { jp: '\u5BFF\u53F8(\u3059\u3057)', fr: 'sushi' },
             { jp: '\u30AB\u30EC\u30FC', fr: 'curry' }
         ],
         food2: [
-            { jp: '\u5929\u3077\u3089', fr: 'tempura' },
+            { jp: '\u5929(\u3066\u3093)\u3077\u3089', fr: 'tempura' },
             { jp: '\u3046\u3069\u3093', fr: 'udon' },
-            { jp: '\u91CE\u83DC(\u3084\u3055\u3044)\u306E\u6599\u7406', fr: 'plat de legumes' },
+            { jp: '\u91CE\u83DC(\u3084\u3055\u3044)\u306E\u6599\u7406(\u308A\u3087\u3046\u308A)', fr: 'plat de legumes' },
             { jp: '\u304A\u306B\u304E\u308A', fr: 'onigiri' },
-            { jp: '\u7126\u304D\u8089(\u3084\u304D\u306B\u304F)', fr: 'yakiniku' }
+            { jp: '\u713C(\u3084)\u304D\u8089(\u306B\u304F)', fr: 'yakiniku' }
         ],
         drink: [
-            { jp: '\u304A\u8336', fr: 'the' }, { jp: '\u30B3\u30FC\u30D2\u30FC', fr: 'cafe' },
-            { jp: '\u6C34', fr: 'eau' }, { jp: '\u30B8\u30E5\u30FC\u30B9', fr: 'jus' }
+            { jp: '\u304A\u8336(\u3061\u3083)', fr: 'the' },
+            { jp: '\u30B3\u30FC\u30D2\u30FC', fr: 'cafe' },
+            { jp: '\u6C34(\u307F\u305A)', fr: 'eau' },
+            { jp: '\u30B8\u30E5\u30FC\u30B9', fr: 'jus' }
         ],
         price: [
-            { jp: '\u4E8C\u5343\u5186', fr: '2000 yens' }, { jp: '\u4E09\u5343\u5186', fr: '3000 yens' },
-            { jp: '\u5343\u4E94\u767E\u5186', fr: '1500 yens' }, { jp: '\u56DB\u5343\u5186', fr: '4000 yens' }
+            { jp: '\u4E8C\u5343\u5186(\u306B\u305B\u3093\u3048\u3093)', fr: '2000 yens' },
+            { jp: '\u4E09\u5343\u5186(\u3055\u3093\u305C\u3093\u3048\u3093)', fr: '3000 yens' },
+            { jp: '\u5343\u4E94\u767E\u5186(\u305B\u3093\u3054\u3072\u3083\u304F\u3048\u3093)', fr: '1500 yens' },
+            { jp: '\u56DB\u5343\u5186(\u3088\u3093\u305B\u3093\u3048\u3093)', fr: '4000 yens' }
         ],
         day: [
-            { jp: '\u6708\u66DC\u65E5', fr: 'lundi' }, { jp: '\u706B\u66DC\u65E5', fr: 'mardi' },
-            { jp: '\u6C34\u66DC\u65E5', fr: 'mercredi' }, { jp: '\u6728\u66DC\u65E5', fr: 'jeudi' },
-            { jp: '\u91D1\u66DC\u65E5', fr: 'vendredi' }, { jp: '\u571F\u66DC\u65E5', fr: 'samedi' },
-            { jp: '\u65E5\u66DC\u65E5', fr: 'dimanche' }
+            { jp: '\u6708\u66DC\u65E5(\u3052\u3064\u3088\u3046\u3073)', fr: 'lundi' },
+            { jp: '\u706B\u66DC\u65E5(\u304B\u3088\u3046\u3073)', fr: 'mardi' },
+            { jp: '\u6C34\u66DC\u65E5(\u3059\u3044\u3088\u3046\u3073)', fr: 'mercredi' },
+            { jp: '\u6728\u66DC\u65E5(\u3082\u304F\u3088\u3046\u3073)', fr: 'jeudi' },
+            { jp: '\u91D1\u66DC\u65E5(\u304D\u3093\u3088\u3046\u3073)', fr: 'vendredi' },
+            { jp: '\u571F\u66DC\u65E5(\u3069\u3088\u3046\u3073)', fr: 'samedi' },
+            { jp: '\u65E5\u66DC\u65E5(\u306B\u3061\u3088\u3046\u3073)', fr: 'dimanche' }
         ],
         place: [
             { jp: '\u99C5(\u3048\u304D)\u306E\u8FD1(\u3061\u304B)\u304F', fr: 'pres de la gare' },
             { jp: '\u516C\u5712(\u3053\u3046\u3048\u3093)\u306E\u524D(\u307E\u3048)', fr: 'devant le parc' },
             { jp: '\u5B66\u6821(\u304C\u3063\u3053\u3046)\u306E\u3068\u306A\u308A', fr: 'a cote de l\'ecole' },
-            { jp: '\u5927\u304D\u3044\u901A(\u3068\u304A)\u308A\u306E\u305D\u3070', fr: 'pres de la grande avenue' }
+            { jp: '\u5927(\u304A\u304A)\u304D\u3044\u901A(\u3068\u304A)\u308A\u306E\u305D\u3070', fr: 'pres de la grande avenue' }
         ],
         season: [
-            { jp: '\u6625(\u306F\u308B)', fr: 'printemps' }, { jp: '\u590F(\u306A\u3064)', fr: 'ete' },
-            { jp: '\u79CB(\u3042\u304D)', fr: 'automne' }, { jp: '\u51AC(\u3075\u3086)', fr: 'hiver' }
+            { jp: '\u6625(\u306F\u308B)', fr: 'printemps' },
+            { jp: '\u590F(\u306A\u3064)', fr: 'ete' },
+            { jp: '\u79CB(\u3042\u304D)', fr: 'automne' },
+            { jp: '\u51AC(\u3075\u3086)', fr: 'hiver' }
         ]
     },
 
