@@ -26,10 +26,11 @@ window.AdminModule = {
     },
 
     updateNavVisibility() {
+        const show = this.isAdmin();
         const navItem = document.querySelector('.nav-item[data-page="admin"]');
-        if (navItem) {
-            navItem.style.display = this.isAdmin() ? '' : 'none';
-        }
+        if (navItem) navItem.style.display = show ? '' : 'none';
+        const bottomNavItem = document.getElementById('bottom-nav-admin');
+        if (bottomNavItem) bottomNavItem.style.display = show ? '' : 'none';
     },
 
     async loadUsers() {
