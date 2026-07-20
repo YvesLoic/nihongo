@@ -14,7 +14,8 @@ window.ReadingModule = {
         {
             id: 'n5_1', title: 'My Daily Life', titleJp: '\u79C1\u306E\u4E00\u65E5', level: 'N5',
             text: '\u79C1\u306F\u305F\u306A\u304B\u3086\u304D\u3067\u3059\u3002\u6BCE\u671D(\u307E\u3044\u3042\u3055)\u516D\u6642\u534A(\u308D\u304F\u3058\u306F\u3093)\u306B\u8D77(\u304A)\u304D\u307E\u3059\u3002\u4E03\u6642(\u3057\u3061\u3058)\u306B\u671D(\u3042\u3055)\u3054\u98EF(\u306F\u3093)\u3092\u98DF(\u305F)\u3079\u307E\u3059\u3002\u671D\u3054\u98EF\u306F\u30D1\u30F3\u3068\u5375(\u305F\u307E\u3054)\u3068\u30B3\u30FC\u30D2\u30FC\u3067\u3059\u3002\u516B\u6642(\u306F\u3061\u3058)\u306B\u5BB6(\u3044\u3048)\u3092\u51FA(\u3067)\u3066\u3001\u96FB\u8ECA(\u3067\u3093\u3057\u3083)\u3067\u5B66\u6821(\u304C\u3063\u3053\u3046)\u306B\u884C(\u3044)\u304D\u307E\u3059\u3002\u5B66\u6821\u306F\u4E5D\u6642(\u304F\u3058)\u304B\u3089\u4E09\u6642(\u3055\u3093\u3058)\u307E\u3067\u3067\u3059\u3002\u5B66\u6821\u306E\u5F8C(\u3042\u3068)\u3001\u56F3\u66F8\u9928(\u3068\u3057\u3087\u304B\u3093)\u3067\u65E5\u672C\u8A9E(\u306B\u307B\u3093\u3054)\u3092\u52C9\u5F37(\u3079\u3093\u304D\u3087\u3046)\u3057\u307E\u3059\u3002\u516D\u6642(\u308D\u304F\u3058)\u306B\u5BB6\u306B\u5E30(\u304B\u3048)\u308A\u307E\u3059\u3002\u6669(\u3070\u3093)\u3054\u98EF(\u306F\u3093)\u306E\u5F8C\u3001\u30C6\u30EC\u30D3\u3092\u898B(\u307F)\u305F\u308A\u3001\u672C(\u307B\u3093)\u3092\u8AAD(\u3088)\u3093\u3060\u308A\u3057\u307E\u3059\u3002\u5341\u4E00\u6642(\u3058\u3085\u3046\u3044\u3061\u3058)\u306B\u5BDD(\u306D)\u307E\u3059\u3002',
-            translation: "Je suis Tanaka Yuki. Chaque matin, je me leve a 6h30. Je mange le petit-dejeuner a 7h. C'est du pain, des oeufs et du cafe. Je quitte la maison a 8h et vais a l'ecole en train. L'ecole est de 9h a 15h. Apres l'ecole, j'etudie le japonais a la bibliotheque. Je rentre a la maison a 18h. Apres le diner, je regarde la tele ou lis des livres. Je me couche a 23h.",
+            translationFr: "Je suis Tanaka Yuki. Chaque matin, je me leve a 6h30. Je mange le petit-dejeuner a 7h. C'est du pain, des oeufs et du cafe. Je quitte la maison a 8h et vais a l'ecole en train. L'ecole est de 9h a 15h. Apres l'ecole, j'etudie le japonais a la bibliotheque. Je rentre a la maison a 18h. Apres le diner, je regarde la tele ou lis des livres. Je me couche a 23h.",
+            translationEn: "I am Tanaka Yuki. Every morning, I wake up at 6:30. I eat breakfast at 7. It's bread, eggs, and coffee. I leave the house at 8 and go to school by train. School is from 9am to 3pm. After school, I study Japanese at the library. I get home at 6pm. After dinner, I watch TV or read books. I go to bed at 11pm.",
             questions: [
                 { q: '\u305F\u306A\u304B\u3055\u3093\u306F\u4F55\u6642(\u306A\u3093\u3058)\u306B\u8D77(\u304A)\u304D\u307E\u3059\u304B\uFF1F', choices: ['\u516D\u6642', '\u516D\u6642\u534A', '\u4E03\u6642', '\u4E03\u6642\u534A'], correct: '\u516D\u6642\u534A', explanation: '\u516D\u6642\u534A\u306B\u8D77\u304D\u307E\u3059 = se lever a 6h30' },
                 { q: '\u671D\u3054\u98EF\u306B\u4F55\u3092\u98DF\u3079\u307E\u3059\u304B\uFF1F', choices: ['\u3054\u98EF\u3068\u9B5A', '\u30D1\u30F3\u3068\u5375\u3068\u30B3\u30FC\u30D2\u30FC', '\u304A\u306B\u304E\u308A\u3068\u304A\u8336', '\u30D1\u30F3\u3068\u725B\u4E73'], correct: '\u30D1\u30F3\u3068\u5375\u3068\u30B3\u30FC\u30D2\u30FC', explanation: '\u30D1\u30F3\u3068\u5375\u3068\u30B3\u30FC\u30D2\u30FC\u3067\u3059 = pain, oeufs et cafe' },
@@ -26,7 +27,8 @@ window.ReadingModule = {
         {
             id: 'n5_2', title: 'At the Restaurant', titleJp: '\u30EC\u30B9\u30C8\u30E9\u30F3\u3067', level: 'N5',
             text: '\u571F\u66DC\u65E5(\u3069\u3088\u3046\u3073)\u306B\u53CB\u9054(\u3068\u3082\u3060\u3061)\u306E\u3055\u3068\u3046\u3055\u3093\u3068\u65E5\u672C(\u306B\u307B\u3093)\u306E\u30EC\u30B9\u30C8\u30E9\u30F3\u306B\u884C(\u3044)\u304D\u307E\u3057\u305F\u3002\u30EC\u30B9\u30C8\u30E9\u30F3\u306F\u99C5(\u3048\u304D)\u306E\u8FD1(\u3061\u304B)\u304F\u306B\u3042\u308A\u307E\u3059\u3002\u79C1(\u308F\u305F\u3057)\u306F\u9B5A(\u3055\u304B\u306A)\u306E\u6599\u7406(\u308A\u3087\u3046\u308A)\u3092\u98DF(\u305F)\u3079\u307E\u3057\u305F\u3002\u3068\u3066\u3082\u304A\u3044\u3057\u304B\u3063\u305F\u3067\u3059\u3002\u3055\u3068\u3046\u3055\u3093\u306F\u8089(\u306B\u304F)\u306E\u6599\u7406\u3092\u98DF\u3079\u307E\u3057\u305F\u3002\u98F2(\u306E)\u307F\u7269(\u3082\u306E)\u306F\u304A\u8336(\u3061\u3083)\u3092\u98F2\u307F\u307E\u3057\u305F\u3002\u5168\u90E8(\u305C\u3093\u3076)\u3067\u4E09\u5343\u5186(\u3055\u3093\u305C\u3093\u3048\u3093)\u3067\u3057\u305F\u3002\u5B89(\u3084\u3059)\u304F\u3066\u304A\u3044\u3057\u3044\u30EC\u30B9\u30C8\u30E9\u30F3\u3067\u3057\u305F\u3002\u307E\u305F\u884C(\u3044)\u304D\u305F\u3044\u3067\u3059\u3002',
-            translation: "Samedi, je suis alle dans un restaurant japonais avec mon ami Sato. Le restaurant est pres de la gare. J'ai mange un plat de poisson. C'etait tres bon. Sato a mange un plat de viande. Comme boisson, nous avons bu du the. Au total, c'etait 3000 yens. C'etait un restaurant pas cher et delicieux. Je veux y retourner.",
+            translationFr: "Samedi, je suis alle dans un restaurant japonais avec mon ami Sato. Le restaurant est pres de la gare. J'ai mange un plat de poisson. C'etait tres bon. Sato a mange un plat de viande. Comme boisson, nous avons bu du the. Au total, c'etait 3000 yens. C'etait un restaurant pas cher et delicieux. Je veux y retourner.",
+            translationEn: "On Saturday, I went to a Japanese restaurant with my friend Sato. The restaurant is near the station. I had a fish dish. It was very good. Sato had a meat dish. As a drink, we had tea. In total, it was 3000 yen. It was a cheap and delicious restaurant. I want to go back.",
             questions: [
                 { q: '\u3044\u3064\u30EC\u30B9\u30C8\u30E9\u30F3\u306B\u884C\u304D\u307E\u3057\u305F\u304B\uFF1F', choices: ['\u65E5\u66DC\u65E5', '\u571F\u66DC\u65E5', '\u91D1\u66DC\u65E5', '\u6708\u66DC\u65E5'], correct: '\u571F\u66DC\u65E5', explanation: '\u571F\u66DC\u65E5\u306B\u884C\u304D\u307E\u3057\u305F = samedi' },
                 { q: '\u30EC\u30B9\u30C8\u30E9\u30F3\u306F\u3069\u3053\u306B\u3042\u308A\u307E\u3059\u304B\uFF1F', choices: ['\u5B66\u6821\u306E\u8FD1\u304F', '\u5BB6\u306E\u8FD1\u304F', '\u99C5\u306E\u8FD1\u304F', '\u516C\u5712\u306E\u8FD1\u304F'], correct: '\u99C5\u306E\u8FD1\u304F', explanation: '\u99C5\u306E\u8FD1\u304F = pres de la gare' },
@@ -41,7 +43,8 @@ window.ReadingModule = {
         {
             id: 'n4_1', title: 'Travel Plans', titleJp: '\u65C5\u884C\u306E\u8A08\u753B', level: 'N4',
             text: '\u6765\u6708(\u3089\u3044\u3052\u3064)\u3001\u53CB\u9054(\u3068\u3082\u3060\u3061)\u3068\u4EAC\u90FD(\u304D\u3087\u3046\u3068)\u306B\u65C5\u884C(\u308A\u3087\u3053\u3046)\u306B\u884C(\u3044)\u304F\u4E88\u5B9A(\u3088\u3066\u3044)\u3067\u3059\u3002\u4EAC\u90FD\u306B\u306F\u6709\u540D(\u3086\u3046\u3081\u3044)\u306A\u304A\u5BFA(\u3066\u3089)\u3084\u795E\u793E(\u3058\u3093\u3058\u3083)\u304C\u305F\u304F\u3055\u3093\u3042\u308A\u307E\u3059\u3002\u65C5\u884C\u306F\u4E8C\u6CCA\u4E09\u65E5(\u306B\u306F\u304F\u307F\u3063\u304B)\u306E\u4E88\u5B9A\u3067\u3059\u3002\u30DB\u30C6\u30EB\u306F\u30A4\u30F3\u30BF\u30FC\u30CD\u30C3\u30C8\u3067\u4E88\u7D04(\u3088\u3084\u304F)\u3057\u307E\u3057\u305F\u3002\u4E00\u6CCA(\u3044\u3063\u3071\u304F)\u516B\u5343\u5186(\u306F\u3063\u305B\u3093\u3048\u3093)\u3067\u3057\u305F\u3002\u4EAC\u90FD\u307E\u3067\u306F\u65B0\u5E79\u7DDA(\u3057\u3093\u304B\u3093\u305B\u3093)\u3067\u884C\u304D\u307E\u3059\u3002\u4E8C\u6642\u9593(\u306B\u3058\u304B\u3093)\u304F\u3089\u3044\u304B\u304B\u308A\u307E\u3059\u3002',
-            translation: "Le mois prochain, je prevois de voyager a Kyoto avec des amis. A Kyoto, il y a beaucoup de temples et sanctuaires celebres. Le voyage est prevu pour 2 nuits et 3 jours. J'ai reserve l'hotel sur internet. C'etait 8000 yens par nuit. On ira a Kyoto en shinkansen. Ca prend environ 2 heures.",
+            translationFr: "Le mois prochain, je prevois de voyager a Kyoto avec des amis. A Kyoto, il y a beaucoup de temples et sanctuaires celebres. Le voyage est prevu pour 2 nuits et 3 jours. J'ai reserve l'hotel sur internet. C'etait 8000 yens par nuit. On ira a Kyoto en shinkansen. Ca prend environ 2 heures.",
+            translationEn: "Next month, I plan to travel to Kyoto with friends. In Kyoto, there are many famous temples and shrines. The trip is planned for 2 nights and 3 days. I booked the hotel online. It was 8000 yen per night. We'll go to Kyoto by shinkansen. It takes about 2 hours.",
             questions: [
                 { q: '\u3044\u3064\u4EAC\u90FD\u306B\u884C\u304D\u307E\u3059\u304B\uFF1F', choices: ['\u6765\u9031', '\u6765\u6708', '\u6765\u5E74', '\u4ECA\u6708'], correct: '\u6765\u6708', explanation: '\u6765\u6708 = le mois prochain' },
                 { q: '\u65C5\u884C\u306F\u4F55\u65E5\u9593\u3067\u3059\u304B\uFF1F', choices: ['\u4E00\u6CCA\u4E8C\u65E5', '\u4E8C\u6CCA\u4E09\u65E5', '\u4E09\u6CCA\u56DB\u65E5', '\u65E5\u5E30\u308A'], correct: '\u4E8C\u6CCA\u4E09\u65E5', explanation: '\u4E8C\u6CCA\u4E09\u65E5 = 2 nuits 3 jours' },
@@ -66,87 +69,87 @@ window.ReadingModule = {
             { name: '\u305F\u304F\u307F', full: '\u62D3\u5B9F(\u305F\u304F\u307F)' }
         ],
         wakeUp: [
-            { jp: '\u516D\u6642(\u308D\u304F\u3058)', fr: '6h' },
-            { jp: '\u516D\u6642\u534A(\u308D\u304F\u3058\u306F\u3093)', fr: '6h30' },
-            { jp: '\u4E03\u6642(\u3057\u3061\u3058)', fr: '7h' },
-            { jp: '\u4E94\u6642\u534A(\u3054\u3058\u306F\u3093)', fr: '5h30' }
+            { jp: '\u516D\u6642(\u308D\u304F\u3058)', fr: '6h', en: '6am' },
+            { jp: '\u516D\u6642\u534A(\u308D\u304F\u3058\u306F\u3093)', fr: '6h30', en: '6:30am' },
+            { jp: '\u4E03\u6642(\u3057\u3061\u3058)', fr: '7h', en: '7am' },
+            { jp: '\u4E94\u6642\u534A(\u3054\u3058\u306F\u3093)', fr: '5h30', en: '5:30am' }
         ],
         sleep: [
-            { jp: '\u5341\u6642(\u3058\u3085\u3046\u3058)', fr: '22h' },
-            { jp: '\u5341\u4E00\u6642(\u3058\u3085\u3046\u3044\u3061\u3058)', fr: '23h' },
-            { jp: '\u5341\u4E8C\u6642(\u3058\u3085\u3046\u306B\u3058)', fr: 'minuit' },
-            { jp: '\u5341\u6642\u534A(\u3058\u3085\u3046\u3058\u306F\u3093)', fr: '22h30' }
+            { jp: '\u5341\u6642(\u3058\u3085\u3046\u3058)', fr: '22h', en: '10pm' },
+            { jp: '\u5341\u4E00\u6642(\u3058\u3085\u3046\u3044\u3061\u3058)', fr: '23h', en: '11pm' },
+            { jp: '\u5341\u4E8C\u6642(\u3058\u3085\u3046\u306B\u3058)', fr: 'minuit', en: 'midnight' },
+            { jp: '\u5341\u6642\u534A(\u3058\u3085\u3046\u3058\u306F\u3093)', fr: '22h30', en: '10:30pm' }
         ],
         breakfast: [
-            { jp: '\u30D1\u30F3\u3068\u30B3\u30FC\u30D2\u30FC', fr: 'du pain et du cafe' },
-            { jp: '\u3054\u98EF(\u306F\u3093)\u3068\u307F\u305D\u3057\u308B', fr: 'du riz et de la soupe miso' },
-            { jp: '\u5375(\u305F\u307E\u3054)\u3068\u30B8\u30E5\u30FC\u30B9', fr: 'des oeufs et du jus' },
-            { jp: '\u30D1\u30F3\u3068\u725B\u4E73(\u304E\u3085\u3046\u306B\u3085\u3046)', fr: 'du pain et du lait' }
+            { jp: '\u30D1\u30F3\u3068\u30B3\u30FC\u30D2\u30FC', fr: 'du pain et du cafe', en: 'bread and coffee' },
+            { jp: '\u3054\u98EF(\u306F\u3093)\u3068\u307F\u305D\u3057\u308B', fr: 'du riz et de la soupe miso', en: 'rice and miso soup' },
+            { jp: '\u5375(\u305F\u307E\u3054)\u3068\u30B8\u30E5\u30FC\u30B9', fr: 'des oeufs et du jus', en: 'eggs and juice' },
+            { jp: '\u30D1\u30F3\u3068\u725B\u4E73(\u304E\u3085\u3046\u306B\u3085\u3046)', fr: 'du pain et du lait', en: 'bread and milk' }
         ],
         transport: [
-            { jp: '\u96FB\u8ECA(\u3067\u3093\u3057\u3083)', fr: 'train' },
-            { jp: '\u30D0\u30B9', fr: 'bus' },
-            { jp: '\u81EA\u8EE2\u8ECA(\u3058\u3066\u3093\u3057\u3083)', fr: 'velo' },
-            { jp: '\u6B69(\u3042\u308B)\u3044\u3066', fr: 'a pied' }
+            { jp: '\u96FB\u8ECA(\u3067\u3093\u3057\u3083)', fr: 'train', en: 'train' },
+            { jp: '\u30D0\u30B9', fr: 'bus', en: 'bus' },
+            { jp: '\u81EA\u8EE2\u8ECA(\u3058\u3066\u3093\u3057\u3083)', fr: 'velo', en: 'bicycle' },
+            { jp: '\u6B69(\u3042\u308B)\u3044\u3066', fr: 'a pied', en: 'on foot' }
         ],
         destination: [
-            { jp: '\u5B66\u6821(\u304C\u3063\u3053\u3046)', fr: "l'ecole" },
-            { jp: '\u4F1A\u793E(\u304B\u3044\u3057\u3083)', fr: "l'entreprise" },
-            { jp: '\u5927\u5B66(\u3060\u3044\u304C\u304F)', fr: "l'universite" }
+            { jp: '\u5B66\u6821(\u304C\u3063\u3053\u3046)', fr: "l'ecole", en: 'school' },
+            { jp: '\u4F1A\u793E(\u304B\u3044\u3057\u3083)', fr: "l'entreprise", en: 'the company' },
+            { jp: '\u5927\u5B66(\u3060\u3044\u304C\u304F)', fr: "l'universite", en: 'university' }
         ],
         hobby: [
-            { jp: '\u30C6\u30EC\u30D3\u3092\u898B(\u307F)\u307E\u3059', fr: 'regarde la tele' },
-            { jp: '\u672C(\u307B\u3093)\u3092\u8AAD(\u3088)\u307F\u307E\u3059', fr: 'lit des livres' },
-            { jp: '\u97F3\u697D(\u304A\u3093\u304C\u304F)\u3092\u805E(\u304D)\u304D\u307E\u3059', fr: 'ecoute de la musique' },
-            { jp: '\u30B2\u30FC\u30E0\u3092\u3057\u307E\u3059', fr: 'joue aux jeux video' },
-            { jp: '\u6599\u7406(\u308A\u3087\u3046\u308A)\u3092\u3057\u307E\u3059', fr: 'fait la cuisine' }
+            { jp: '\u30C6\u30EC\u30D3\u3092\u898B(\u307F)\u307E\u3059', fr: 'regarde la tele', en: 'watches TV' },
+            { jp: '\u672C(\u307B\u3093)\u3092\u8AAD(\u3088)\u307F\u307E\u3059', fr: 'lit des livres', en: 'reads books' },
+            { jp: '\u97F3\u697D(\u304A\u3093\u304C\u304F)\u3092\u805E(\u304D)\u304D\u307E\u3059', fr: 'ecoute de la musique', en: 'listens to music' },
+            { jp: '\u30B2\u30FC\u30E0\u3092\u3057\u307E\u3059', fr: 'joue aux jeux video', en: 'plays video games' },
+            { jp: '\u6599\u7406(\u308A\u3087\u3046\u308A)\u3092\u3057\u307E\u3059', fr: 'fait la cuisine', en: 'cooks' }
         ],
         food1: [
-            { jp: '\u9B5A(\u3055\u304B\u306A)\u306E\u6599\u7406(\u308A\u3087\u3046\u308A)', fr: 'plat de poisson' },
-            { jp: '\u8089(\u306B\u304F)\u306E\u6599\u7406(\u308A\u3087\u3046\u308A)', fr: 'plat de viande' },
-            { jp: '\u30E9\u30FC\u30E1\u30F3', fr: 'ramen' },
-            { jp: '\u5BFF\u53F8(\u3059\u3057)', fr: 'sushi' },
-            { jp: '\u30AB\u30EC\u30FC', fr: 'curry' }
+            { jp: '\u9B5A(\u3055\u304B\u306A)\u306E\u6599\u7406(\u308A\u3087\u3046\u308A)', fr: 'plat de poisson', en: 'fish dish' },
+            { jp: '\u8089(\u306B\u304F)\u306E\u6599\u7406(\u308A\u3087\u3046\u308A)', fr: 'plat de viande', en: 'meat dish' },
+            { jp: '\u30E9\u30FC\u30E1\u30F3', fr: 'ramen', en: 'ramen' },
+            { jp: '\u5BFF\u53F8(\u3059\u3057)', fr: 'sushi', en: 'sushi' },
+            { jp: '\u30AB\u30EC\u30FC', fr: 'curry', en: 'curry' }
         ],
         food2: [
-            { jp: '\u5929(\u3066\u3093)\u3077\u3089', fr: 'tempura' },
-            { jp: '\u3046\u3069\u3093', fr: 'udon' },
-            { jp: '\u91CE\u83DC(\u3084\u3055\u3044)\u306E\u6599\u7406(\u308A\u3087\u3046\u308A)', fr: 'plat de legumes' },
-            { jp: '\u304A\u306B\u304E\u308A', fr: 'onigiri' },
-            { jp: '\u713C(\u3084)\u304D\u8089(\u306B\u304F)', fr: 'yakiniku' }
+            { jp: '\u5929(\u3066\u3093)\u3077\u3089', fr: 'tempura', en: 'tempura' },
+            { jp: '\u3046\u3069\u3093', fr: 'udon', en: 'udon' },
+            { jp: '\u91CE\u83DC(\u3084\u3055\u3044)\u306E\u6599\u7406(\u308A\u3087\u3046\u308A)', fr: 'plat de legumes', en: 'vegetable dish' },
+            { jp: '\u304A\u306B\u304E\u308A', fr: 'onigiri', en: 'onigiri' },
+            { jp: '\u713C(\u3084)\u304D\u8089(\u306B\u304F)', fr: 'yakiniku', en: 'yakiniku' }
         ],
         drink: [
-            { jp: '\u304A\u8336(\u3061\u3083)', fr: 'the' },
-            { jp: '\u30B3\u30FC\u30D2\u30FC', fr: 'cafe' },
-            { jp: '\u6C34(\u307F\u305A)', fr: 'eau' },
-            { jp: '\u30B8\u30E5\u30FC\u30B9', fr: 'jus' }
+            { jp: '\u304A\u8336(\u3061\u3083)', fr: 'the', en: 'tea' },
+            { jp: '\u30B3\u30FC\u30D2\u30FC', fr: 'cafe', en: 'coffee' },
+            { jp: '\u6C34(\u307F\u305A)', fr: 'eau', en: 'water' },
+            { jp: '\u30B8\u30E5\u30FC\u30B9', fr: 'jus', en: 'juice' }
         ],
         price: [
-            { jp: '\u4E8C\u5343\u5186(\u306B\u305B\u3093\u3048\u3093)', fr: '2000 yens' },
-            { jp: '\u4E09\u5343\u5186(\u3055\u3093\u305C\u3093\u3048\u3093)', fr: '3000 yens' },
-            { jp: '\u5343\u4E94\u767E\u5186(\u305B\u3093\u3054\u3072\u3083\u304F\u3048\u3093)', fr: '1500 yens' },
-            { jp: '\u56DB\u5343\u5186(\u3088\u3093\u305B\u3093\u3048\u3093)', fr: '4000 yens' }
+            { jp: '\u4E8C\u5343\u5186(\u306B\u305B\u3093\u3048\u3093)', fr: '2000 yens', en: '2000 yen' },
+            { jp: '\u4E09\u5343\u5186(\u3055\u3093\u305C\u3093\u3048\u3093)', fr: '3000 yens', en: '3000 yen' },
+            { jp: '\u5343\u4E94\u767E\u5186(\u305B\u3093\u3054\u3072\u3083\u304F\u3048\u3093)', fr: '1500 yens', en: '1500 yen' },
+            { jp: '\u56DB\u5343\u5186(\u3088\u3093\u305B\u3093\u3048\u3093)', fr: '4000 yens', en: '4000 yen' }
         ],
         day: [
-            { jp: '\u6708\u66DC\u65E5(\u3052\u3064\u3088\u3046\u3073)', fr: 'lundi' },
-            { jp: '\u706B\u66DC\u65E5(\u304B\u3088\u3046\u3073)', fr: 'mardi' },
-            { jp: '\u6C34\u66DC\u65E5(\u3059\u3044\u3088\u3046\u3073)', fr: 'mercredi' },
-            { jp: '\u6728\u66DC\u65E5(\u3082\u304F\u3088\u3046\u3073)', fr: 'jeudi' },
-            { jp: '\u91D1\u66DC\u65E5(\u304D\u3093\u3088\u3046\u3073)', fr: 'vendredi' },
-            { jp: '\u571F\u66DC\u65E5(\u3069\u3088\u3046\u3073)', fr: 'samedi' },
-            { jp: '\u65E5\u66DC\u65E5(\u306B\u3061\u3088\u3046\u3073)', fr: 'dimanche' }
+            { jp: '\u6708\u66DC\u65E5(\u3052\u3064\u3088\u3046\u3073)', fr: 'lundi', en: 'Monday' },
+            { jp: '\u706B\u66DC\u65E5(\u304B\u3088\u3046\u3073)', fr: 'mardi', en: 'Tuesday' },
+            { jp: '\u6C34\u66DC\u65E5(\u3059\u3044\u3088\u3046\u3073)', fr: 'mercredi', en: 'Wednesday' },
+            { jp: '\u6728\u66DC\u65E5(\u3082\u304F\u3088\u3046\u3073)', fr: 'jeudi', en: 'Thursday' },
+            { jp: '\u91D1\u66DC\u65E5(\u304D\u3093\u3088\u3046\u3073)', fr: 'vendredi', en: 'Friday' },
+            { jp: '\u571F\u66DC\u65E5(\u3069\u3088\u3046\u3073)', fr: 'samedi', en: 'Saturday' },
+            { jp: '\u65E5\u66DC\u65E5(\u306B\u3061\u3088\u3046\u3073)', fr: 'dimanche', en: 'Sunday' }
         ],
         place: [
-            { jp: '\u99C5(\u3048\u304D)\u306E\u8FD1(\u3061\u304B)\u304F', fr: 'pres de la gare' },
-            { jp: '\u516C\u5712(\u3053\u3046\u3048\u3093)\u306E\u524D(\u307E\u3048)', fr: 'devant le parc' },
+            { jp: '\u99C5(\u3048\u304D)\u306E\u8FD1(\u3061\u304B)\u304F', fr: 'pres de la gare', en: 'near the station' },
+            { jp: '\u516C\u5712(\u3053\u3046\u3048\u3093)\u306E\u524D(\u307E\u3048)', fr: 'devant le parc', en: 'in front of the park' },
             { jp: '\u5B66\u6821(\u304C\u3063\u3053\u3046)\u306E\u3068\u306A\u308A', fr: 'a cote de l\'ecole' },
-            { jp: '\u5927(\u304A\u304A)\u304D\u3044\u901A(\u3068\u304A)\u308A\u306E\u305D\u3070', fr: 'pres de la grande avenue' }
+            { jp: '\u5927(\u304A\u304A)\u304D\u3044\u901A(\u3068\u304A)\u308A\u306E\u305D\u3070', fr: 'pres de la grande avenue', en: 'near the main avenue' }
         ],
         season: [
-            { jp: '\u6625(\u306F\u308B)', fr: 'printemps' },
-            { jp: '\u590F(\u306A\u3064)', fr: 'ete' },
-            { jp: '\u79CB(\u3042\u304D)', fr: 'automne' },
-            { jp: '\u51AC(\u3075\u3086)', fr: 'hiver' }
+            { jp: '\u6625(\u306F\u308B)', fr: 'printemps', en: 'spring' },
+            { jp: '\u590F(\u306A\u3064)', fr: 'ete', en: 'summer' },
+            { jp: '\u79CB(\u3042\u304D)', fr: 'automne', en: 'autumn' },
+            { jp: '\u51AC(\u3075\u3086)', fr: 'hiver', en: 'winter' }
         ]
     },
 
@@ -195,7 +198,7 @@ window.ReadingModule = {
             titleJp: `${name.full}\u3055\u3093\u306E\u4E00\u65E5`,
             text, translation, level,
             questions: [
-                { q: `${name.full}\u3055\u3093\u306F\u4F55\u6642\u306B\u8D77\u304D\u307E\u3059\u304B\uFF1F`, choices: this._shuffle([wake.jp, wW.jp, wW2.jp, wW3.jp]), correct: wake.jp, explanation: `${wake.jp}\u306B\u8D77\u304D\u307E\u3059 = se leve a ${wake.fr}` },
+                { q: `${name.full}\u3055\u3093\u306F\u4F55\u6642\u306B\u8D77\u304D\u307E\u3059\u304B\uFF1F`, choices: this._shuffle([wake.jp, wW.jp, wW2.jp, wW3.jp]), correct: wake.jp, explanation: `${wake.jp}\u306B\u8D77\u304D\u307E\u3059 = ' + (I18n.locale==='en'?'wakes up at '+wake.en:'se leve a '+wake.fr) + '` },
                 { q: '\u671D\u3054\u98EF\u306F\u4F55\u3067\u3059\u304B\uFF1F', choices: this._shuffle([bf.jp, bW.jp, bW2.jp, bW3.jp]), correct: bf.jp, explanation: `${bf.jp}\u3067\u3059 = c'est ${bf.fr}` },
                 { q: `${dest.jp}\u306B\u4F55\u3067\u884C\u304D\u307E\u3059\u304B\uFF1F`, choices: this._shuffle([tr.jp, tW.jp, tW2.jp, tW3.jp]), correct: tr.jp, explanation: `${tr.jp}\u3067\u884C\u304D\u307E\u3059 = en ${tr.fr}` },
                 { q: '\u4F55\u6642\u306B\u5BDD\u307E\u3059\u304B\uFF1F', choices: this._shuffle([sleep.jp, sW.jp, sW2.jp, sW3.jp]), correct: sleep.jp, explanation: `${sleep.jp}\u306B\u5BDD\u307E\u3059 = se couche a ${sleep.fr}` }
@@ -246,7 +249,8 @@ window.ReadingModule = {
         const dr = this._pick(d.drink);
 
         const text = `\u65E5\u66DC\u65E5(\u306B\u3061\u3088\u3046\u3073)\u306B${name.full}\u3055\u3093\u3068\u904A(\u3042\u305D)\u3073\u307E\u3057\u305F\u3002\u4ECA(\u3044\u307E)\u306F${season.jp}\u3067\u3059\u3002\u5348\u524D(\u3054\u305C\u3093)\u306F\u516C\u5712(\u3053\u3046\u3048\u3093)\u3067\u6563\u6B69(\u3055\u3093\u307D)\u3092\u3057\u307E\u3057\u305F\u3002\u305D\u308C\u304B\u3089\u3001${tr.jp}\u3067\u753A(\u307E\u3061)\u306B\u884C\u304D\u307E\u3057\u305F\u3002\u304A\u663C(\u3072\u308B)\u306B${f.jp}\u3092\u98DF(\u305F)\u3079\u3066\u3001${dr.jp}\u3092\u98F2(\u306E)\u307F\u307E\u3057\u305F\u3002\u5348\u5F8C(\u3054\u3054)\u306F\u5BB6(\u3044\u3048)\u3067${hob1.jp}\u3002\u591C(\u3088\u308B)\u306F${hob2.jp}\u3002\u3068\u3066\u3082\u697D(\u305F\u306E)\u3057\u3044\u4E00\u65E5(\u3044\u3061\u306B\u3061)\u3067\u3057\u305F\u3002`;
-        const translation = `Dimanche, j'ai passe du temps avec ${name.full}. C'est actuellement ${season.fr}. Le matin, nous nous sommes promenes au parc. Ensuite, nous sommes alles en ville en ${tr.fr}. A midi, nous avons mange du ${f.fr} et bu du ${dr.fr}. L'apres-midi, a la maison, il/elle ${hob1.fr}. Le soir, il/elle ${hob2.fr}. C'etait une journee tres agreable.`;
+        const t3 = I18n.locale === 'en';
+        const translation = t3 ? `Sunday, I spent time with ${name.full}. It's currently ${season.en}. In the morning, we walked in the park. Then we went to town by ${tr.en}. For lunch, we had ${f.en} and drank ${dr.en}. In the afternoon, at home, ${hob1.en}. In the evening, ${hob2.en}. It was a very pleasant day.` : `Dimanche, j'ai passe du temps avec ${name.full}. C'est actuellement ${season.fr}. Le matin, nous nous sommes promenes au parc. Ensuite, nous sommes alles en ville en ${tr.fr}. A midi, nous avons mange du ${f.fr} et bu du ${dr.fr}. L'apres-midi, a la maison, il/elle ${hob1.fr}. Le soir, il/elle ${hob2.fr}. C'etait une journee tres agreable.`;
 
         const sW = this._pickExcept(d.season, season); const sW2 = this._pickExcept(d.season, season, sW); const sW3 = this._pickExcept(d.season, season, sW, sW2);
         const tW = this._pickExcept(d.transport, tr); const tW2 = this._pickExcept(d.transport, tr, tW); const tW3 = this._pickExcept(d.transport, tr, tW, tW2);
@@ -345,7 +349,7 @@ window.ReadingModule = {
                 <div class="reading-text-jp">${t.text.replace(/\n/g, '<br>')}</div>
                 <details class="reading-translation">
                     <summary>${I18n.t('reading_show_translation')}</summary>
-                    <div class="reading-text-fr">${t.translation}</div>
+                    <div class="reading-text-fr">${L(t,"translation")}</div>
                 </details>
             </div>
 
@@ -386,9 +390,12 @@ window.ReadingModule = {
 
         container.innerHTML = `
             <div class="quiz-container">
-                <div class="quiz-progress">
-                    <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${pct}%"></div></div>
-                    <span class="quiz-counter">${qs.current + 1}/${qs.questions.length}</span>
+                <div class="quiz-top-bar">
+                    <div class="quiz-progress">
+                        <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${pct}%"></div></div>
+                        <span class="quiz-counter">${qs.current + 1}/${qs.questions.length}</span>
+                    </div>
+                    <button class="btn btn-secondary btn-sm quiz-quit-btn" id="reading-quit">${I18n.t('quiz_quit')}</button>
                 </div>
                 <div class="quiz-card">
                     <div class="quiz-prompt" style="font-size:20px;">${q.q}</div>
@@ -444,6 +451,12 @@ window.ReadingModule = {
                 qs.current++;
                 ReadingModule.renderQuiz(container);
             }
+        });
+
+        document.getElementById('reading-quit')?.addEventListener('click', () => {
+            this.quizState = null;
+            this.currentText = null;
+            this.render();
         });
     },
 

@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>nihongo - Japanese Learning Module</title>
+    <title>日本語の本 - Japanese Learning</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#7c5bf5">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icon.svg">
     <link rel="stylesheet" href="css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -107,11 +111,6 @@
         </div>
 
         <div class="sidebar-footer">
-            <div class="level-selector">
-                <button class="level-btn active" data-level="N5">N5</button>
-                <button class="level-btn" data-level="N4">N4</button>
-                <button class="level-btn" data-level="all">Tout</button>
-            </div>
             <div class="streak-display">
                 <span class="streak-fire">&#x1F525;</span>
                 <span class="streak-count" id="streak-count">0</span>
@@ -124,6 +123,53 @@
     <button id="mobile-toggle" class="mobile-toggle">
         <span></span><span></span><span></span>
     </button>
+
+    <!-- Mobile Bottom Navigation Bar -->
+    <nav id="bottom-nav" class="bottom-nav">
+        <button class="bottom-nav-item active" data-page="dashboard">
+            <span class="bottom-nav-icon">&#x1F3E0;</span>
+            <span class="bottom-nav-label" data-i18n="nav_dashboard">Accueil</span>
+        </button>
+        <button class="bottom-nav-item" data-page="kanji">
+            <span class="bottom-nav-icon">&#x6F22;</span>
+            <span class="bottom-nav-label" data-i18n="nav_kanji">Kanji</span>
+        </button>
+        <button class="bottom-nav-item" data-page="vocabulary">
+            <span class="bottom-nav-icon">&#x8A00;</span>
+            <span class="bottom-nav-label" data-i18n="nav_vocab">Vocab</span>
+        </button>
+        <button class="bottom-nav-item" data-page="exam">
+            <span class="bottom-nav-icon">&#x1F4DD;</span>
+            <span class="bottom-nav-label" data-i18n="nav_exam">Exam</span>
+        </button>
+        <button class="bottom-nav-item" id="bottom-nav-more">
+            <span class="bottom-nav-icon">&#x2026;</span>
+            <span class="bottom-nav-label">Plus</span>
+        </button>
+    </nav>
+
+    <!-- Bottom nav overlay (closes menu on tap) -->
+    <div id="bottom-nav-overlay" class="bottom-nav-overlay"></div>
+
+    <!-- Bottom nav "Plus" menu -->
+    <div id="bottom-nav-menu" class="bottom-nav-menu">
+        <button class="bottom-nav-menu-item" data-page="kana">
+            <span class="bottom-nav-menu-icon">&#x3042;</span>
+            <span data-i18n="nav_kana">Kana</span>
+        </button>
+        <button class="bottom-nav-menu-item" data-page="grammar">
+            <span class="bottom-nav-menu-icon">&#x6587;</span>
+            <span data-i18n="nav_grammar">Grammaire</span>
+        </button>
+        <button class="bottom-nav-menu-item" data-page="reading">
+            <span class="bottom-nav-menu-icon">&#x1F4D6;</span>
+            <span data-i18n="nav_reading">Lecture</span>
+        </button>
+        <button class="bottom-nav-menu-item" data-page="profile">
+            <span class="bottom-nav-menu-icon">&#x2699;</span>
+            <span data-i18n="nav_profile">Profil</span>
+        </button>
+    </div>
 
     <!-- Main Content Area -->
     <main id="main-content">

@@ -9,7 +9,6 @@ window.App = {
         I18n.init();
 
         this.bindNavigation();
-        this.bindLevelSelector();
         this.bindMobileMenu();
         this.bindModal();
         this.bindAuth();
@@ -53,9 +52,21 @@ window.App = {
     navigateTo(page) {
         this.currentPage = page;
 
-        // Update nav
+        // Update sidebar nav
         document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
         document.querySelector(`.nav-item[data-page="${page}"]`)?.classList.add('active');
+
+        // Update bottom nav + "Plus" menu
+        document.querySelectorAll('.bottom-nav-item').forEach(n => n.classList.remove('active'));
+        document.querySelectorAll('.bottom-nav-menu-item').forEach(n => n.classList.remove('active'));
+        const directBtn = document.querySelector(`.bottom-nav-item[data-page="${page}"]`);
+        const menuBtn = document.querySelector(`.bottom-nav-menu-item[data-page="${page}"]`);
+        if (directBtn) {
+            directBtn.classList.add('active');
+        } else if (menuBtn) {
+            menuBtn.classList.add('active');
+            document.getElementById('bottom-nav-more')?.classList.add('active');
+        }
 
         // Update pages
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -112,6 +123,48 @@ window.App = {
         document.getElementById('main-content')?.addEventListener('click', () => {
             sidebar?.classList.remove('open');
         });
+
+        // Bottom navigation bar
+        const moreBtn = document.getElementById('bottom-nav-more');
+        const moreMenu = document.getElementById('bottom-nav-menu');
+        const moreOverlay = document.getElementById('bottom-nav-overlay');
+
+        const closeMoreMenu = () => {
+            moreMenu?.classList.remove('open');
+            moreOverlay?.classList.remove('open');
+            moreBtn?.classList.remove('active');
+        };
+
+        // Direct nav items
+        document.querySelectorAll('.bottom-nav-item[data-page]').forEach(item => {
+            item.addEventListener('click', () => {
+                closeMoreMenu();
+                this.navigateTo(item.dataset.page);
+            });
+        });
+
+        // "Plus" button toggles menu
+        moreBtn?.addEventListener('click', () => {
+            const isOpen = moreMenu.classList.contains('open');
+            if (isOpen) {
+                closeMoreMenu();
+            } else {
+                moreMenu.classList.add('open');
+                moreOverlay.classList.add('open');
+                moreBtn.classList.add('active');
+            }
+        });
+
+        // Menu items navigate and close
+        document.querySelectorAll('.bottom-nav-menu-item').forEach(item => {
+            item.addEventListener('click', () => {
+                closeMoreMenu();
+                this.navigateTo(item.dataset.page);
+            });
+        });
+
+        // Tap overlay to close
+        moreOverlay?.addEventListener('click', closeMoreMenu);
     },
 
     // ---- Modal ----
@@ -334,9 +387,22 @@ window.App = {
                 </div>
             </div>`;
 
+        const currentLevel = LevelFilter.get();
+        const levelHtml = `
+            <div class="profile-section">
+                <div class="profile-section-title">${I18n.t('profile_level')}</div>
+                <div class="profile-section-desc">${I18n.t('profile_level_desc')}</div>
+                <div class="level-selector">
+                    <button class="level-btn ${currentLevel === 'N5' ? 'active' : ''}" data-level="N5">N5</button>
+                    <button class="level-btn ${currentLevel === 'N4' ? 'active' : ''}" data-level="N4">N4</button>
+                    <button class="level-btn ${currentLevel === 'all' ? 'active' : ''}" data-level="all">${I18n.t('level_all')}</button>
+                </div>
+            </div>`;
+
         container.innerHTML = `
             ${accountHtml}
             ${statsHtml}
+            ${levelHtml}
             <div class="profile-section">
                 <div class="profile-section-title">${I18n.t('profile_language')}</div>
                 <div class="profile-section-desc">${I18n.t('profile_language_desc')}</div>
@@ -356,6 +422,26 @@ window.App = {
                 <div class="profile-section-desc">${I18n.t('profile_reset_desc')}</div>
                 <button class="btn btn-danger" id="profile-reset">${I18n.t('profile_reset_btn')}</button>
             </div>`;
+
+        // Bind level selector
+        container.querySelectorAll('.level-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                container.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                LevelFilter.set(btn.dataset.level);
+
+                // Reset module states that depend on level
+                KanjiModule.flashcardList = [];
+                KanjiModule.quizState = null;
+                VocabModule.flashcardList = [];
+                VocabModule.quizState = null;
+                VocabModule.currentTheme = null;
+                GrammarModule.exerciseState = null;
+
+                this.navigateTo(this.currentPage);
+                this.updateBadges();
+            });
+        });
 
         // Bind events
         container.querySelectorAll('.lang-option').forEach(btn => {
@@ -402,4 +488,9 @@ window.App = {
 // ---- Boot ----
 document.addEventListener('DOMContentLoaded', () => {
     App.init();
+
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+    }
 });

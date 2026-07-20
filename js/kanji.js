@@ -57,7 +57,7 @@ window.KanjiModule = {
                     return `
                     <div class="kanji-card-mini ${cls}" data-kanji="${k.kanji}">
                         <span class="kanji-char">${k.kanji}</span>
-                        <span class="kanji-meaning">${k.meaning}</span>
+                        <span class="kanji-meaning">${L(k,"meaning")}</span>
                         <span class="kanji-level-tag ${k.level.toLowerCase()}">${k.level}</span>
                     </div>`;
                 }).join('')}
@@ -68,7 +68,7 @@ window.KanjiModule = {
             container.querySelectorAll('.kanji-card-mini').forEach(card => {
                 const kanji = card.dataset.kanji;
                 const kData = uniqueKanji.find(k => k.kanji === kanji);
-                const match = kanji.includes(q) || kData.meaning.toLowerCase().includes(q) ||
+                const match = kanji.includes(q) || L(kData,"meaning").toLowerCase().includes(q) ||
                               kData.on.toLowerCase().includes(q) || kData.kun.toLowerCase().includes(q);
                 card.style.display = match ? '' : 'none';
             });
@@ -88,14 +88,14 @@ window.KanjiModule = {
                 <div style="font-size:100px; font-family:'Noto Sans JP'; font-weight:700; margin-bottom:8px;">${k.kanji}</div>
                 <span class="kanji-level-tag ${k.level.toLowerCase()}" style="font-size:13px; padding:4px 12px;">${k.level}</span>
                 <div style="margin-top:16px;">
-                    <div style="font-size:20px; color:var(--accent-light); margin-bottom:4px;">${k.meaning}</div>
+                    <div style="font-size:20px; color:var(--accent-light); margin-bottom:4px;">${L(k,"meaning")}</div>
                     <div style="font-size:14px; color:var(--text-secondary); margin-bottom:4px;">
                         <strong>ON:</strong> ${k.on || '-'} &nbsp; <strong>KUN:</strong> ${k.kun || '-'}
                     </div>
                 </div>
                 <div style="margin-top:20px; text-align:left;">
                     <h4 style="margin-bottom:8px; color:var(--text-secondary);">${I18n.t('kanji_examples')}</h4>
-                    ${k.examples.map(ex => `
+                    ${(I18n.locale==="en"?k.examplesEn:k.examplesFr).map(ex => `
                         <div style="background:var(--bg-input); padding:8px 12px; border-radius:8px; margin-bottom:6px; font-size:14px; font-family:'Noto Sans JP','Inter',sans-serif;">
                             ${ex}
                         </div>
@@ -129,14 +129,16 @@ window.KanjiModule = {
                     <div class="flashcard-face">
                         <div class="flashcard-char">${k.kanji}</div>
                         <span class="kanji-level-tag ${k.level.toLowerCase()}">${k.level}</span>
-                        <div style="margin-top:16px; font-size:14px; color:var(--text-muted);">${I18n.t('click_to_flip')}</div>
+                        <button class="btn btn-secondary btn-sm flashcard-speak-btn" id="kfc-speak-front" title="${I18n.t('listen')}">&#x1F50A; ${I18n.t('listen')}</button>
+                        <div style="margin-top:12px; font-size:14px; color:var(--text-muted);">${I18n.t('click_to_flip')}</div>
                     </div>
                     <div class="flashcard-face flashcard-back">
-                        <div class="flashcard-char" style="font-size:60px;">${k.kanji}</div>
-                        <div class="flashcard-meaning">${k.meaning}</div>
+                        <div class="flashcard-char" style="font-size:48px;">${k.kanji}</div>
+                        <div class="flashcard-meaning">${L(k,"meaning")}</div>
                         <div class="flashcard-reading">ON: ${k.on || '-'} | KUN: ${k.kun || '-'}</div>
+                        <button class="btn btn-secondary btn-sm flashcard-speak-btn" id="kfc-speak-back" title="${I18n.t('listen')}">&#x1F50A;</button>
                         <div class="flashcard-examples">
-                            ${k.examples.slice(0, 3).map(e => `<div>${e}</div>`).join('')}
+                            ${(I18n.locale==="en"?k.examplesEn:k.examplesFr).slice(0, 3).map(e => `<div>${e}</div>`).join('')}
                         </div>
                     </div>
                 </div>
@@ -189,6 +191,23 @@ window.KanjiModule = {
             this.flashcardIndex = 0;
             this.renderFlashcards(container);
         });
+
+        // TTS - read kanji aloud
+        const speakKanji = (e) => {
+            e.stopPropagation();
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+                const reading = k.kun ? k.kun.split('、')[0].replace(/[-.]/g, '') : (k.on ? k.on.split('、')[0] : k.kanji);
+                const u = new SpeechSynthesisUtterance(reading);
+                u.lang = 'ja-JP';
+                u.rate = 0.8;
+                speechSynthesis.speak(u);
+            } else {
+                App.toast(I18n.t('tts_unsupported'), 'error');
+            }
+        };
+        document.getElementById('kfc-speak-front')?.addEventListener('click', speakKanji);
+        document.getElementById('kfc-speak-back')?.addEventListener('click', speakKanji);
     },
 
     renderQuiz(container) {
@@ -219,9 +238,12 @@ window.KanjiModule = {
 
         container.innerHTML = `
             <div class="quiz-container">
-                <div class="quiz-progress">
-                    <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${pct}%"></div></div>
-                    <span class="quiz-counter">${qs.current + 1}/${qs.questions.length}</span>
+                <div class="quiz-top-bar">
+                    <div class="quiz-progress">
+                        <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${pct}%"></div></div>
+                        <span class="quiz-counter">${qs.current + 1}/${qs.questions.length}</span>
+                    </div>
+                    <button class="btn btn-secondary btn-sm quiz-quit-btn" id="kanji-quit">${I18n.t('quiz_quit')}</button>
                 </div>
                 <div class="quiz-card">
                     <div class="quiz-prompt">${q.kanji}</div>
@@ -229,7 +251,7 @@ window.KanjiModule = {
                 </div>
                 <div class="quiz-options">
                     ${choices.map(c => `
-                        <button class="quiz-option" data-answer="${c.meaning}">${c.meaning}</button>
+                        <button class="quiz-option" data-answer="${L(c,"meaning")}">${L(c,"meaning")}</button>
                     `).join('')}
                 </div>
                 <div class="quiz-feedback" id="kanji-feedback"></div>
@@ -247,19 +269,19 @@ window.KanjiModule = {
                 if (answered) return;
                 answered = true;
 
-                const correct = opt.dataset.answer === q.meaning;
-                qs.answers.push({ kanji: q.kanji, correct, expected: q.meaning });
+                const correct = opt.dataset.answer === L(q,"meaning");
+                qs.answers.push({ kanji: q.kanji, correct, expected: L(q,"meaning") });
 
                 if (correct) {
                     qs.score++;
                     opt.classList.add('correct');
                     feedback.className = 'quiz-feedback show correct-fb';
-                    feedback.textContent = `${I18n.t('correct')} ${q.kanji} = ${q.meaning}`;
+                    feedback.innerHTML = `${I18n.t('correct')} ${q.kanji} = ${L(q,"meaning")}<br><span style="font-size:13px; opacity:0.85;">ON: ${q.on || '-'} | KUN: ${q.kun || '-'}</span>`;
                 } else {
                     opt.classList.add('incorrect');
-                    container.querySelector(`[data-answer="${q.meaning}"]`)?.classList.add('correct');
+                    container.querySelector(`[data-answer="${L(q,"meaning")}"]`)?.classList.add('correct');
                     feedback.className = 'quiz-feedback show incorrect-fb';
-                    feedback.innerHTML = `${I18n.t('incorrect')} ${q.kanji} = <strong>${q.meaning}</strong> (ON: ${q.on}, KUN: ${q.kun})`;
+                    feedback.innerHTML = `${I18n.t('incorrect')} ${q.kanji} = <strong>${L(q,"meaning")}</strong> (ON: ${q.on}, KUN: ${q.kun})`;
                 }
 
                 Storage.recordStudy('kanji', q.kanji, correct);
@@ -279,6 +301,14 @@ window.KanjiModule = {
                 qs.current++;
                 KanjiModule.renderQuiz(container);
             }
+        });
+
+        document.getElementById('kanji-quit')?.addEventListener('click', () => {
+            this.quizState = null;
+            this.currentTab = 'kanji-list';
+            document.querySelectorAll('.kanji-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('.kanji-tabs .tab-btn[data-tab="kanji-list"]')?.classList.add('active');
+            this.render();
         });
     },
 

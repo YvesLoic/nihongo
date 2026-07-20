@@ -49,18 +49,18 @@ window.GrammarModule = {
                             <span class="grammar-title">${g.title}</span>
                             <span class="grammar-structure">${g.structure}</span>
                         </div>
-                        <div class="grammar-meaning">${g.meaning}</div>
+                        <div class="grammar-meaning">${L(g,"meaning")}</div>
                         <div class="grammar-example">
                             <div class="grammar-jp">${g.examples[0].jp}</div>
-                            <div class="grammar-fr">${g.examples[0].fr}</div>
+                            <div class="grammar-fr">${L(g.examples[0],"fr")}</div>
                         </div>
                         <div class="grammar-detail" id="grammar-detail-${i}">
-                            <div class="grammar-note">${g.explanation}</div>
+                            <div class="grammar-note">${L(g,"explanation")}</div>
                             ${g.examples.slice(1).map(ex => `
                                 <div class="grammar-example">
                                     <div class="grammar-jp">${ex.jp}</div>
                                     ${ex.reading ? `<div style="font-size:12px; color:var(--text-muted); margin-bottom:4px;">${ex.reading}</div>` : ''}
-                                    <div class="grammar-fr">${ex.fr}</div>
+                                    <div class="grammar-fr">${L(ex,"fr")}</div>
                                 </div>
                             `).join('')}
                             <div style="margin-top:12px;">
@@ -76,7 +76,7 @@ window.GrammarModule = {
             container.querySelectorAll('.grammar-card').forEach((card, i) => {
                 const g = grammar[i];
                 const match = g.title.toLowerCase().includes(q) ||
-                              g.meaning.toLowerCase().includes(q) ||
+                              L(g,"meaning").toLowerCase().includes(q) ||
                               g.structure.toLowerCase().includes(q);
                 card.style.display = match ? '' : 'none';
             });
@@ -109,9 +109,12 @@ window.GrammarModule = {
 
         container.innerHTML = `
             <div class="exercise-container">
-                <div class="quiz-progress">
-                    <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${pct}%"></div></div>
-                    <span class="quiz-counter">${es.current + 1}/${es.questions.length}</span>
+                <div class="quiz-top-bar">
+                    <div class="quiz-progress">
+                        <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${pct}%"></div></div>
+                        <span class="quiz-counter">${es.current + 1}/${es.questions.length}</span>
+                    </div>
+                    <button class="btn btn-secondary btn-sm quiz-quit-btn" id="grammar-quit">${I18n.t('quiz_quit')}</button>
                 </div>
                 <div class="exercise-card">
                     <div class="exercise-question">${q.question}</div>
@@ -147,12 +150,12 @@ window.GrammarModule = {
                 if (correct) {
                     opt.classList.add('correct');
                     feedback.className = 'quiz-feedback show correct-fb';
-                    feedback.textContent = I18n.t('correct');
+                    feedback.innerHTML = `${I18n.t('correct')}<br><span style="font-size:13px; opacity:0.85;"><em>${L(q,"explanation")}</em></span>`;
                 } else {
                     opt.classList.add('incorrect');
                     container.querySelector(`[data-answer="${q.correct}"]`)?.classList.add('correct');
                     feedback.className = 'quiz-feedback show incorrect-fb';
-                    feedback.innerHTML = `${I18n.t('incorrect')} ${I18n.t('grammar_answer')} <strong>${q.correct}</strong><br><em>${q.explanation}</em>`;
+                    feedback.innerHTML = `${I18n.t('incorrect')} ${I18n.t('grammar_answer')} <strong>${q.correct}</strong><br><em>${L(q,"explanation")}</em>`;
                 }
 
                 Storage.recordStudy('grammar', q.id, correct);
@@ -172,6 +175,14 @@ window.GrammarModule = {
                 es.current++;
                 GrammarModule.renderExercises(container);
             }
+        });
+
+        document.getElementById('grammar-quit')?.addEventListener('click', () => {
+            this.exerciseState = null;
+            this.currentTab = 'grammar-lessons';
+            document.querySelectorAll('.grammar-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('.grammar-tabs .tab-btn[data-tab="grammar-lessons"]')?.classList.add('active');
+            this.render();
         });
     },
 
@@ -193,10 +204,10 @@ window.GrammarModule = {
                     id: g.id,
                     question: `${I18n.t('grammar_which_structure')}<br><br>
                         <span style="font-family:'Noto Sans JP'; font-size:18px;">${ex.jp}</span><br>
-                        <em style="color:var(--text-muted);">${ex.fr}</em>`,
+                        <em style="color:var(--text-muted);">${L(ex,"fr")}</em>`,
                     choices: [correctAnswer, ...wrongs].sort(() => Math.random() - 0.5),
                     correct: correctAnswer,
-                    explanation: g.meaning,
+                    explanation: L(g,"meaning"),
                     grammarPoint: g.title,
                     level: g.level
                 });
@@ -205,14 +216,14 @@ window.GrammarModule = {
             const wrongMeanings = grammar.filter(x => x.id !== g.id)
                 .sort(() => Math.random() - 0.5)
                 .slice(0, 3)
-                .map(x => x.meaning);
+                .map(x => L(x,"meaning"));
 
             questions.push({
                 id: g.id,
                 question: `${I18n.t('grammar_what_means')} <strong>${g.title}</strong> (${g.structure}) ?`,
-                choices: [g.meaning, ...wrongMeanings].sort(() => Math.random() - 0.5),
-                correct: g.meaning,
-                explanation: g.explanation,
+                choices: [L(g,"meaning"), ...wrongMeanings].sort(() => Math.random() - 0.5),
+                correct: L(g,"meaning"),
+                explanation: L(g,"explanation"),
                 grammarPoint: g.title,
                 level: g.level
             });

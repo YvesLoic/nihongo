@@ -56,7 +56,7 @@ window.VocabModule = {
                 ${themes.map((t, i) => `
                     <div class="vocab-theme-card" data-index="${i}">
                         <div class="vocab-theme-icon">${t.icon}</div>
-                        <div class="vocab-theme-name">${t.theme}</div>
+                        <div class="vocab-theme-name">${L(t,"theme")}</div>
                         <div class="vocab-theme-count">${t.words.length} ${I18n.t('vocab_words')}</div>
                     </div>
                 `).join('')}
@@ -79,7 +79,7 @@ window.VocabModule = {
                     &larr; ${I18n.t('vocab_back_themes')}
                 </button>
                 <span style="margin-left:16px; font-size:24px;">${t.icon}</span>
-                <span style="margin-left:8px; font-size:20px; font-weight:600;">${t.theme}</span>
+                <span style="margin-left:8px; font-size:20px; font-weight:600;">${L(t,"theme")}</span>
             </div>
             <div class="filter-bar">
                 <input type="text" class="search-input" id="vocab-search" placeholder="${I18n.t('vocab_search')}">
@@ -89,7 +89,7 @@ window.VocabModule = {
                     <div class="vocab-word-item" data-kana="${w.kana}">
                         <span class="vocab-kanji-col">${w.kanji || w.kana}</span>
                         <span class="vocab-reading-col">${w.kanji ? w.kana : ''}</span>
-                        <span class="vocab-meaning-col">${w.meaning}</span>
+                        <span class="vocab-meaning-col">${L(w,"meaning")}</span>
                         <span class="vocab-level-col kanji-level-tag ${w.level.toLowerCase()}">${w.level}</span>
                     </div>
                 `).join('')}
@@ -170,7 +170,7 @@ window.VocabModule = {
                     <div class="flashcard-face flashcard-back">
                         <div class="flashcard-char" style="font-size:48px;">${w.kanji || w.kana}</div>
                         ${w.kanji ? `<div class="flashcard-reading">${w.kana}</div>` : ''}
-                        <div class="flashcard-meaning">${w.meaning}</div>
+                        <div class="flashcard-meaning">${L(w,"meaning")}</div>
                         <span class="kanji-level-tag ${w.level.toLowerCase()}">${w.level}</span>
                     </div>
                 </div>
@@ -238,7 +238,7 @@ window.VocabModule = {
         }
 
         const shuffled = words.sort(() => Math.random() - 0.5).slice(0, Math.min(15, words.length));
-        this.quizState = { questions: shuffled, allWords: words, current: 0, score: 0, answers: [], theme: theme.theme };
+        this.quizState = { questions: shuffled, allWords: words, current: 0, score: 0, answers: [], theme: L(theme,"theme") };
 
         this.currentTab = 'vocab-quiz';
         document.querySelectorAll('.vocab-tabs .tab-btn').forEach(b => b.classList.remove('active'));
@@ -273,11 +273,11 @@ window.VocabModule = {
 
         if (jpToFr) {
             prompt = q.kanji || q.kana;
-            correctAnswer = q.meaning;
-            wrongAnswers = qs.allWords.filter(w => w.meaning !== q.meaning)
-                .sort(() => Math.random() - 0.5).slice(0, 3).map(w => w.meaning);
+            correctAnswer = L(q,"meaning");
+            wrongAnswers = qs.allWords.filter(w => L(w,"meaning") !== L(q,"meaning"))
+                .sort(() => Math.random() - 0.5).slice(0, 3).map(w => L(w,"meaning"));
         } else {
-            prompt = q.meaning;
+            prompt = L(q,"meaning");
             correctAnswer = q.kanji || q.kana;
             wrongAnswers = qs.allWords.filter(w => (w.kanji || w.kana) !== correctAnswer)
                 .sort(() => Math.random() - 0.5).slice(0, 3).map(w => w.kanji || w.kana);
@@ -287,9 +287,12 @@ window.VocabModule = {
 
         container.innerHTML = `
             <div class="quiz-container">
-                <div class="quiz-progress">
-                    <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${pct}%"></div></div>
-                    <span class="quiz-counter">${qs.current + 1}/${qs.questions.length}</span>
+                <div class="quiz-top-bar">
+                    <div class="quiz-progress">
+                        <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${pct}%"></div></div>
+                        <span class="quiz-counter">${qs.current + 1}/${qs.questions.length}</span>
+                    </div>
+                    <button class="btn btn-secondary btn-sm quiz-quit-btn" id="vocab-quit">${I18n.t('quiz_quit')}</button>
                 </div>
                 <div class="quiz-card">
                     <div class="quiz-prompt" style="font-size:${jpToFr ? '56px' : '28px'}">${prompt}</div>
@@ -322,12 +325,12 @@ window.VocabModule = {
                 if (correct) {
                     opt.classList.add('correct');
                     feedback.className = 'quiz-feedback show correct-fb';
-                    feedback.textContent = `${I18n.t('correct')} ${q.kanji || q.kana} = ${q.meaning}`;
+                    feedback.innerHTML = `${I18n.t('correct')} ${q.kanji || q.kana} = ${L(q,"meaning")}${q.kanji ? `<br><span style="font-size:13px; opacity:0.85;">${q.kana}</span>` : ''}`;
                 } else {
                     opt.classList.add('incorrect');
                     container.querySelector(`[data-answer="${correctAnswer}"]`)?.classList.add('correct');
                     feedback.className = 'quiz-feedback show incorrect-fb';
-                    feedback.innerHTML = `${I18n.t('incorrect')} <strong>${q.kanji || q.kana}</strong> (${q.kana}) = ${q.meaning}`;
+                    feedback.innerHTML = `${I18n.t('incorrect')} <strong>${q.kanji || q.kana}</strong> (${q.kana}) = ${L(q,"meaning")}`;
                 }
 
                 Storage.recordStudy('vocab', q.kana, correct);
@@ -347,6 +350,14 @@ window.VocabModule = {
                 qs.current++;
                 VocabModule.renderQuiz(container);
             }
+        });
+
+        document.getElementById('vocab-quit')?.addEventListener('click', () => {
+            this.quizState = null;
+            this.currentTab = 'vocab-themes';
+            document.querySelectorAll('.vocab-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('.vocab-tabs .tab-btn[data-tab="vocab-themes"]')?.classList.add('active');
+            this.render();
         });
     },
 

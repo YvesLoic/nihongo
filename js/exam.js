@@ -118,6 +118,31 @@ window.ExamModule = {
     // =============================================
     // JLPT-style question generators
     // =============================================
+    stripHtml(str) {
+        return str.replace(/<[^>]*>/g, '');
+    },
+
+    normalize(str) {
+        return str.toLowerCase().trim()
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+            .replace(/[''`]/g, "'")
+            .replace(/[()（）.。、,!?！？:;]/g, '')
+            .replace(/\s+/g, ' ');
+    },
+
+    checkInputAnswer(userAnswer, correct) {
+        const normUser = this.normalize(userAnswer);
+        const normCorrect = this.normalize(correct);
+        if (normUser === normCorrect) return true;
+        // Check if user answer contains all key words (3+ chars) from correct
+        const keywords = normCorrect.split(' ').filter(w => w.length >= 3);
+        if (keywords.length > 0) {
+            const matched = keywords.filter(kw => normUser.includes(kw));
+            return matched.length >= Math.ceil(keywords.length * 0.7);
+        }
+        return false;
+    },
+
     generateQuestions(type, count) {
         const questions = [];
         const level = LevelFilter.get();
@@ -136,142 +161,167 @@ window.ExamModule = {
         const vocabPool = vocabThemes.flatMap(t => t.words);
 
         const shuffle = arr => [...arr].sort(() => Math.random() - 0.5);
+        const isComplete = type === 'complete';
 
         // === KANJI SECTION ===
-        if (type === 'complete' || type === 'kanji') {
-            const kCount = type === 'kanji' ? count : Math.ceil(count * 0.3);
+        if (isComplete || type === 'kanji') {
+            const kCount = type === 'kanji' ? count : Math.ceil(count * 0.25);
             const kShuf = shuffle(kanjiPool);
 
-            // Partie A: Lecture des kanji (quel est le reading)
+            // Helper: combine ON + KUN readings
+            const reading = (k) => [k.on, k.kun].filter(Boolean).join(' / ');
+
+            // MCQ: Lecture des kanji
             kShuf.slice(0, Math.ceil(kCount / 2)).forEach(k => {
-                const wrongs = shuffle(kanjiPool.filter(x => x.kanji !== k.kanji)).slice(0, 3).map(x => x.on || x.kun);
+                const wrongs = shuffle(kanjiPool.filter(x => x.kanji !== k.kanji && reading(x) !== reading(k))).slice(0, 3).map(x => reading(x));
                 questions.push({
-                    section: I18n.t('exam_sec_kanji'),
-                    sectionSub: I18n.t('exam_part_reading'),
+                    mode: 'mcq', section: I18n.t('exam_sec_kanji'), sectionSub: I18n.t('exam_part_reading'),
                     text: `<span class="exam-jp-lg">${k.kanji}</span>`,
-                    hint: I18n.t('exam_kanji_reading_q'),
-                    translation: `${k.kanji} = ${k.meaning}`,
-                    choices: shuffle([k.on || k.kun, ...wrongs]),
-                    correct: k.on || k.kun,
-                    detail: `${k.kanji} : ON: ${k.on}, KUN: ${k.kun} = ${k.meaning}`,
-                    type: 'kanji'
+                    hint: I18n.t('exam_kanji_reading_q'), translation: `${k.kanji} = ${L(k,"meaning")}`,
+                    choices: shuffle([reading(k), ...wrongs]), correct: reading(k),
+                    detail: `${k.kanji} : ON: ${k.on || '-'}, KUN: ${k.kun || '-'} = ${L(k,"meaning")}`, type: 'kanji'
                 });
             });
 
-            // Partie B: Signification des kanji
+            // MCQ: Signification des kanji
             kShuf.slice(Math.ceil(kCount / 2), kCount).forEach(k => {
-                const wrongs = shuffle(kanjiPool.filter(x => x.kanji !== k.kanji)).slice(0, 3).map(x => x.meaning);
+                const wrongs = shuffle(kanjiPool.filter(x => x.kanji !== k.kanji)).slice(0, 3).map(x => L(x,"meaning"));
                 questions.push({
-                    section: I18n.t('exam_sec_kanji'),
-                    sectionSub: I18n.t('exam_part_meaning'),
+                    mode: 'mcq', section: I18n.t('exam_sec_kanji'), sectionSub: I18n.t('exam_part_meaning'),
                     text: `<span class="exam-jp-lg">${k.kanji}</span>`,
-                    hint: I18n.t('exam_kanji_meaning_q'),
-                    translation: `${k.kanji} (${k.on || k.kun})`,
-                    choices: shuffle([k.meaning, ...wrongs]),
-                    correct: k.meaning,
-                    detail: `${k.kanji} = ${k.meaning} (ON: ${k.on}, KUN: ${k.kun})`,
-                    type: 'kanji'
+                    hint: I18n.t('exam_kanji_meaning_q'), translation: `${k.kanji} (${reading(k)})`,
+                    choices: shuffle([L(k,"meaning"), ...wrongs]), correct: L(k,"meaning"),
+                    detail: `${k.kanji} = ${L(k,"meaning")} (ON: ${k.on || '-'}, KUN: ${k.kun || '-'})`, type: 'kanji'
                 });
             });
         }
 
         // === VOCABULARY SECTION ===
-        if (type === 'complete' || type === 'vocab') {
+        if (isComplete || type === 'vocab') {
             const vCount = type === 'vocab' ? count : Math.ceil(count * 0.2);
             const vShuf = shuffle(vocabPool);
+            const mcqCount = isComplete ? Math.ceil(vCount * 0.5) : vCount;
 
-            vShuf.slice(0, vCount).forEach(w => {
+            // MCQ vocab
+            vShuf.slice(0, mcqCount).forEach(w => {
                 const jpToFr = Math.random() > 0.4;
                 if (jpToFr) {
-                    const wrongs = shuffle(vocabPool.filter(x => x.meaning !== w.meaning)).slice(0, 3).map(x => x.meaning);
+                    const wrongs = shuffle(vocabPool.filter(x => L(x,"meaning") !== L(w,"meaning"))).slice(0, 3).map(x => L(x,"meaning"));
                     questions.push({
-                        section: I18n.t('exam_sec_vocab'),
-                        sectionSub: I18n.t('exam_part_meaning'),
+                        mode: 'mcq', section: I18n.t('exam_sec_vocab'), sectionSub: I18n.t('exam_part_meaning'),
                         text: `<span class="exam-jp-lg">${w.kanji || w.kana}</span>${w.kanji ? `<br><span class="exam-reading">${w.kana}</span>` : ''}`,
-                        hint: I18n.t('vocab_what_translation'),
-                        translation: `${w.kanji || w.kana} (${w.kana})`,
-                        choices: shuffle([w.meaning, ...wrongs]),
-                        correct: w.meaning,
-                        detail: `${w.kanji || w.kana} (${w.kana}) = ${w.meaning}`,
-                        type: 'vocab'
+                        hint: I18n.t('vocab_what_translation'), translation: `${w.kanji || w.kana} (${w.kana})`,
+                        choices: shuffle([L(w,"meaning"), ...wrongs]), correct: L(w,"meaning"),
+                        detail: `${w.kanji || w.kana} (${w.kana}) = ${L(w,"meaning")}`, type: 'vocab'
                     });
                 } else {
                     const wrongs = shuffle(vocabPool.filter(x => (x.kanji || x.kana) !== (w.kanji || w.kana))).slice(0, 3).map(x => x.kanji || x.kana);
                     questions.push({
-                        section: I18n.t('exam_sec_vocab'),
-                        sectionSub: I18n.t('exam_part_word'),
-                        text: `<span class="exam-fr-prompt">${w.meaning}</span>`,
-                        hint: I18n.t('vocab_what_japanese'),
-                        translation: '',
-                        choices: shuffle([w.kanji || w.kana, ...wrongs]),
-                        correct: w.kanji || w.kana,
-                        detail: `${w.meaning} = ${w.kanji || w.kana} (${w.kana})`,
-                        type: 'vocab'
+                        mode: 'mcq', section: I18n.t('exam_sec_vocab'), sectionSub: I18n.t('exam_part_word'),
+                        text: `<span class="exam-fr-prompt">${L(w,"meaning")}</span>`,
+                        hint: I18n.t('vocab_what_japanese'), translation: '',
+                        choices: shuffle([w.kanji || w.kana, ...wrongs]), correct: w.kanji || w.kana,
+                        detail: `${L(w,"meaning")} = ${w.kanji || w.kana} (${w.kana})`, type: 'vocab'
                     });
                 }
             });
+
+            // INPUT: Traduction de mots (complete only)
+            if (isComplete) {
+                vShuf.slice(mcqCount, vCount).forEach(w => {
+                    questions.push({
+                        mode: 'input', section: I18n.t('exam_sec_vocab'), sectionSub: I18n.t('exam_part_translation'),
+                        text: `<span class="exam-jp-lg" style="font-size:40px;">${w.kanji || w.kana}</span>${w.kanji ? `<br><span class="exam-reading">${w.kana}</span>` : ''}`,
+                        hint: I18n.t('exam_translate_word'), translation: '',
+                        correct: L(w,"meaning"),
+                        detail: `${w.kanji || w.kana} (${w.kana}) = ${L(w,"meaning")}`, type: 'vocab'
+                    });
+                });
+            }
         }
 
         // === GRAMMAR SECTION ===
-        if (type === 'complete' || type === 'grammar') {
-            const gCount = type === 'grammar' ? count : Math.ceil(count * 0.3);
+        if (isComplete || type === 'grammar') {
+            const gCount = type === 'grammar' ? count : Math.ceil(count * 0.25);
             const gShuf = shuffle(grammarPool);
+            const mcqGCount = isComplete ? Math.ceil(gCount * 0.5) : gCount;
 
-            gShuf.slice(0, Math.ceil(gCount / 2)).forEach(g => {
-                // Particules / structures: complete the sentence
+            // MCQ: Quelle structure ?
+            gShuf.slice(0, Math.ceil(mcqGCount / 2)).forEach(g => {
                 if (g.examples && g.examples.length > 0) {
                     const ex = g.examples[0];
                     const wrongs = shuffle(grammarPool.filter(x => x.id !== g.id)).slice(0, 3).map(x => x.title);
                     questions.push({
-                        section: I18n.t('exam_sec_grammar'),
-                        sectionSub: I18n.t('exam_part_structures'),
+                        mode: 'mcq', section: I18n.t('exam_sec_grammar'), sectionSub: I18n.t('exam_part_structures'),
                         text: `<span class="exam-jp-md">${ex.jp}</span>`,
-                        hint: I18n.t('grammar_which_structure'),
-                        translation: ex.fr,
-                        choices: shuffle([g.title, ...wrongs]),
-                        correct: g.title,
-                        detail: `${g.title} (${g.structure}) : ${g.meaning}`,
-                        type: 'grammar'
+                        hint: I18n.t('grammar_which_structure'), translation: L(ex,"fr"),
+                        choices: shuffle([g.title, ...wrongs]), correct: g.title,
+                        detail: `${g.title} (${g.structure}) : ${L(g,"meaning")}`, type: 'grammar'
                     });
                 }
             });
 
-            // Meaning of structures
-            gShuf.slice(Math.ceil(gCount / 2), gCount).forEach(g => {
-                const wrongs = shuffle(grammarPool.filter(x => x.id !== g.id)).slice(0, 3).map(x => x.meaning);
+            // MCQ: Signification
+            gShuf.slice(Math.ceil(mcqGCount / 2), mcqGCount).forEach(g => {
+                const wrongs = shuffle(grammarPool.filter(x => x.id !== g.id)).slice(0, 3).map(x => L(x,"meaning"));
                 questions.push({
-                    section: I18n.t('exam_sec_grammar'),
-                    sectionSub: I18n.t('exam_part_meaning'),
+                    mode: 'mcq', section: I18n.t('exam_sec_grammar'), sectionSub: I18n.t('exam_part_meaning'),
                     text: `<strong>${g.title}</strong><br><span class="exam-reading">${g.structure}</span>`,
-                    hint: `${I18n.t('grammar_what_means')} ?`,
-                    translation: '',
-                    choices: shuffle([g.meaning, ...wrongs]),
-                    correct: g.meaning,
-                    detail: `${g.title} = ${g.meaning}. ${g.explanation}`,
-                    type: 'grammar'
+                    hint: `${I18n.t('grammar_what_means')} ?`, translation: '',
+                    choices: shuffle([L(g,"meaning"), ...wrongs]), correct: L(g,"meaning"),
+                    detail: `${g.title} = ${L(g,"meaning")}. ${L(g,"explanation")}`, type: 'grammar'
                 });
             });
+
+            // INPUT: Traduction de phrases (complete only)
+            if (isComplete) {
+                gShuf.slice(mcqGCount, gCount).forEach(g => {
+                    if (g.examples && g.examples.length > 0) {
+                        const ex = g.examples[Math.floor(Math.random() * g.examples.length)];
+                        questions.push({
+                            mode: 'input', section: I18n.t('exam_sec_grammar'), sectionSub: I18n.t('exam_part_translation'),
+                            text: `<span class="exam-jp-md">${this.stripHtml(ex.jp)}</span>`,
+                            hint: I18n.t('exam_translate_jp'), translation: '',
+                            correct: L(ex,"fr"),
+                            detail: `${this.stripHtml(ex.jp)} = ${L(ex,"fr")}`, type: 'grammar'
+                        });
+                    }
+                });
+            }
         }
 
-        // === COMPREHENSION (only in complete) ===
-        if (type === 'complete') {
+        // === COMPREHENSION (complete only) ===
+        if (isComplete) {
             const readingTexts = LevelFilter.get() === 'N4' ? ReadingModule.textsN4 :
                                  LevelFilter.get() === 'N5' ? ReadingModule.textsN5 :
                                  [...ReadingModule.textsN5, ...ReadingModule.textsN4];
             if (readingTexts.length > 0) {
                 const t = shuffle(readingTexts)[0];
-                const rCount = Math.min(3, t.questions.length);
-                shuffle(t.questions).slice(0, rCount).forEach(q => {
+                const rQuestions = shuffle(t.questions).slice(0, Math.min(4, t.questions.length));
+                const half = Math.ceil(rQuestions.length / 2);
+
+                const fullText = t.text;
+                const fullTranslation = L(t,"translation") || '';
+
+                // MCQ comprehension
+                rQuestions.slice(0, half).forEach(q => {
                     questions.push({
-                        section: I18n.t('exam_sec_reading'),
-                        sectionSub: t.titleJp,
-                        text: `<div class="exam-reading-excerpt">${t.text.substring(0, 200)}...</div><div class="exam-jp-md" style="margin-top:12px;">${q.q}</div>`,
-                        hint: '',
-                        translation: t.translation.substring(0, 150) + '...',
-                        choices: q.choices,
+                        mode: 'mcq', section: I18n.t('exam_sec_reading'), sectionSub: t.titleJp,
+                        text: `<div class="exam-reading-excerpt">${fullText}</div><div class="exam-jp-md" style="margin-top:12px;">${q.q}</div>`,
+                        hint: I18n.t('exam_reading_comp'), translation: fullTranslation,
+                        choices: q.choices, correct: q.correct,
+                        detail: q.explanation, type: 'reading'
+                    });
+                });
+
+                // INPUT comprehension — auto-eval
+                rQuestions.slice(half).forEach(q => {
+                    questions.push({
+                        mode: 'input', section: I18n.t('exam_sec_reading'), sectionSub: t.titleJp,
+                        text: `<div class="exam-reading-excerpt">${fullText}</div><div class="exam-jp-md" style="margin-top:12px;">${q.q}</div>`,
+                        hint: I18n.t('exam_reading_comp'), translation: fullTranslation,
                         correct: q.correct,
-                        detail: q.explanation,
-                        type: 'reading'
+                        detail: q.explanation, type: 'reading'
                     });
                 });
             }
@@ -347,68 +397,136 @@ window.ExamModule = {
             : `<span style="color:var(--text-muted);">${I18n.t('exam_no_limit')}</span>`;
 
         const dots = es.questions.map((_, i) => {
-            let dotClass = 'background:var(--bg-input);';
-            if (es.answers[i] !== null) dotClass = 'background:var(--accent);';
-            if (i === es.current) dotClass = 'background:var(--sakura); transform:scale(1.3);';
-            return `<div class="exam-dot" data-qi="${i}" style="width:10px; height:10px; border-radius:50%; ${dotClass} cursor:pointer; transition:all 0.2s;"></div>`;
+            let dotClass = 'exam-dot';
+            if (es.answers[i] !== null) dotClass += ' answered';
+            if (i === es.current) dotClass += ' current';
+            return `<div class="${dotClass}" data-qi="${i}"></div>`;
         }).join('');
 
+        const level = LevelFilter.get();
+        const levelLabel = level === 'all' ? 'N5 / N4' : level;
+        const typeMap = { complete: I18n.t('exam_type_complete'), kanji: I18n.t('exam_type_kanji'), grammar: I18n.t('exam_type_grammar'), vocab: I18n.t('exam_type_vocab') };
+        const examTitle = typeMap[es.type] || I18n.t('exam_type_complete');
+
         container.innerHTML = `
-            <div class="exam-timer">
-                <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
-                    ${timeDisplay}
-                    <span style="color:var(--text-muted); font-size:13px;">${I18n.t('exam_question')} ${es.current + 1}/${es.questions.length}</span>
-                </div>
-                <button class="btn btn-danger btn-sm" id="exam-finish">${I18n.t('exam_finish')}</button>
-            </div>
-            <div style="display:flex; flex-wrap:wrap; gap:4px; margin-bottom:20px; justify-content:center;">
-                ${dots}
-            </div>
-            <div class="exam-question">
-                <div class="exam-q-header">
-                    <span class="exam-q-number">${I18n.t('exam_question')} ${es.current + 1} — ${typeLabel}</span>
-                    ${q.sectionSub ? `<span class="exam-q-sub">${q.sectionSub}</span>` : ''}
-                </div>
-                <div class="exam-q-text">${q.text}</div>
-                ${q.hint ? `<div class="exam-q-hint">${q.hint}</div>` : ''}
-                ${q.translation && !answered ? `<div class="exam-q-translation">${q.translation}</div>` : ''}
-                <div class="quiz-options">
-                    ${q.choices.map((c, i) => {
-                        let cls = '';
-                        if (answered) {
-                            if (c === q.correct) cls = 'correct';
-                            else if (c === es.answers[es.current]) cls = 'incorrect';
-                        }
-                        return `<button class="quiz-option ${cls}" data-answer="${c}" ${answered ? 'disabled' : ''}>${c}</button>`;
-                    }).join('')}
-                </div>
-                ${answered ? `
-                    <div class="quiz-feedback show ${es.answers[es.current] === q.correct ? 'correct-fb' : 'incorrect-fb'}">
-                        ${es.answers[es.current] === q.correct
-                            ? `${I18n.t('correct')}`
-                            : `${I18n.t('incorrect')}`
-                        }
-                        <div class="exam-detail-explanation">${q.detail}</div>
-                        ${q.translation ? `<div class="exam-detail-translation">${q.translation}</div>` : ''}
+            <div class="doc-page">
+                <div class="doc-toolbar">
+                    <div class="doc-toolbar-left">
+                        ${timeDisplay}
+                        <span class="doc-toolbar-info">${I18n.t('exam_question')} ${es.current + 1} / ${es.questions.length}</span>
                     </div>
-                ` : ''}
-            </div>
-            <div class="exam-nav-buttons">
-                <button class="btn btn-secondary" id="exam-prev" ${es.current === 0 ? 'disabled' : ''}>${I18n.t('previous')}</button>
-                ${es.current < es.questions.length - 1
-                    ? `<button class="btn btn-primary" id="exam-next-q">${I18n.t('next')}</button>`
-                    : `<button class="btn btn-success" id="exam-submit">${I18n.t('exam_submit')}</button>`
-                }
+                    <button class="btn btn-danger btn-sm" id="exam-finish">${I18n.t('exam_finish')}</button>
+                </div>
+
+                <div class="doc-sheet">
+                    <div class="doc-header">
+                        <div class="doc-header-logo">&#x1F4DD; JLPT</div>
+                        <div class="doc-header-title">${examTitle} — ${levelLabel}</div>
+                        <div class="doc-header-meta">${es.questions.length} ${I18n.t('exam_questions').toLowerCase()} &bull; ${new Date().toLocaleDateString()}</div>
+                        <div class="doc-header-rule"></div>
+                    </div>
+
+                    <div class="doc-dots">${dots}</div>
+
+                    <div class="doc-section-label">${q.section}${q.sectionSub ? ` — ${q.sectionSub}` : ''}</div>
+
+                    <div class="doc-question-block">
+                        <div class="doc-q-number">${I18n.t('exam_question')} ${es.current + 1}</div>
+                        <div class="doc-q-category">${typeLabel}</div>
+                        <div class="doc-q-body">${q.text}</div>
+                        ${q.hint ? `<div class="doc-q-hint">${q.hint}</div>` : ''}
+                        ${q.translation && !answered ? (q.type === 'reading'
+                            ? `<details class="doc-q-translation-collapse"><summary>${I18n.t('reading_show_translation')}</summary><div class="doc-q-translation">${q.translation}</div></details>`
+                            : `<div class="doc-q-translation">${q.translation}</div>`) : ''}
+                    </div>
+
+                    ${q.mode === 'mcq' ? `
+                    <div class="doc-choices">
+                        ${q.choices.map((c, i) => {
+                            const letter = String.fromCharCode(65 + i);
+                            let cls = 'doc-choice';
+                            if (answered) {
+                                if (c === q.correct) cls += ' correct';
+                                else if (c === es.answers[es.current]) cls += ' incorrect';
+                                else cls += ' disabled';
+                            }
+                            return `<button class="${cls}" data-answer="${c}" ${answered ? 'disabled' : ''}>
+                                <span class="doc-choice-letter">${letter}</span>
+                                <span class="doc-choice-text">${c}</span>
+                            </button>`;
+                        }).join('')}
+                    </div>
+                    ${answered ? `
+                        <div class="doc-feedback ${es.answers[es.current] === q.correct ? 'correct' : 'incorrect'}">
+                            <div class="doc-feedback-title">${es.answers[es.current] === q.correct ? I18n.t('correct') : I18n.t('incorrect')}</div>
+                            <div class="doc-feedback-detail">${q.detail}</div>
+                            ${q.translation ? `<div class="doc-feedback-translation">${q.translation}</div>` : ''}
+                        </div>
+                    ` : ''}
+                    ` : `
+                    ${!answered ? `
+                        <div class="doc-input-area">
+                            <textarea class="doc-input" id="exam-input" rows="2" placeholder="${I18n.t('exam_type_answer')}"></textarea>
+                            <button class="btn btn-primary" id="exam-validate">${I18n.t('exam_validate')}</button>
+                        </div>
+                    ` : `
+                        <div class="doc-input-review">
+                            <div class="doc-input-yours">
+                                <span class="doc-input-label">${I18n.t('exam_your_input')}</span>
+                                <div class="doc-input-value">${es.answers[es.current] || '-'}</div>
+                            </div>
+                            <div class="doc-input-expected">
+                                <span class="doc-input-label">${I18n.t('exam_expected')}</span>
+                                <div class="doc-input-value">${q.correct}</div>
+                            </div>
+                        </div>
+                        <div class="doc-feedback ${this.checkInputAnswer(es.answers[es.current], q.correct) ? 'correct' : 'incorrect'}">
+                            <div class="doc-feedback-title">${this.checkInputAnswer(es.answers[es.current], q.correct) ? I18n.t('correct') : I18n.t('incorrect')}</div>
+                            <div class="doc-feedback-detail">${q.detail}</div>
+                        </div>
+                    `}
+                    `}
+
+                    <div class="doc-footer-rule"></div>
+                    <div class="doc-footer">
+                        <span>Page ${es.current + 1} / ${es.questions.length}</span>
+                    </div>
+                </div>
+
+                <div class="doc-nav">
+                    <button class="btn btn-secondary" id="exam-prev" ${es.current === 0 ? 'disabled' : ''}>${I18n.t('previous')}</button>
+                    ${es.current < es.questions.length - 1
+                        ? `<button class="btn btn-primary" id="exam-next-q">${I18n.t('next')}</button>`
+                        : `<button class="btn btn-success" id="exam-submit">${I18n.t('exam_submit')}</button>`
+                    }
+                </div>
             </div>`;
 
         // Bind events
         if (!answered) {
-            container.querySelectorAll('.quiz-option').forEach(opt => {
-                opt.addEventListener('click', () => {
-                    es.answers[es.current] = opt.dataset.answer;
-                    this.renderExam(container);
+            if (q.mode === 'mcq') {
+                container.querySelectorAll('.doc-choice').forEach(opt => {
+                    opt.addEventListener('click', () => {
+                        es.answers[es.current] = opt.dataset.answer;
+                        this.renderExam(container);
+                    });
                 });
-            });
+            } else {
+                // Input mode: validate button
+                const inputEl = document.getElementById('exam-input');
+                const validateBtn = document.getElementById('exam-validate');
+                const submitInput = () => {
+                    const val = inputEl?.value?.trim();
+                    if (!val) return;
+                    es.answers[es.current] = val;
+                    this.renderExam(container);
+                };
+                validateBtn?.addEventListener('click', submitInput);
+                inputEl?.addEventListener('keydown', e => {
+                    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submitInput(); }
+                });
+                inputEl?.focus();
+            }
         }
 
         document.getElementById('exam-prev')?.addEventListener('click', () => {
@@ -419,7 +537,9 @@ window.ExamModule = {
         });
         document.getElementById('exam-submit')?.addEventListener('click', () => this.finishExam());
 
-        if (answered) {
+        // Enter to advance (only when fully answered/evaluated)
+        const fullyAnswered = answered;
+        if (fullyAnswered) {
             document.addEventListener('keydown', function onEnter(e) {
                 if (e.key === 'Enter') {
                     document.removeEventListener('keydown', onEnter);
@@ -460,7 +580,12 @@ window.ExamModule = {
         const byType = {};
 
         es.questions.forEach((q, i) => {
-            const isCorrect = es.answers[i] === q.correct;
+            let isCorrect;
+            if (q.mode === 'input') {
+                isCorrect = es.answers[i] ? this.checkInputAnswer(es.answers[i], q.correct) : false;
+            } else {
+                isCorrect = es.answers[i] === q.correct;
+            }
             if (isCorrect) correct++;
 
             if (!byType[q.type]) byType[q.type] = { correct: 0, total: 0 };
@@ -538,7 +663,9 @@ window.ExamModule = {
     renderReview(container) {
         const es = this.examState;
         const errors = es.questions.map((q, i) => ({ ...q, userAnswer: es.answers[i], index: i }))
-            .filter(q => q.userAnswer !== q.correct);
+            .filter(q => q.mode === 'input'
+                ? !(q.userAnswer && this.checkInputAnswer(q.userAnswer, q.correct))
+                : q.userAnswer !== q.correct);
 
         if (errors.length === 0) {
             container.innerHTML = `
