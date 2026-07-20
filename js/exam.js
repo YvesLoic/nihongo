@@ -168,15 +168,18 @@ window.ExamModule = {
             const kCount = type === 'kanji' ? count : Math.ceil(count * 0.25);
             const kShuf = shuffle(kanjiPool);
 
+            // Helper: combine ON + KUN readings
+            const reading = (k) => [k.on, k.kun].filter(Boolean).join(' / ');
+
             // MCQ: Lecture des kanji
             kShuf.slice(0, Math.ceil(kCount / 2)).forEach(k => {
-                const wrongs = shuffle(kanjiPool.filter(x => x.kanji !== k.kanji)).slice(0, 3).map(x => x.on || x.kun);
+                const wrongs = shuffle(kanjiPool.filter(x => x.kanji !== k.kanji && reading(x) !== reading(k))).slice(0, 3).map(x => reading(x));
                 questions.push({
                     mode: 'mcq', section: I18n.t('exam_sec_kanji'), sectionSub: I18n.t('exam_part_reading'),
                     text: `<span class="exam-jp-lg">${k.kanji}</span>`,
                     hint: I18n.t('exam_kanji_reading_q'), translation: `${k.kanji} = ${L(k,"meaning")}`,
-                    choices: shuffle([k.on || k.kun, ...wrongs]), correct: k.on || k.kun,
-                    detail: `${k.kanji} : ON: ${k.on}, KUN: ${k.kun} = ${L(k,"meaning")}`, type: 'kanji'
+                    choices: shuffle([reading(k), ...wrongs]), correct: reading(k),
+                    detail: `${k.kanji} : ON: ${k.on || '-'}, KUN: ${k.kun || '-'} = ${L(k,"meaning")}`, type: 'kanji'
                 });
             });
 
@@ -186,9 +189,9 @@ window.ExamModule = {
                 questions.push({
                     mode: 'mcq', section: I18n.t('exam_sec_kanji'), sectionSub: I18n.t('exam_part_meaning'),
                     text: `<span class="exam-jp-lg">${k.kanji}</span>`,
-                    hint: I18n.t('exam_kanji_meaning_q'), translation: `${k.kanji} (${k.on || k.kun})`,
+                    hint: I18n.t('exam_kanji_meaning_q'), translation: `${k.kanji} (${reading(k)})`,
                     choices: shuffle([L(k,"meaning"), ...wrongs]), correct: L(k,"meaning"),
-                    detail: `${k.kanji} = ${L(k,"meaning")} (ON: ${k.on}, KUN: ${k.kun})`, type: 'kanji'
+                    detail: `${k.kanji} = ${L(k,"meaning")} (ON: ${k.on || '-'}, KUN: ${k.kun || '-'})`, type: 'kanji'
                 });
             });
         }
@@ -297,12 +300,15 @@ window.ExamModule = {
                 const rQuestions = shuffle(t.questions).slice(0, Math.min(4, t.questions.length));
                 const half = Math.ceil(rQuestions.length / 2);
 
+                const fullText = t.text;
+                const fullTranslation = L(t,"translation") || '';
+
                 // MCQ comprehension
                 rQuestions.slice(0, half).forEach(q => {
                     questions.push({
                         mode: 'mcq', section: I18n.t('exam_sec_reading'), sectionSub: t.titleJp,
-                        text: `<div class="exam-reading-excerpt">${t.text.substring(0, 250)}...</div><div class="exam-jp-md" style="margin-top:12px;">${q.q}</div>`,
-                        hint: I18n.t('exam_reading_comp'), translation: t.translation.substring(0, 150) + '...',
+                        text: `<div class="exam-reading-excerpt">${fullText}</div><div class="exam-jp-md" style="margin-top:12px;">${q.q}</div>`,
+                        hint: I18n.t('exam_reading_comp'), translation: fullTranslation,
                         choices: q.choices, correct: q.correct,
                         detail: q.explanation, type: 'reading'
                     });
@@ -312,8 +318,8 @@ window.ExamModule = {
                 rQuestions.slice(half).forEach(q => {
                     questions.push({
                         mode: 'input', section: I18n.t('exam_sec_reading'), sectionSub: t.titleJp,
-                        text: `<div class="exam-reading-excerpt">${t.text.substring(0, 250)}...</div><div class="exam-jp-md" style="margin-top:12px;">${q.q}</div>`,
-                        hint: I18n.t('exam_reading_comp'), translation: t.translation.substring(0, 150) + '...',
+                        text: `<div class="exam-reading-excerpt">${fullText}</div><div class="exam-jp-md" style="margin-top:12px;">${q.q}</div>`,
+                        hint: I18n.t('exam_reading_comp'), translation: fullTranslation,
                         correct: q.correct,
                         detail: q.explanation, type: 'reading'
                     });
@@ -429,7 +435,9 @@ window.ExamModule = {
                         <div class="doc-q-category">${typeLabel}</div>
                         <div class="doc-q-body">${q.text}</div>
                         ${q.hint ? `<div class="doc-q-hint">${q.hint}</div>` : ''}
-                        ${q.translation && !answered ? `<div class="doc-q-translation">${q.translation}</div>` : ''}
+                        ${q.translation && !answered ? (q.type === 'reading'
+                            ? `<details class="doc-q-translation-collapse"><summary>${I18n.t('reading_show_translation')}</summary><div class="doc-q-translation">${q.translation}</div></details>`
+                            : `<div class="doc-q-translation">${q.translation}</div>`) : ''}
                     </div>
 
                     ${q.mode === 'mcq' ? `

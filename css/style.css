@@ -1461,6 +1461,28 @@ body {
     background: rgba(255,255,255,0.03);
 }
 
+.doc-q-translation-collapse {
+    margin-bottom: 16px;
+}
+
+.doc-q-translation-collapse summary {
+    font-size: 13px;
+    color: var(--accent);
+    cursor: pointer;
+    padding: 6px 0;
+    font-weight: 500;
+    user-select: none;
+}
+
+.doc-q-translation-collapse summary:hover {
+    text-decoration: underline;
+}
+
+.doc-q-translation-collapse .doc-q-translation {
+    margin-top: 8px;
+    margin-bottom: 0;
+}
+
 /* Choices — lettered like A B C D */
 .doc-choices {
     display: flex;
