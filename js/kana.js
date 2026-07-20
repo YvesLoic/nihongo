@@ -176,9 +176,12 @@ window.KanaModule = {
         const qs = this.quizState;
         container.innerHTML = `
             <div class="quiz-container">
-                <div class="quiz-progress">
-                    <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${pct}%"></div></div>
-                    <span class="quiz-counter">${qs.current + 1}/${qs.questions.length}</span>
+                <div class="quiz-top-bar">
+                    <div class="quiz-progress">
+                        <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${pct}%"></div></div>
+                        <span class="quiz-counter">${qs.current + 1}/${qs.questions.length}</span>
+                    </div>
+                    <button class="btn btn-secondary btn-sm quiz-quit-btn" id="kana-quit">${I18n.t('quiz_quit')}</button>
                 </div>
                 <div class="quiz-card">
                     <div class="quiz-prompt">${q.char}</div>
@@ -210,7 +213,7 @@ window.KanaModule = {
                 qs.score++;
                 input.classList.add('correct');
                 feedback.className = 'quiz-feedback show correct-fb';
-                feedback.textContent = I18n.t('correct');
+                feedback.innerHTML = `${I18n.t('correct')} <span style="font-size:13px; opacity:0.85;">${q.char} = ${q.romaji}</span>`;
             } else {
                 input.classList.add('incorrect');
                 feedback.className = 'quiz-feedback show incorrect-fb';
@@ -240,6 +243,14 @@ window.KanaModule = {
             qs.current++;
             this.renderQuiz(container);
         });
+
+        document.getElementById('kana-quit')?.addEventListener('click', () => {
+            this.quizState = null;
+            this.currentTab = 'hiragana';
+            document.querySelectorAll('.kana-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('.kana-tabs .tab-btn[data-tab="hiragana"]')?.classList.add('active');
+            this.render();
+        });
     },
 
     renderMCQ(container, q, pct) {
@@ -253,9 +264,12 @@ window.KanaModule = {
 
         container.innerHTML = `
             <div class="quiz-container">
-                <div class="quiz-progress">
-                    <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${pct}%"></div></div>
-                    <span class="quiz-counter">${qs.current + 1}/${qs.questions.length}</span>
+                <div class="quiz-top-bar">
+                    <div class="quiz-progress">
+                        <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${pct}%"></div></div>
+                        <span class="quiz-counter">${qs.current + 1}/${qs.questions.length}</span>
+                    </div>
+                    <button class="btn btn-secondary btn-sm quiz-quit-btn" id="kana-quit">${I18n.t('quiz_quit')}</button>
                 </div>
                 <div class="quiz-card">
                     <div class="quiz-prompt">${q.char}</div>
@@ -289,7 +303,7 @@ window.KanaModule = {
                     qs.score++;
                     opt.classList.add('correct');
                     feedback.className = 'quiz-feedback show correct-fb';
-                    feedback.textContent = I18n.t('correct');
+                    feedback.innerHTML = `${I18n.t('correct')} <span style="font-size:13px; opacity:0.85;">${q.char} = ${q.romaji}</span>`;
                 } else {
                     opt.classList.add('incorrect');
                     container.querySelector(`[data-answer="${q.romaji}"]`).classList.add('correct');
@@ -314,6 +328,14 @@ window.KanaModule = {
                 qs.current++;
                 KanaModule.renderQuiz(container);
             }
+        });
+
+        document.getElementById('kana-quit')?.addEventListener('click', () => {
+            this.quizState = null;
+            this.currentTab = 'hiragana';
+            document.querySelectorAll('.kana-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('.kana-tabs .tab-btn[data-tab="hiragana"]')?.classList.add('active');
+            this.render();
         });
     },
 

@@ -22,6 +22,10 @@ window.I18n = {
             search: 'Rechercher',
             start: 'Commencer',
             finish: 'Terminer',
+            quiz_quit: 'Quitter le quiz',
+            profile_level: 'Niveau JLPT',
+            profile_level_desc: 'Selectionnez le niveau de contenu a afficher.',
+            level_all: 'Tout',
             all: 'Tout',
             days: 'jours',
             level: 'Niveau',
@@ -195,6 +199,18 @@ window.I18n = {
             exam_part_word: 'Mot japonais',
             exam_kanji_reading_q: 'Quelle est la lecture ?',
             exam_kanji_meaning_q: 'Quelle est la signification ?',
+            exam_translate_jp: 'Traduisez cette phrase :',
+            exam_translate_word: 'Traduisez ce mot :',
+            exam_fill_blank: 'Completez la phrase :',
+            exam_reading_comp: 'Lisez le texte et repondez :',
+            exam_type_answer: 'Tapez votre reponse...',
+            exam_validate: 'Valider',
+            exam_part_translation: 'Traduction',
+            exam_part_fill: 'Completer',
+            exam_self_correct: 'Ma reponse etait correcte',
+            exam_self_incorrect: 'Ma reponse etait incorrecte',
+            exam_expected: 'Reponse attendue :',
+            exam_your_input: 'Votre reponse :',
 
             // -- Profile --
             profile_title: 'Profil',
@@ -280,6 +296,10 @@ window.I18n = {
             search: 'Search',
             start: 'Start',
             finish: 'Finish',
+            quiz_quit: 'Quit quiz',
+            profile_level: 'JLPT Level',
+            profile_level_desc: 'Select the content level to display.',
+            level_all: 'All',
             all: 'All',
             days: 'days',
             level: 'Level',
@@ -453,6 +473,18 @@ window.I18n = {
             exam_part_word: 'Japanese word',
             exam_kanji_reading_q: 'What is the reading?',
             exam_kanji_meaning_q: 'What is the meaning?',
+            exam_translate_jp: 'Translate this sentence:',
+            exam_translate_word: 'Translate this word:',
+            exam_fill_blank: 'Complete the sentence:',
+            exam_reading_comp: 'Read the text and answer:',
+            exam_type_answer: 'Type your answer...',
+            exam_validate: 'Submit',
+            exam_part_translation: 'Translation',
+            exam_part_fill: 'Fill in',
+            exam_self_correct: 'My answer was correct',
+            exam_self_incorrect: 'My answer was incorrect',
+            exam_expected: 'Expected answer:',
+            exam_your_input: 'Your answer:',
 
             // -- Profile --
             profile_title: 'Profile',
@@ -564,4 +596,15 @@ window.I18n = {
             el.title = this.t(key);
         });
     }
+};
+
+// Global helper: picks the right locale field from a data object
+// Usage: L(obj, 'meaning') → returns obj.meaningEn or obj.meaningFr based on locale
+window.L = function(obj, field) {
+    if (!obj || !field) return '';
+    const en = obj[field + 'En'];
+    const fr = obj[field + 'Fr'];
+    // For grammar examples: L(example, 'fr') → example.frEn or example.frFr
+    if (I18n.locale === 'en' && en) return en;
+    return fr || obj[field] || '';
 };
