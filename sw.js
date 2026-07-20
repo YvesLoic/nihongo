@@ -1,21 +1,23 @@
-const CACHE_NAME = 'nihongo-v1';
+const CACHE_NAME = 'nihongo-v2';
+const BASE = self.location.pathname.replace(/sw\.js$/, '');
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/css/style.css',
-  '/js/i18n.js',
-  '/js/data.js',
-  '/js/storage.js',
-  '/js/kana.js',
-  '/js/kanji.js',
-  '/js/grammar.js',
-  '/js/vocab.js',
-  '/js/reading.js',
-  '/js/exam.js',
-  '/js/app.js',
-  '/icon.svg',
-  '/manifest.json'
-];
+  '',
+  'index.html',
+  'css/style.css',
+  'js/i18n.js',
+  'js/data.js',
+  'js/storage.js',
+  'js/kana.js',
+  'js/kanji.js',
+  'js/grammar.js',
+  'js/vocab.js',
+  'js/reading.js',
+  'js/exam.js',
+  'js/admin.js',
+  'js/app.js',
+  'icon.svg',
+  'manifest.json'
+].map(a => BASE + a);
 
 // Install: cache all static assets
 self.addEventListener('install', e => {
@@ -37,7 +39,6 @@ self.addEventListener('activate', e => {
 
 // Fetch: network first, fallback to cache
 self.addEventListener('fetch', e => {
-  // Skip non-GET and external requests
   if (e.request.method !== 'GET') return;
   if (!e.request.url.startsWith(self.location.origin)) return;
 

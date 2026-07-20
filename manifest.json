@@ -2,7 +2,7 @@
   "name": "日本語の本 - Japanese Learning",
   "short_name": "日本語の本",
   "description": "Learn Japanese - JLPT N5 & N4",
-  "start_url": "/index.html",
+  "start_url": ".",
   "display": "standalone",
   "background_color": "#0f0f1a",
   "theme_color": "#7c5bf5",
