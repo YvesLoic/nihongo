@@ -69,7 +69,7 @@ window.ListeningModule = {
                     audio: w.kana,
                     question: I18n.t('vocab_what_translation'),
                     choices: shuffle([w, ...wrongs]).map(x => ({ text: L(x, "meaning"), correct: x.kana === w.kana })),
-                    detail: `${w.kanji || w.kana} (${w.kana}) = ${L(w, "meaning")}`
+                    detail: `${F(w.kanji,w.kana)||w.kana} (${w.kana}) = ${L(w, "meaning")}`
                 });
             });
         } else if (type === 'kanji') {

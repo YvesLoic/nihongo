@@ -129,14 +129,12 @@ window.KanjiModule = {
                     <div class="flashcard-face">
                         <div class="flashcard-char">${k.kanji}</div>
                         <span class="kanji-level-tag ${k.level.toLowerCase()}">${k.level}</span>
-                        <button class="btn btn-secondary btn-sm flashcard-speak-btn" id="kfc-speak-front" title="${I18n.t('listen')}">&#x1F50A; ${I18n.t('listen')}</button>
                         <div style="margin-top:12px; font-size:14px; color:var(--text-muted);">${I18n.t('click_to_flip')}</div>
                     </div>
                     <div class="flashcard-face flashcard-back">
                         <div class="flashcard-char" style="font-size:48px;">${k.kanji}</div>
                         <div class="flashcard-meaning">${L(k,"meaning")}</div>
                         <div class="flashcard-reading">ON: ${k.on || '-'} | KUN: ${k.kun || '-'}</div>
-                        <button class="btn btn-secondary btn-sm flashcard-speak-btn" id="kfc-speak-back" title="${I18n.t('listen')}">&#x1F50A;</button>
                         <div class="flashcard-examples">
                             ${(I18n.locale==="en"?k.examplesEn:k.examplesFr).slice(0, 3).map(e => `<div>${e}</div>`).join('')}
                         </div>
@@ -153,8 +151,9 @@ window.KanjiModule = {
                     <span class="flashcard-counter">${this.flashcardIndex + 1} / ${this.flashcardList.length}</span>
                     <button class="btn btn-secondary" id="fc-next">${I18n.t('next')}</button>
                 </div>
-                <div style="text-align:center; margin-top:16px;">
+                <div style="text-align:center; margin-top:16px; display:flex; gap:8px; justify-content:center;">
                     <button class="btn btn-secondary btn-sm" id="fc-shuffle">${I18n.t('shuffle')}</button>
+                    <button class="btn btn-secondary btn-sm" id="kfc-speak">&#x1F50A; ${I18n.t('listen')}</button>
                 </div>
             </div>`;
 
@@ -206,8 +205,7 @@ window.KanjiModule = {
                 App.toast(I18n.t('tts_unsupported'), 'error');
             }
         };
-        document.getElementById('kfc-speak-front')?.addEventListener('click', speakKanji);
-        document.getElementById('kfc-speak-back')?.addEventListener('click', speakKanji);
+        document.getElementById('kfc-speak')?.addEventListener('click', speakKanji);
     },
 
     renderQuiz(container) {

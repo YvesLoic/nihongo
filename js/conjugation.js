@@ -208,7 +208,7 @@ window.ConjugationModule = {
                     <button class="btn btn-secondary btn-sm quiz-quit-btn" id="conj-quit">${I18n.t('quiz_quit')}</button>
                 </div>
                 <div class="quiz-card">
-                    <div class="quiz-prompt" style="font-size:40px;">${q.verb.dict}</div>
+                    <div class="quiz-prompt" style="font-size:40px;">${F(q.verb.dict, q.verb.kana)}</div>
                     <div class="quiz-hint" style="font-size:16px;">${L(q.verb,"meaning")} — <strong>${I18n.locale === 'en' ? q.form.nameEn : q.form.nameFr}</strong></div>
                     <div style="margin-top:4px; font-size:13px; color:var(--text-muted);">
                         ${I18n.t('conj_group')} ${q.verb.group === 1 ? I18n.t('conj_g1') : q.verb.group === 2 ? I18n.t('conj_g2') : I18n.t('conj_g3')}
@@ -290,7 +290,7 @@ window.ConjugationModule = {
                     ${qs.questions.map((q, i) => {
                         const a = qs.answers[i];
                         return `<div style="padding:8px 12px; margin-bottom:4px; border-radius:6px; background:${a.correct ? 'rgba(52,211,153,0.08)' : 'rgba(248,113,113,0.08)'}; font-size:14px;">
-                            <strong>${q.verb.dict}</strong> → ${I18n.locale === 'en' ? q.form.nameEn : q.form.nameFr}:
+                            <strong>${F(q.verb.dict, q.verb.kana)}</strong> → ${I18n.locale === 'en' ? q.form.nameEn : q.form.nameFr}:
                             ${a.correct ? '✓ ' + q.answer : '✗ ' + a.userAnswer + ' → <strong>' + q.answer + '</strong>'}
                         </div>`;
                     }).join('')}

@@ -82,8 +82,8 @@ window.SentenceModule = {
                     <button class="btn btn-secondary" id="sent-reset">${I18n.t('sentence_reset')}</button>
                     <button class="btn btn-primary" id="sent-check">${I18n.t('sentence_check')}</button>
                 </div>
-                <div class="quiz-feedback" id="sent-feedback"></div>
-                <div class="quiz-actions">
+                <div class="quiz-feedback" id="sent-feedback" style="margin-top:20px;"></div>
+                <div class="quiz-actions" style="margin-top:16px;">
                     <button class="btn btn-secondary" id="sent-next" style="display:none">${I18n.t('next')}</button>
                 </div>
             </div>`;

@@ -3362,6 +3362,37 @@ body {
 }
 
 /* ========================================
+   FURIGANA
+   ======================================== */
+ruby {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: bottom;
+    text-align: center;
+}
+
+ruby rt {
+    display: block;
+    font-size: 0.45em;
+    color: var(--accent-light);
+    line-height: 1.2;
+    letter-spacing: 0.05em;
+    order: -1;
+}
+
+ruby rp {
+    display: none;
+}
+
+.grammar-reading-furigana {
+    font-size: 13px;
+    color: var(--accent-light);
+    margin-top: 2px;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+
+/* ========================================
    CONJUGATION MODULE
    ======================================== */
 .conj-form-grid {

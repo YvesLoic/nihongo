@@ -58,7 +58,7 @@ window.GrammarModule = {
                             <div class="grammar-note">${L(g,"explanation")}</div>
                             ${g.examples.slice(1).map(ex => `
                                 <div class="grammar-example">
-                                    <div class="grammar-jp">${ex.jp}</div>
+                                    <div class="grammar-jp">${ex.jp}${ex.reading && Furigana.enabled ? '<div class="grammar-reading-furigana">'+ ex.reading +'</div>' : ''}</div>
                                     ${ex.reading ? `<div style="font-size:12px; color:var(--text-muted); margin-bottom:4px;">${ex.reading}</div>` : ''}
                                     <div class="grammar-fr">${L(ex,"fr")}</div>
                                 </div>

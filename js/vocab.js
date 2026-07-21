@@ -87,8 +87,8 @@ window.VocabModule = {
             <div class="vocab-word-list" id="vocab-word-list">
                 ${t.words.map(w => `
                     <div class="vocab-word-item" data-kana="${w.kana}">
-                        <span class="vocab-kanji-col">${w.kanji || w.kana}</span>
-                        <span class="vocab-reading-col">${w.kanji ? w.kana : ''}</span>
+                        <span class="vocab-kanji-col">${F(w.kanji, w.kana) || w.kana}</span>
+                        <span class="vocab-reading-col">${w.kanji && !Furigana.enabled ? w.kana : ''}</span>
                         <span class="vocab-meaning-col">${L(w,"meaning")}</span>
                         <span class="vocab-level-col kanji-level-tag ${w.level.toLowerCase()}">${w.level}</span>
                     </div>
@@ -163,13 +163,13 @@ window.VocabModule = {
             <div class="flashcard-container">
                 <div class="flashcard" id="vocab-flashcard">
                     <div class="flashcard-face">
-                        <div class="flashcard-char" style="font-size:60px;">${w.kanji || w.kana}</div>
-                        ${w.kanji ? `<div class="flashcard-reading" style="font-size:16px;">${w.kana}</div>` : ''}
+                        <div class="flashcard-char" style="font-size:60px;">${F(w.kanji, w.kana) || w.kana}</div>
+                        ${w.kanji && !Furigana.enabled ? `<div class="flashcard-reading" style="font-size:16px;">${w.kana}</div>` : ''}
                         <div style="margin-top:12px; font-size:14px; color:var(--text-muted);">${I18n.t('click_to_see')}</div>
                     </div>
                     <div class="flashcard-face flashcard-back">
-                        <div class="flashcard-char" style="font-size:48px;">${w.kanji || w.kana}</div>
-                        ${w.kanji ? `<div class="flashcard-reading">${w.kana}</div>` : ''}
+                        <div class="flashcard-char" style="font-size:48px;">${F(w.kanji, w.kana) || w.kana}</div>
+                        ${w.kanji && !Furigana.enabled ? `<div class="flashcard-reading">${w.kana}</div>` : ''}
                         <div class="flashcard-meaning">${L(w,"meaning")}</div>
                         <span class="kanji-level-tag ${w.level.toLowerCase()}">${w.level}</span>
                     </div>

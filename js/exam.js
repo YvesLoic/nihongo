@@ -209,10 +209,10 @@ window.ExamModule = {
                     const wrongs = shuffle(vocabPool.filter(x => L(x,"meaning") !== L(w,"meaning"))).slice(0, 3).map(x => L(x,"meaning"));
                     questions.push({
                         mode: 'mcq', section: I18n.t('exam_sec_vocab'), sectionSub: I18n.t('exam_part_meaning'),
-                        text: `<span class="exam-jp-lg">${w.kanji || w.kana}</span>${w.kanji ? `<br><span class="exam-reading">${w.kana}</span>` : ''}`,
-                        hint: I18n.t('vocab_what_translation'), translation: `${w.kanji || w.kana} (${w.kana})`,
+                        text: `<span class="exam-jp-lg">${F(w.kanji,w.kana)||w.kana}</span>${w.kanji ? `<br><span class="exam-reading">${w.kana}</span>` : ''}`,
+                        hint: I18n.t('vocab_what_translation'), translation: `${F(w.kanji,w.kana)||w.kana} (${w.kana})`,
                         choices: shuffle([L(w,"meaning"), ...wrongs]), correct: L(w,"meaning"),
-                        detail: `${w.kanji || w.kana} (${w.kana}) = ${L(w,"meaning")}`, type: 'vocab'
+                        detail: `${F(w.kanji,w.kana)||w.kana} (${w.kana}) = ${L(w,"meaning")}`, type: 'vocab'
                     });
                 } else {
                     const wrongs = shuffle(vocabPool.filter(x => (x.kanji || x.kana) !== (w.kanji || w.kana))).slice(0, 3).map(x => x.kanji || x.kana);
@@ -221,7 +221,7 @@ window.ExamModule = {
                         text: `<span class="exam-fr-prompt">${L(w,"meaning")}</span>`,
                         hint: I18n.t('vocab_what_japanese'), translation: '',
                         choices: shuffle([w.kanji || w.kana, ...wrongs]), correct: w.kanji || w.kana,
-                        detail: `${L(w,"meaning")} = ${w.kanji || w.kana} (${w.kana})`, type: 'vocab'
+                        detail: `${L(w,"meaning")} = ${F(w.kanji,w.kana)||w.kana} (${w.kana})`, type: 'vocab'
                     });
                 }
             });
@@ -231,10 +231,10 @@ window.ExamModule = {
                 vShuf.slice(mcqCount, vCount).forEach(w => {
                     questions.push({
                         mode: 'input', section: I18n.t('exam_sec_vocab'), sectionSub: I18n.t('exam_part_translation'),
-                        text: `<span class="exam-jp-lg" style="font-size:40px;">${w.kanji || w.kana}</span>${w.kanji ? `<br><span class="exam-reading">${w.kana}</span>` : ''}`,
+                        text: `<span class="exam-jp-lg" style="font-size:40px;">${F(w.kanji,w.kana)||w.kana}</span>${w.kanji ? `<br><span class="exam-reading">${w.kana}</span>` : ''}`,
                         hint: I18n.t('exam_translate_word'), translation: '',
                         correct: L(w,"meaning"),
-                        detail: `${w.kanji || w.kana} (${w.kana}) = ${L(w,"meaning")}`, type: 'vocab'
+                        detail: `${F(w.kanji,w.kana)||w.kana} (${w.kana}) = ${L(w,"meaning")}`, type: 'vocab'
                     });
                 });
             }

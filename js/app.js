@@ -321,14 +321,36 @@ window.App = {
         btn.style.display = 'inline-flex';
         btn.textContent = `${I18n.t('dash_start_review')} (${allDue.length})`;
         btn.onclick = () => {
+            // Navigate to the category with most due reviews and start its flashcard/quiz mode
             const counts = {
                 kana: reviews.kana.length,
                 kanji: reviews.kanji.length,
                 grammar: reviews.grammar.length,
-                vocabulary: reviews.vocab.length
+                vocab: reviews.vocab.length
             };
             const maxCat = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
-            this.navigateTo(maxCat);
+
+            if (maxCat === 'kanji') {
+                KanjiModule.currentTab = 'kanji-flashcard';
+                document.querySelectorAll('.kanji-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('.kanji-tabs .tab-btn[data-tab="kanji-flashcard"]')?.classList.add('active');
+                this.navigateTo('kanji');
+            } else if (maxCat === 'vocab') {
+                VocabModule.currentTab = 'vocab-flashcard';
+                document.querySelectorAll('.vocab-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('.vocab-tabs .tab-btn[data-tab="vocab-flashcard"]')?.classList.add('active');
+                this.navigateTo('vocabulary');
+            } else if (maxCat === 'grammar') {
+                GrammarModule.currentTab = 'grammar-exercises';
+                document.querySelectorAll('.grammar-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('.grammar-tabs .tab-btn[data-tab="grammar-exercises"]')?.classList.add('active');
+                this.navigateTo('grammar');
+            } else if (maxCat === 'kana') {
+                KanaModule.currentTab = 'kana-quiz';
+                document.querySelectorAll('.kana-tabs .tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('.kana-tabs .tab-btn[data-tab="kana-quiz"]')?.classList.add('active');
+                this.navigateTo('kana');
+            }
         };
     },
 
@@ -439,10 +461,25 @@ window.App = {
                 </div>
             </div>`;
 
+        const furiganaHtml = `
+            <div class="profile-section">
+                <div class="profile-section-title">${I18n.t('profile_furigana')}</div>
+                <div class="profile-section-desc">${I18n.t('profile_furigana_desc')}</div>
+                <div class="lang-options">
+                    <button class="lang-option furigana-opt ${Furigana.enabled ? 'active' : ''}" data-furigana="on">
+                        ${I18n.t('profile_furigana_on')}
+                    </button>
+                    <button class="lang-option furigana-opt ${!Furigana.enabled ? 'active' : ''}" data-furigana="off">
+                        ${I18n.t('profile_furigana_off')}
+                    </button>
+                </div>
+            </div>`;
+
         container.innerHTML = `
             ${accountHtml}
             ${statsHtml}
             ${levelHtml}
+            ${furiganaHtml}
             <div class="profile-section">
                 <div class="profile-section-title">${I18n.t('profile_language')}</div>
                 <div class="profile-section-desc">${I18n.t('profile_language_desc')}</div>
@@ -462,6 +499,16 @@ window.App = {
                 <div class="profile-section-desc">${I18n.t('profile_reset_desc')}</div>
                 <button class="btn btn-danger" id="profile-reset">${I18n.t('profile_reset_btn')}</button>
             </div>`;
+
+        // Bind furigana toggle
+        container.querySelectorAll('.furigana-opt').forEach(btn => {
+            btn.addEventListener('click', () => {
+                container.querySelectorAll('.furigana-opt').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                Furigana.enabled = btn.dataset.furigana === 'on';
+                App.toast(I18n.t('profile_saved'), 'success');
+            });
+        });
 
         // Bind level selector
         container.querySelectorAll('.level-btn').forEach(btn => {
