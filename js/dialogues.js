@@ -84,6 +84,159 @@ window.DialoguesModule = {
                     {jp:'もう少(すこ)し安(やす)いのはありますか？',frFr:'En avez-vous un moins cher ?',frEn:'Do you have a cheaper one?',correct:true}
                 ]}
             ]
+        },
+        {
+            id:'hotel', titleFr:'A l\'hotel', titleEn:'At the hotel', icon:'🏨', level:'N5',
+            lines: [
+                {speaker:'staff',jp:'いらっしゃいませ。ご予約(よやく)はございますか？',frFr:'Bienvenue. Avez-vous une reservation ?',frEn:'Welcome. Do you have a reservation?'},
+                {speaker:'you',choices:[
+                    {jp:'はい、田中(たなか)です。',frFr:'Oui, au nom de Tanaka.',frEn:'Yes, under Tanaka.',correct:true},
+                    {jp:'いいえ、ありません。',frFr:'Non.',frEn:'No, I don\'t.',correct:false}
+                ]},
+                {speaker:'staff',jp:'二泊(にはく)ですね。お部屋(へや)は三階(さんがい)です。',frFr:'Deux nuits, n\'est-ce pas. La chambre est au 3e etage.',frEn:'Two nights, right. Your room is on the 3rd floor.'},
+                {speaker:'you',choices:[
+                    {jp:'朝(あさ)ご飯(はん)は何時(なんじ)からですか？',frFr:'A quelle heure est le petit-dejeuner ?',frEn:'What time is breakfast?',correct:true},
+                    {jp:'ありがとう。',frFr:'Merci.',frEn:'Thank you.',correct:false}
+                ]},
+                {speaker:'staff',jp:'七時(しちじ)から九時(くじ)までです。一階(いっかい)のレストランです。',frFr:'De 7h a 9h. Au restaurant du 1er etage.',frEn:'From 7 to 9. At the 1st floor restaurant.'},
+                {speaker:'you',choices:[
+                    {jp:'Wi-Fiのパスワードを教(おし)えてください。',frFr:'Pouvez-vous me donner le mot de passe Wi-Fi ?',frEn:'Could you tell me the Wi-Fi password?',correct:true},
+                    {jp:'さようなら。',frFr:'Au revoir.',frEn:'Goodbye.',correct:false}
+                ]},
+                {speaker:'staff',jp:'こちらのカードに書(か)いてあります。ごゆっくりどうぞ。',frFr:'C\'est ecrit sur cette carte. Bon sejour.',frEn:'It\'s written on this card. Enjoy your stay.'}
+            ]
+        },
+        {
+            id:'post_office', titleFr:'A la poste', titleEn:'At the post office', icon:'📮', level:'N5',
+            lines: [
+                {speaker:'you_init',jp:'すみません。この手紙(てがみ)をフランスに送(おく)りたいです。',frFr:'Excusez-moi. Je voudrais envoyer cette lettre en France.',frEn:'Excuse me. I\'d like to send this letter to France.'},
+                {speaker:'staff',jp:'航空便(こうくうびん)ですか？船便(ふなびん)ですか？',frFr:'Par avion ou par bateau ?',frEn:'By air or by sea?'},
+                {speaker:'you',choices:[
+                    {jp:'航空便(こうくうびん)でお願(ねが)いします。',frFr:'Par avion s\'il vous plait.',frEn:'By air please.',correct:true},
+                    {jp:'分(わ)かりません。',frFr:'Je ne sais pas.',frEn:'I don\'t know.',correct:false}
+                ]},
+                {speaker:'staff',jp:'百二十円(ひゃくにじゅうえん)です。切手(きって)はこちらです。',frFr:'C\'est 120 yens. Voici le timbre.',frEn:'It\'s 120 yen. Here\'s the stamp.'},
+                {speaker:'you',choices:[
+                    {jp:'何日(なんにち)ぐらいかかりますか？',frFr:'Combien de jours ca prend ?',frEn:'About how many days will it take?',correct:true},
+                    {jp:'高(たか)いですね。',frFr:'C\'est cher.',frEn:'That\'s expensive.',correct:false}
+                ]},
+                {speaker:'staff',jp:'一週間(いっしゅうかん)ぐらいです。',frFr:'Environ une semaine.',frEn:'About one week.'}
+            ]
+        },
+        {
+            id:'school', titleFr:'A l\'ecole', titleEn:'At school', icon:'🏫', level:'N5',
+            lines: [
+                {speaker:'other',jp:'おはようございます！今日(きょう)の授業(じゅぎょう)は何(なん)ですか？',frFr:'Bonjour ! Quel est le cours aujourd\'hui ?',frEn:'Good morning! What class is today?'},
+                {speaker:'you',choices:[
+                    {jp:'日本語(にほんご)と数学(すうがく)です。',frFr:'Japonais et mathematiques.',frEn:'Japanese and math.',correct:true},
+                    {jp:'分(わ)かりません。',frFr:'Je ne sais pas.',frEn:'I don\'t know.',correct:false}
+                ]},
+                {speaker:'other',jp:'宿題(しゅくだい)はしましたか？',frFr:'Tu as fait les devoirs ?',frEn:'Did you do the homework?'},
+                {speaker:'you',choices:[
+                    {jp:'はい、全部(ぜんぶ)しました。',frFr:'Oui, j\'ai tout fait.',frEn:'Yes, I did everything.',correct:true},
+                    {jp:'いいえ、忘(わす)れました。',frFr:'Non, j\'ai oublie.',frEn:'No, I forgot.',correct:true}
+                ]},
+                {speaker:'other',jp:'先生(せんせい)に質問(しつもん)がありますか？',frFr:'Tu as une question pour le professeur ?',frEn:'Do you have a question for the teacher?'},
+                {speaker:'you',choices:[
+                    {jp:'はい。この漢字(かんじ)の読(よ)み方(かた)を教(おし)えてください。',frFr:'Oui. Pouvez-vous me dire comment lire ce kanji ?',frEn:'Yes. Could you tell me how to read this kanji?',correct:true},
+                    {jp:'いいえ、大丈夫(だいじょうぶ)です。',frFr:'Non, ca va.',frEn:'No, I\'m fine.',correct:true}
+                ]}
+            ]
+        },
+        {
+            id:'bank', titleFr:'A la banque', titleEn:'At the bank', icon:'🏦', level:'N4',
+            lines: [
+                {speaker:'you_init',jp:'すみません。口座(こうざ)を開(ひら)きたいのですが。',frFr:'Excusez-moi. Je voudrais ouvrir un compte.',frEn:'Excuse me. I\'d like to open an account.'},
+                {speaker:'staff',jp:'パスポートをお持(も)ちですか？',frFr:'Avez-vous votre passeport ?',frEn:'Do you have your passport?'},
+                {speaker:'you',choices:[
+                    {jp:'はい、ここにあります。',frFr:'Oui, le voici.',frEn:'Yes, here it is.',correct:true},
+                    {jp:'いいえ、家(いえ)にあります。',frFr:'Non, il est a la maison.',frEn:'No, it\'s at home.',correct:false}
+                ]},
+                {speaker:'staff',jp:'この書類(しょるい)に名前(なまえ)と住所(じゅうしょ)を書(か)いてください。',frFr:'Veuillez ecrire votre nom et adresse sur ce formulaire.',frEn:'Please write your name and address on this form.'},
+                {speaker:'you',choices:[
+                    {jp:'カタカナで書(か)いてもいいですか？',frFr:'Puis-je ecrire en katakana ?',frEn:'May I write in katakana?',correct:true},
+                    {jp:'日本語(にほんご)が分(わ)かりません。',frFr:'Je ne comprends pas le japonais.',frEn:'I don\'t understand Japanese.',correct:false}
+                ]},
+                {speaker:'staff',jp:'はい、大丈夫(だいじょうぶ)です。キャッシュカードは一週間(いっしゅうかん)で届(とど)きます。',frFr:'Oui, c\'est bon. La carte bancaire arrivera dans une semaine.',frEn:'Yes, that\'s fine. Your bank card will arrive in one week.'}
+            ]
+        },
+        {
+            id:'phone', titleFr:'Au telephone', titleEn:'On the phone', icon:'📞', level:'N4',
+            lines: [
+                {speaker:'other',jp:'もしもし、田中(たなか)ですが。',frFr:'Allo, c\'est Tanaka.',frEn:'Hello, this is Tanaka.'},
+                {speaker:'you',choices:[
+                    {jp:'ああ、田中さん。お元気(げんき)ですか？',frFr:'Ah, Tanaka. Comment allez-vous ?',frEn:'Ah, Tanaka. How are you?',correct:true},
+                    {jp:'誰(だれ)ですか？',frFr:'Qui est-ce ?',frEn:'Who is this?',correct:false}
+                ]},
+                {speaker:'other',jp:'元気(げんき)ですよ。明日(あした)の約束(やくそく)の件(けん)ですが。',frFr:'Je vais bien. C\'est a propos du rendez-vous de demain.',frEn:'I\'m fine. It\'s about tomorrow\'s appointment.'},
+                {speaker:'you',choices:[
+                    {jp:'はい、何時(なんじ)に会(あ)いましょうか？',frFr:'Oui, a quelle heure on se retrouve ?',frEn:'Yes, what time shall we meet?',correct:true},
+                    {jp:'明日(あした)は忙(いそが)しいです。',frFr:'Demain je suis occupe.',frEn:'I\'m busy tomorrow.',correct:false}
+                ]},
+                {speaker:'other',jp:'二時(にじ)に駅(えき)の前(まえ)はどうですか？',frFr:'A 14h devant la gare, ca va ?',frEn:'How about 2pm in front of the station?'},
+                {speaker:'you',choices:[
+                    {jp:'いいですよ。では、また明日(あした)。',frFr:'D\'accord. A demain alors.',frEn:'Sounds good. See you tomorrow then.',correct:true},
+                    {jp:'ちょっと遠(とお)いですね。',frFr:'C\'est un peu loin.',frEn:'That\'s a bit far.',correct:false}
+                ]}
+            ]
+        },
+        {
+            id:'lost', titleFr:'Perdu dans la rue', titleEn:'Lost in the street', icon:'🗺️', level:'N5',
+            lines: [
+                {speaker:'you_init',jp:'すみません。道(みち)に迷(まよ)ってしまいました。',frFr:'Excusez-moi. Je me suis perdu.',frEn:'Excuse me. I\'m lost.'},
+                {speaker:'other',jp:'どこに行(い)きたいですか？',frFr:'Ou voulez-vous aller ?',frEn:'Where do you want to go?'},
+                {speaker:'you',choices:[
+                    {jp:'この住所(じゅうしょ)に行(い)きたいです。',frFr:'Je veux aller a cette adresse.',frEn:'I want to go to this address.',correct:true},
+                    {jp:'どこでもいいです。',frFr:'N\'importe ou.',frEn:'Anywhere is fine.',correct:false}
+                ]},
+                {speaker:'other',jp:'ああ、近(ちか)いですよ。この道(みち)をまっすぐ行(い)って、二(ふた)つ目(め)の信号(しんごう)を右(みぎ)に曲(ま)がってください。',frFr:'Ah, c\'est pres d\'ici. Allez tout droit, puis tournez a droite au 2e feu.',frEn:'Ah, it\'s nearby. Go straight and turn right at the 2nd traffic light.'},
+                {speaker:'you',choices:[
+                    {jp:'歩(ある)いて何分(なんぷん)ぐらいですか？',frFr:'C\'est a combien de minutes a pied ?',frEn:'About how many minutes on foot?',correct:true},
+                    {jp:'ありがとうございます。',frFr:'Merci beaucoup.',frEn:'Thank you very much.',correct:true}
+                ]},
+                {speaker:'other',jp:'五分(ごふん)ぐらいです。気(き)をつけて！',frFr:'Environ 5 minutes. Faites attention !',frEn:'About 5 minutes. Be careful!'}
+            ]
+        },
+        {
+            id:'weather', titleFr:'Parler de la meteo', titleEn:'Talking about weather', icon:'🌤️', level:'N5',
+            lines: [
+                {speaker:'other',jp:'今日(きょう)はいい天気(てんき)ですね。',frFr:'Il fait beau aujourd\'hui.',frEn:'Nice weather today, isn\'t it?'},
+                {speaker:'you',choices:[
+                    {jp:'そうですね。散歩(さんぽ)に行(い)きませんか？',frFr:'Oui. On va se promener ?',frEn:'Yes. Shall we go for a walk?',correct:true},
+                    {jp:'いいえ、雨(あめ)です。',frFr:'Non, il pleut.',frEn:'No, it\'s raining.',correct:false}
+                ]},
+                {speaker:'other',jp:'いいですね！でも、午後(ごご)から雨(あめ)が降(ふ)るらしいですよ。',frFr:'Bonne idee ! Mais il parait qu\'il va pleuvoir cet apres-midi.',frEn:'Good idea! But it seems it will rain this afternoon.'},
+                {speaker:'you',choices:[
+                    {jp:'じゃあ、傘(かさ)を持(も)って行(い)きましょう。',frFr:'Alors, prenons un parapluie.',frEn:'Then let\'s bring an umbrella.',correct:true},
+                    {jp:'雨(あめ)は好(す)きです。',frFr:'J\'aime la pluie.',frEn:'I like rain.',correct:false}
+                ]},
+                {speaker:'other',jp:'明日(あした)は晴(は)れるそうです。ピクニックはどうですか？',frFr:'Il parait qu\'il fera beau demain. Un pique-nique, ca vous dit ?',frEn:'I heard it will be sunny tomorrow. How about a picnic?'},
+                {speaker:'you',choices:[
+                    {jp:'いいですね！お弁当(べんとう)を作(つく)りましょう。',frFr:'Bonne idee ! Preparons des bentos.',frEn:'Sounds great! Let\'s make bentos.',correct:true},
+                    {jp:'明日(あした)は忙(いそが)しいです。',frFr:'Demain je suis occupe.',frEn:'I\'m busy tomorrow.',correct:false}
+                ]}
+            ]
+        },
+        {
+            id:'introduce', titleFr:'Se presenter', titleEn:'Introducing yourself', icon:'🙋', level:'N5',
+            lines: [
+                {speaker:'other',jp:'はじめまして。私(わたし)は佐藤(さとう)です。よろしくお願(ねが)いします。',frFr:'Enchante. Je suis Sato. Ravi de vous connaitre.',frEn:'Nice to meet you. I\'m Sato. Pleased to meet you.'},
+                {speaker:'you',choices:[
+                    {jp:'はじめまして。私(わたし)はマリーです。フランスから来(き)ました。',frFr:'Enchantee. Je suis Marie. Je viens de France.',frEn:'Nice to meet you. I\'m Marie. I\'m from France.',correct:true},
+                    {jp:'さようなら。',frFr:'Au revoir.',frEn:'Goodbye.',correct:false}
+                ]},
+                {speaker:'other',jp:'フランスですか！日本語(にほんご)がお上手(じょうず)ですね。',frFr:'La France ! Vous parlez bien japonais.',frEn:'France! Your Japanese is good.'},
+                {speaker:'you',choices:[
+                    {jp:'いいえ、まだまだです。毎日(まいにち)勉強(べんきょう)しています。',frFr:'Non, pas encore. J\'etudie tous les jours.',frEn:'No, not yet. I study every day.',correct:true},
+                    {jp:'はい、ペラペラです。',frFr:'Oui, je suis fluent.',frEn:'Yes, I\'m fluent.',correct:false}
+                ]},
+                {speaker:'other',jp:'お仕事(しごと)は何(なん)ですか？',frFr:'Quel est votre travail ?',frEn:'What\'s your job?'},
+                {speaker:'you',choices:[
+                    {jp:'学生(がくせい)です。大学(だいがく)で日本語(にほんご)を勉強(べんきょう)しています。',frFr:'Je suis etudiant. J\'etudie le japonais a l\'universite.',frEn:'I\'m a student. I study Japanese at university.',correct:true},
+                    {jp:'エンジニアです。東京(とうきょう)で働(はたら)いています。',frFr:'Je suis ingenieur. Je travaille a Tokyo.',frEn:'I\'m an engineer. I work in Tokyo.',correct:true}
+                ]},
+                {speaker:'other',jp:'そうですか。これからもよろしくお願(ねが)いします！',frFr:'Je vois. Au plaisir de continuer a vous connaitre !',frEn:'I see. Looking forward to getting to know you!'}
+            ]
         }
     ],
 
