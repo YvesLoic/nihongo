@@ -7,6 +7,7 @@ window.App = {
 
     init() {
         I18n.init();
+        this.applyTheme();
 
         this.bindNavigation();
         this.bindMobileMenu();
@@ -34,6 +35,8 @@ window.App = {
         // Update streak
         Storage.updateStreak();
         this.updateDashboard();
+        this.showOnboarding();
+        this.initNotifications();
         this.updateBadges();
     },
 
@@ -90,6 +93,9 @@ window.App = {
         if (page === 'conjugation') ConjugationModule.render();
         if (page === 'listening') ListeningModule.render();
         if (page === 'sentence') SentenceModule.render();
+        if (page === 'games') GamesModule.render();
+        if (page === 'dialogues') DialoguesModule.render();
+        if (page === 'culture') CultureModule.render();
         if (page === 'exam') ExamModule.render();
         if (page === 'profile') this.renderProfile();
         if (page === 'admin') AdminModule.render();
@@ -261,6 +267,46 @@ window.App = {
                         <span class="goal-value">${p.kanjiToday || 0}/5</span>
                     </div>
                 </div>`;
+        }
+
+        // Word of the day
+        const wodArea = document.getElementById('wod-widget-area');
+        if (wodArea) wodArea.innerHTML = GamesModule.renderWordOfDay();
+
+        // Calendar
+        const calArea = document.getElementById('calendar-widget-area');
+        if (calArea) calArea.innerHTML = this.renderCalendar();
+
+        // Weak points
+        const wpArea = document.getElementById('weakpoints-widget-area');
+        if (wpArea) {
+            const weak = this.getWeakPoints();
+            wpArea.innerHTML = weak.length === 0
+                ? `<div class="srs-widget"><div class="srs-widget-icon">✅</div><div class="srs-widget-text">${I18n.t('weakpoints_none')}</div></div>`
+                : `<div style="padding:16px;"><h3 style="margin-bottom:12px;">${I18n.t('weakpoints_title')}</h3>
+                    ${weak.map(w => `<div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid var(--border); font-size:13px;">
+                        <span>${w.id}</span><span style="color:var(--danger);">${w.rate}%</span>
+                    </div>`).join('')}</div>`;
+        }
+
+        // Stats chart (last 7 days)
+        const statsArea = document.getElementById('stats-widget-area');
+        if (statsArea) {
+            const daily = JSON.parse(localStorage.getItem('nihongo_daily_stats') || '{}');
+            const days = [];
+            for (let i = 6; i >= 0; i--) {
+                const d = new Date(Date.now() - i * 86400000);
+                const key = d.toISOString().slice(0, 10);
+                const label = d.toLocaleDateString(I18n.locale === 'en' ? 'en' : 'fr', { weekday: 'short' });
+                days.push({ label, studied: daily[key]?.studied || 0 });
+            }
+            const max = Math.max(1, ...days.map(d => d.studied));
+            statsArea.innerHTML = `<div style="padding:16px;"><h3 style="margin-bottom:16px;">${I18n.t('stats_title')}</h3>
+                <div class="stats-bars">${days.map(d => `<div class="stats-bar-col">
+                    <div class="stats-bar" style="height:${Math.round(d.studied/max*100)}%"></div>
+                    <div class="stats-bar-label">${d.label}</div>
+                    <div class="stats-bar-value">${d.studied}</div>
+                </div>`).join('')}</div></div>`;
         }
 
         // Badges widget
@@ -481,6 +527,18 @@ window.App = {
             ${levelHtml}
             ${furiganaHtml}
             <div class="profile-section">
+                <div class="profile-section-title">${I18n.t('profile_theme')}</div>
+                <div class="profile-section-desc">${I18n.t('profile_theme_desc')}</div>
+                <div class="lang-options">
+                    <button class="lang-option theme-opt ${this.getTheme() === 'dark' ? 'active' : ''}" data-theme="dark">${I18n.t('profile_theme_dark')}</button>
+                    <button class="lang-option theme-opt ${this.getTheme() === 'light' ? 'active' : ''}" data-theme="light">${I18n.t('profile_theme_light')}</button>
+                </div>
+            </div>
+            <div class="profile-section">
+                <div class="profile-section-title">${I18n.t('notif_enable')}</div>
+                <button class="btn btn-secondary" id="profile-notif">${I18n.t('notif_enable')}</button>
+            </div>
+            <div class="profile-section">
                 <div class="profile-section-title">${I18n.t('profile_language')}</div>
                 <div class="profile-section-desc">${I18n.t('profile_language_desc')}</div>
                 <div class="lang-options">
@@ -499,6 +557,29 @@ window.App = {
                 <div class="profile-section-desc">${I18n.t('profile_reset_desc')}</div>
                 <button class="btn btn-danger" id="profile-reset">${I18n.t('profile_reset_btn')}</button>
             </div>`;
+
+        // Bind theme toggle
+        container.querySelectorAll('.theme-opt').forEach(btn => {
+            btn.addEventListener('click', () => {
+                container.querySelectorAll('.theme-opt').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                this.setTheme(btn.dataset.theme);
+            });
+        });
+
+        // Bind notifications
+        document.getElementById('profile-notif')?.addEventListener('click', () => {
+            if ('Notification' in window) {
+                Notification.requestPermission().then(p => {
+                    if (p === 'granted') {
+                        localStorage.setItem('nihongo_notif', 'on');
+                        App.toast(I18n.t('notif_enabled'), 'success');
+                    } else {
+                        App.toast(I18n.t('notif_denied'), 'error');
+                    }
+                });
+            }
+        });
 
         // Bind furigana toggle
         container.querySelectorAll('.furigana-opt').forEach(btn => {
@@ -567,8 +648,103 @@ window.App = {
     },
 
     refreshAllModules() {
-        // Re-apply i18n to all static DOM elements
         I18n.applyToDOM();
+    },
+
+    // ---- Theme ----
+    getTheme() { return localStorage.getItem('nihongo_theme') || 'dark'; },
+    setTheme(theme) {
+        localStorage.setItem('nihongo_theme', theme);
+        this.applyTheme();
+    },
+    applyTheme() {
+        document.documentElement.setAttribute('data-theme', this.getTheme());
+    },
+
+    // ---- Onboarding ----
+    showOnboarding() {
+        if (localStorage.getItem('nihongo_onboarded')) return;
+        const overlay = document.getElementById('onboarding-overlay');
+        if (!overlay) return;
+        overlay.style.display = 'flex';
+        document.getElementById('onboarding-title').textContent = I18n.t('onboarding_welcome');
+        document.getElementById('onboarding-desc').textContent = I18n.t('onboarding_desc');
+        document.getElementById('onboarding-steps').innerHTML = `
+            <div class="onboarding-step"><span>📚</span><span>${I18n.t('onboarding_step1')}</span></div>
+            <div class="onboarding-step"><span>🎯</span><span>${I18n.t('onboarding_step2')}</span></div>
+            <div class="onboarding-step"><span>📝</span><span>${I18n.t('onboarding_step3')}</span></div>`;
+        const btn = document.getElementById('onboarding-start');
+        btn.textContent = I18n.t('onboarding_start');
+        btn.addEventListener('click', () => {
+            localStorage.setItem('nihongo_onboarded', '1');
+            overlay.style.display = 'none';
+        });
+    },
+
+    // ---- Notifications ----
+    initNotifications() {
+        if (localStorage.getItem('nihongo_notif') !== 'on') return;
+        if (!('Notification' in window) || Notification.permission !== 'granted') return;
+        // Schedule daily reminder check
+        const lastNotif = localStorage.getItem('nihongo_last_notif');
+        const today = new Date().toISOString().slice(0, 10);
+        if (lastNotif === today) return;
+        // Send after 1 minute if not studied today
+        setTimeout(() => {
+            const p = Storage.getProgress();
+            if ((p.studiedToday || 0) === 0) {
+                new Notification(I18n.t('notif_title'), { body: I18n.t('notif_body'), icon: 'icon.svg' });
+                localStorage.setItem('nihongo_last_notif', today);
+            }
+        }, 60000);
+    },
+
+    // ---- Weak Points ----
+    getWeakPoints() {
+        const p = Storage.getProgress();
+        const weak = [];
+        ['kanji','vocab','grammar','kana'].forEach(cat => {
+            if (!p[cat]) return;
+            Object.entries(p[cat]).forEach(([id, item]) => {
+                if (item.correct !== undefined && item.total !== undefined) {
+                    const rate = item.total > 0 ? item.correct / item.total : 0;
+                    if (rate < 0.5 && item.total >= 2) weak.push({ cat, id, rate: Math.round(rate * 100), total: item.total });
+                } else if (item.level !== undefined && item.level <= 1 && item.reviews > 1) {
+                    weak.push({ cat, id, rate: 0, total: item.reviews || 0 });
+                }
+            });
+        });
+        return weak.sort((a, b) => a.rate - b.rate).slice(0, 15);
+    },
+
+    // ---- Study Calendar ----
+    renderCalendar() {
+        const history = JSON.parse(localStorage.getItem('nihongo_study_days') || '[]');
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = today.getMonth();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const firstDay = new Date(year, month, 1).getDay();
+        const monthNames = I18n.locale === 'en'
+            ? ['January','February','March','April','May','June','July','August','September','October','November','December']
+            : ['Janvier','Fevrier','Mars','Avril','Mai','Juin','Juillet','Aout','Septembre','Octobre','Novembre','Decembre'];
+
+        let cells = '';
+        for (let i = 0; i < firstDay; i++) cells += '<div class="cal-cell empty"></div>';
+        for (let d = 1; d <= daysInMonth; d++) {
+            const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+            const isToday = d === today.getDate();
+            const studied = history.includes(dateStr);
+            cells += `<div class="cal-cell ${studied ? 'studied' : ''} ${isToday ? 'today' : ''}">${d}</div>`;
+        }
+
+        return `<div class="calendar-widget">
+            <h3>${I18n.t('calendar_title')} — ${monthNames[month]} ${year}</h3>
+            <div class="cal-grid">
+                <div class="cal-header">${(I18n.locale==='en'?'SMTWTFS':'DLMMJVS').split('').map(d=>'<div>'+d+'</div>').join('')}</div>
+                <div class="cal-days">${cells}</div>
+            </div>
+        </div>`;
     }
 };
 

@@ -101,6 +101,18 @@ window.Storage = {
         if (category === 'kanji') p.kanjiToday = (p.kanjiToday || 0) + 1;
         p.lastStudyDate = today;
 
+        // Track study days for calendar
+        const days = JSON.parse(localStorage.getItem('nihongo_study_days') || '[]');
+        if (!days.includes(today)) { days.push(today); localStorage.setItem('nihongo_study_days', JSON.stringify(days.slice(-90))); }
+
+        // Track daily stats for charts
+        const stats = JSON.parse(localStorage.getItem('nihongo_daily_stats') || '{}');
+        if (!stats[today]) stats[today] = { studied: 0, correct: 0, total: 0 };
+        stats[today].studied++;
+        stats[today].total++;
+        if (correct) stats[today].correct++;
+        localStorage.setItem('nihongo_daily_stats', JSON.stringify(stats));
+
         this.saveProgress(p);
         return item;
     },
