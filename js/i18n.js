@@ -23,6 +23,36 @@ window.I18n = {
             start: 'Commencer',
             finish: 'Terminer',
             quiz_quit: 'Quitter le quiz',
+            conj_title: 'Conjugaison',
+            conj_desc: 'Pratiquez les formes verbales du japonais',
+            conj_mix_all: 'Melanger toutes les formes',
+            conj_group: 'Groupe',
+            conj_g1: '1 (godan)',
+            conj_g2: '2 (ichidan)',
+            conj_g3: '3 (irregulier)',
+            conj_placeholder: 'Tapez la conjugaison...',
+            nav_conjugation: 'Conjugaison',
+            listening_title: 'Exercice d\'ecoute',
+            listening_desc: 'Ecoutez et identifiez',
+            listening_play: 'Ecouter',
+            listening_replay: 'Re-ecouter',
+            sentence_title: 'Construction de phrases',
+            sentence_desc: 'Remettez les mots dans le bon ordre',
+            sentence_check: 'Verifier',
+            sentence_reset: 'Reinitialiser',
+            srs_review_title: 'Revisions du jour',
+            srs_no_review: 'Aucune revision pour le moment !',
+            srs_cards_due: 'cartes a revoir',
+            goals_title: 'Objectifs du jour',
+            goals_words: 'Mots etudies',
+            goals_kanji: 'Kanji revises',
+            goals_complete: 'Objectif atteint !',
+            badges_title: 'Badges',
+            badges_locked: 'Bloque',
+            profile_furigana: 'Furigana (lecture des kanji)',
+            profile_furigana_desc: 'Afficher la lecture hiragana au-dessus des kanji dans l\'application.',
+            profile_furigana_on: 'Afficher',
+            profile_furigana_off: 'Masquer',
             profile_level: 'Niveau JLPT',
             profile_level_desc: 'Selectionnez le niveau de contenu a afficher.',
             level_all: 'Tout',
@@ -297,6 +327,36 @@ window.I18n = {
             start: 'Start',
             finish: 'Finish',
             quiz_quit: 'Quit quiz',
+            conj_title: 'Conjugation',
+            conj_desc: 'Practice Japanese verb forms',
+            conj_mix_all: 'Mix all forms',
+            conj_group: 'Group',
+            conj_g1: '1 (godan)',
+            conj_g2: '2 (ichidan)',
+            conj_g3: '3 (irregular)',
+            conj_placeholder: 'Type the conjugation...',
+            nav_conjugation: 'Conjugation',
+            listening_title: 'Listening exercise',
+            listening_desc: 'Listen and identify',
+            listening_play: 'Listen',
+            listening_replay: 'Listen again',
+            sentence_title: 'Sentence building',
+            sentence_desc: 'Put the words in the correct order',
+            sentence_check: 'Check',
+            sentence_reset: 'Reset',
+            srs_review_title: 'Today\'s reviews',
+            srs_no_review: 'No reviews for now!',
+            srs_cards_due: 'cards to review',
+            goals_title: 'Today\'s goals',
+            goals_words: 'Words studied',
+            goals_kanji: 'Kanji reviewed',
+            goals_complete: 'Goal achieved!',
+            badges_title: 'Badges',
+            badges_locked: 'Locked',
+            profile_furigana: 'Furigana (kanji reading)',
+            profile_furigana_desc: 'Show hiragana reading above kanji throughout the app.',
+            profile_furigana_on: 'Show',
+            profile_furigana_off: 'Hide',
             profile_level: 'JLPT Level',
             profile_level_desc: 'Select the content level to display.',
             level_all: 'All',
@@ -599,12 +659,28 @@ window.I18n = {
 };
 
 // Global helper: picks the right locale field from a data object
-// Usage: L(obj, 'meaning') → returns obj.meaningEn or obj.meaningFr based on locale
 window.L = function(obj, field) {
     if (!obj || !field) return '';
     const en = obj[field + 'En'];
     const fr = obj[field + 'Fr'];
-    // For grammar examples: L(example, 'fr') → example.frEn or example.frFr
     if (I18n.locale === 'en' && en) return en;
     return fr || obj[field] || '';
+};
+
+// Furigana setting: show/hide kana reading above kanji
+window.Furigana = {
+    get enabled() {
+        return localStorage.getItem('nihongo_furigana') !== 'off';
+    },
+    set enabled(val) {
+        localStorage.setItem('nihongo_furigana', val ? 'on' : 'off');
+    }
+};
+
+// F(kanji, kana) → returns HTML with ruby furigana or just kanji
+window.F = function(kanji, kana) {
+    if (!kanji) return kana || '';
+    if (!kana || kanji === kana) return kanji;
+    if (!Furigana.enabled) return kanji;
+    return `<ruby>${kanji}<rp>(</rp><rt>${kana}</rt><rp>)</rp></ruby>`;
 };

@@ -61,6 +61,7 @@ window.Storage = {
         }
         p.lastStudyDate = today;
         p.studiedToday = 0;
+        p.kanjiToday = 0;
         this.saveProgress(p);
         return p;
     },
@@ -97,6 +98,7 @@ window.Storage = {
         item.nextReview = nextDate.toISOString().slice(0, 10);
 
         p.studiedToday = (p.studiedToday || 0) + 1;
+        if (category === 'kanji') p.kanjiToday = (p.kanjiToday || 0) + 1;
         p.lastStudyDate = today;
 
         this.saveProgress(p);
