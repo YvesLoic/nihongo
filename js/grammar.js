@@ -150,11 +150,15 @@ window.GrammarModule = {
                 if (correct) {
                     opt.classList.add('correct');
                     feedback.className = 'quiz-feedback show correct-fb';
+                    speakJP(q.correct);
+
                     feedback.innerHTML = `${I18n.t('correct')}<br><span style="font-size:13px; opacity:0.85;"><em>${L(q,"explanation")}</em></span>`;
                 } else {
                     opt.classList.add('incorrect');
                     container.querySelector(`[data-answer="${q.correct}"]`)?.classList.add('correct');
                     feedback.className = 'quiz-feedback show incorrect-fb';
+                    speakJP(q.correct);
+
                     feedback.innerHTML = `${I18n.t('incorrect')} ${I18n.t('grammar_answer')} <strong>${q.correct}</strong><br><em>${L(q,"explanation")}</em>`;
                 }
 

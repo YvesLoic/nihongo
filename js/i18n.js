@@ -766,3 +766,14 @@ window.F = function(kanji, kana) {
     if (!Furigana.enabled) return kanji;
     return `<ruby>${kanji}<rp>(</rp><rt>${kana}</rt><rp>)</rp></ruby>`;
 };
+
+// Global TTS: speak Japanese text after quiz answers
+window.speakJP = function(text) {
+    if (!text || !('speechSynthesis' in window)) return;
+    speechSynthesis.cancel();
+    const clean = text.replace(/<[^>]*>/g, '').replace(/\([^)]*\)/g, '');
+    const u = new SpeechSynthesisUtterance(clean);
+    u.lang = 'ja-JP';
+    u.rate = 0.8;
+    speechSynthesis.speak(u);
+};

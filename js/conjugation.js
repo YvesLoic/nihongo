@@ -244,6 +244,7 @@ window.ConjugationModule = {
                 const correct = val === q.answer;
                 if (correct) qs.score++;
                 qs.answers[qs.current] = { userAnswer: val, correct };
+                speakJP(q.answer);
                 Storage.recordStudy('grammar', 'conj_' + q.verb.dict + '_' + q.form.id, correct);
                 this.renderQuiz(container);
             };
