@@ -536,7 +536,10 @@ window.App = {
             </div>
             <div class="profile-section">
                 <div class="profile-section-title">${I18n.t('notif_enable')}</div>
-                <button class="btn btn-secondary" id="profile-notif">${I18n.t('notif_enable')}</button>
+                <div class="lang-options">
+                    <button class="lang-option notif-opt ${localStorage.getItem('nihongo_notif') === 'on' ? 'active' : ''}" data-notif="on">${I18n.t('notif_enable')}</button>
+                    <button class="lang-option notif-opt ${localStorage.getItem('nihongo_notif') !== 'on' ? 'active' : ''}" data-notif="off">${I18n.t('notif_disable')}</button>
+                </div>
             </div>
             <div class="profile-section">
                 <div class="profile-section-title">${I18n.t('profile_language')}</div>
@@ -568,17 +571,28 @@ window.App = {
         });
 
         // Bind notifications
-        document.getElementById('profile-notif')?.addEventListener('click', () => {
-            if ('Notification' in window) {
-                Notification.requestPermission().then(p => {
-                    if (p === 'granted') {
-                        localStorage.setItem('nihongo_notif', 'on');
-                        App.toast(I18n.t('notif_enabled'), 'success');
-                    } else {
-                        App.toast(I18n.t('notif_denied'), 'error');
+        container.querySelectorAll('.notif-opt').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (btn.dataset.notif === 'on') {
+                    if ('Notification' in window) {
+                        Notification.requestPermission().then(perm => {
+                            if (perm === 'granted') {
+                                localStorage.setItem('nihongo_notif', 'on');
+                                container.querySelectorAll('.notif-opt').forEach(b => b.classList.remove('active'));
+                                btn.classList.add('active');
+                                App.toast(I18n.t('notif_enabled'), 'success');
+                            } else {
+                                App.toast(I18n.t('notif_denied'), 'error');
+                            }
+                        });
                     }
-                });
-            }
+                } else {
+                    localStorage.setItem('nihongo_notif', 'off');
+                    container.querySelectorAll('.notif-opt').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    App.toast(I18n.t('profile_saved'), 'success');
+                }
+            });
         });
 
         // Bind furigana toggle

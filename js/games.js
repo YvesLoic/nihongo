@@ -143,7 +143,9 @@ window.GamesModule = {
 
             container.querySelectorAll('.quiz-option').forEach(opt => {
                 opt.addEventListener('click', () => {
-                    if (opt.dataset.answer === L(q,'meaning')) { score++; }
+                    const isCorrect = opt.dataset.answer === L(q,'meaning');
+                    if (isCorrect) { score++; }
+                    Storage.recordStudy('kanji', q.kanji, isCorrect);
                     current++;
                     renderQ();
                 });

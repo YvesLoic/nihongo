@@ -125,6 +125,7 @@ window.SentenceModule = {
             const userOrder = Array.from(placed).map(b => b.dataset.word);
             const correct = JSON.stringify(userOrder) === JSON.stringify(q.words);
             if (correct) qs.score++;
+            Storage.recordStudy('grammar', 'sent_' + q.words.join(''), correct);
 
             const fb = document.getElementById('sent-feedback');
             fb.className = 'quiz-feedback show ' + (correct ? 'correct-fb' : 'incorrect-fb');
