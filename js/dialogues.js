@@ -467,13 +467,13 @@ window.DialoguesModule = {
             let html = '<div class="dialogue-container">';
             html += `<div class="dialogue-header">${scenario.icon} ${I18n.locale === 'en' ? scenario.titleEn : scenario.titleFr}</div>`;
 
-            // Show all previous lines
+            // Show all previous lines with replay button
             for (let i = 0; i < lineIdx; i++) {
                 const prev = scenario.lines[i];
                 if (prev.choices) continue;
                 const isYou = prev.speaker === 'you_init';
                 html += `<div class="dialogue-bubble ${isYou ? 'you' : 'other'}">
-                    <div class="dialogue-jp">${prev.jp}</div>
+                    <div class="dialogue-jp">${prev.jp} <button class="dialogue-speak-btn" data-text="${prev.jp.replace(/"/g,'&quot;')}">🔊</button></div>
                     <div class="dialogue-translation">${L(prev,'fr')}</div>
                 </div>`;
             }
@@ -490,7 +490,7 @@ window.DialoguesModule = {
             } else {
                 const isYou = line.speaker === 'you_init';
                 html += `<div class="dialogue-bubble ${isYou ? 'you' : 'other'}">
-                    <div class="dialogue-jp">${line.jp}</div>
+                    <div class="dialogue-jp">${line.jp} <button class="dialogue-speak-btn" data-text="${line.jp.replace(/"/g,'&quot;')}">🔊</button></div>
                     <div class="dialogue-translation">${L(line,'fr')}</div>
                 </div>`;
                 html += `<button class="btn btn-primary" id="dial-next" style="margin-top:16px;">${I18n.t('next')}</button>`;
@@ -499,12 +499,19 @@ window.DialoguesModule = {
             html += '</div>';
             container.innerHTML = html;
 
+            // Bind all speak buttons
+            container.querySelectorAll('.dialogue-speak-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    speakJP(btn.dataset.text);
+                });
+            });
+
             if (line.choices) {
                 container.querySelectorAll('.dialogue-choice').forEach(btn => {
                     btn.addEventListener('click', () => {
                         const choice = line.choices[parseInt(btn.dataset.idx)];
                         if (choice.correct) score++;
-                        // Insert the chosen line as a visible bubble
                         scenario.lines.splice(lineIdx, 1, {speaker:'you_init',jp:choice.jp,frFr:choice.frFr,frEn:choice.frEn});
                         lineIdx++;
                         renderLine();
@@ -514,11 +521,9 @@ window.DialoguesModule = {
 
             document.getElementById('dial-next')?.addEventListener('click', () => { lineIdx++; renderLine(); });
 
-            // Auto-speak
-            if (!line.choices && 'speechSynthesis' in window) {
-                const u = new SpeechSynthesisUtterance(line.jp.replace(/<[^>]*>/g,'').replace(/\([^)]*\)/g,''));
-                u.lang = 'ja-JP'; u.rate = 0.8;
-                setTimeout(() => speechSynthesis.speak(u), 300);
+            // Auto-speak current line
+            if (!line.choices) {
+                setTimeout(() => speakJP(line.jp), 300);
             }
         };
         renderLine();
