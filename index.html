@@ -58,6 +58,18 @@
                 <span class="nav-icon">&#x1F4D6;</span>
                 <span class="nav-label" data-i18n="nav_reading">Lecture</span>
             </li>
+            <li class="nav-item" data-page="conjugation">
+                <span class="nav-icon">&#x1F504;</span>
+                <span class="nav-label" data-i18n="nav_conjugation">Conjugaison</span>
+            </li>
+            <li class="nav-item" data-page="listening">
+                <span class="nav-icon">&#x1F3A7;</span>
+                <span class="nav-label">Listening</span>
+            </li>
+            <li class="nav-item" data-page="sentence">
+                <span class="nav-icon">&#x1F9E9;</span>
+                <span class="nav-label" data-i18n="sentence_title">Phrases</span>
+            </li>
             <li class="nav-item" data-page="exam">
                 <span class="nav-icon">&#x1F4DD;</span>
                 <span class="nav-label" data-i18n="nav_exam">Examen</span>
@@ -165,6 +177,18 @@
             <span class="bottom-nav-menu-icon">&#x1F4D6;</span>
             <span data-i18n="nav_reading">Lecture</span>
         </button>
+        <button class="bottom-nav-menu-item" data-page="conjugation">
+            <span class="bottom-nav-menu-icon">&#x1F504;</span>
+            <span data-i18n="nav_conjugation">Conjugaison</span>
+        </button>
+        <button class="bottom-nav-menu-item" data-page="listening">
+            <span class="bottom-nav-menu-icon">&#x1F3A7;</span>
+            <span>Listening</span>
+        </button>
+        <button class="bottom-nav-menu-item" data-page="sentence">
+            <span class="bottom-nav-menu-icon">&#x1F9E9;</span>
+            <span data-i18n="sentence_title">Phrases</span>
+        </button>
         <button class="bottom-nav-menu-item" data-page="profile">
             <span class="bottom-nav-menu-icon">&#x2699;</span>
             <span data-i18n="nav_profile">Profil</span>
@@ -250,6 +274,10 @@
                         Commencer la revision
                     </button>
                 </div>
+
+                <div class="dash-card" id="srs-widget-area"></div>
+                <div class="dash-card" id="goals-widget-area"></div>
+                <div class="dash-card" id="badges-widget-area"></div>
             </div>
         </section>
 
@@ -317,6 +345,33 @@
             <div id="reading-content" class="reading-content"></div>
         </section>
 
+        <!-- Conjugation Page -->
+        <section id="page-conjugation" class="page">
+            <div class="page-header">
+                <h1 data-i18n="conj_title">Conjugaison</h1>
+                <p class="page-subtitle" data-i18n="conj_desc">Pratiquez les formes verbales du japonais</p>
+            </div>
+            <div id="conjugation-content"></div>
+        </section>
+
+        <!-- Listening Page -->
+        <section id="page-listening" class="page">
+            <div class="page-header">
+                <h1 data-i18n="listening_title">Exercice d'ecoute</h1>
+                <p class="page-subtitle" data-i18n="listening_desc">Ecoutez et identifiez</p>
+            </div>
+            <div id="listening-content"></div>
+        </section>
+
+        <!-- Sentence Building Page -->
+        <section id="page-sentence" class="page">
+            <div class="page-header">
+                <h1 data-i18n="sentence_title">Construction de phrases</h1>
+                <p class="page-subtitle" data-i18n="sentence_desc">Remettez les mots dans le bon ordre</p>
+            </div>
+            <div id="sentence-content"></div>
+        </section>
+
         <!-- Exam Page -->
         <section id="page-exam" class="page">
             <div class="page-header">
@@ -369,6 +424,11 @@
     <script src="js/vocab.js"></script>
     <script src="js/reading.js"></script>
     <script src="js/exam.js"></script>
+    <script src="js/conjugation.js"></script>
+    <script src="js/listening.js"></script>
+    <script src="js/sentence.js"></script>
+    <script src="js/srs.js"></script>
+    <script src="js/badges.js"></script>
     <script src="js/admin.js"></script>
     <script src="js/app.js"></script>
 </body>

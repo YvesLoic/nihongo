@@ -20,6 +20,11 @@ window.App = {
         VocabModule.init();
         ReadingModule.init();
         ExamModule.init();
+        ConjugationModule.init();
+        ListeningModule.init();
+        SentenceModule.init();
+        SRS.init();
+        Badges.init();
 
         // Initialize auth, sync & admin
         Auth.init();
@@ -82,6 +87,9 @@ window.App = {
         if (page === 'grammar') GrammarModule.render();
         if (page === 'vocabulary') VocabModule.render();
         if (page === 'reading') ReadingModule.render();
+        if (page === 'conjugation') ConjugationModule.render();
+        if (page === 'listening') ListeningModule.render();
+        if (page === 'sentence') SentenceModule.render();
         if (page === 'exam') ExamModule.render();
         if (page === 'profile') this.renderProfile();
         if (page === 'admin') AdminModule.render();
@@ -229,6 +237,38 @@ window.App = {
         // Review list
         this.updateReviewList();
         this.updateBadges();
+
+        // SRS widget
+        const srsArea = document.getElementById('srs-widget-area');
+        if (srsArea) srsArea.innerHTML = SRS.renderWidget();
+
+        // Goals widget
+        const goalsArea = document.getElementById('goals-widget-area');
+        if (goalsArea) {
+            const studied = p.studiedToday || 0;
+            const kanjiCount = Object.keys(p.kanji || {}).length;
+            goalsArea.innerHTML = `
+                <div class="goals-widget">
+                    <h3>${I18n.t('goals_title')}</h3>
+                    <div class="goal-item">
+                        <span class="goal-label">${I18n.t('goals_words')}</span>
+                        <div class="goal-bar"><div class="goal-fill" style="width:${Math.min(100, studied * 10)}%"></div></div>
+                        <span class="goal-value">${studied}/10</span>
+                    </div>
+                    <div class="goal-item">
+                        <span class="goal-label">${I18n.t('goals_kanji')}</span>
+                        <div class="goal-bar"><div class="goal-fill" style="width:${Math.min(100, (p.kanjiToday || 0) * 20)}%"></div></div>
+                        <span class="goal-value">${p.kanjiToday || 0}/5</span>
+                    </div>
+                </div>`;
+        }
+
+        // Badges widget
+        const badgesArea = document.getElementById('badges-widget-area');
+        if (badgesArea) {
+            Badges.checkAll();
+            badgesArea.innerHTML = Badges.renderWidget();
+        }
     },
 
     setProgress(name, pct) {
