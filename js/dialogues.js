@@ -240,6 +240,173 @@ window.DialoguesModule = {
         }
     ],
 
+    // ========================================
+    // DIALOGUE GENERATOR
+    // ========================================
+    _templates: [
+        { // Asking for directions
+            titleFr:'Demander son chemin', titleEn:'Asking for directions', icon:'🗺️',
+            places: [
+                {jp:'スーパー',frFr:'le supermarche',frEn:'the supermarket'},
+                {jp:'コンビニ',frFr:'le konbini',frEn:'the convenience store'},
+                {jp:'トイレ',frFr:'les toilettes',frEn:'the toilet'},
+                {jp:'バス停(てい)',frFr:'l\'arret de bus',frEn:'the bus stop'},
+                {jp:'ATM',frFr:'un distributeur',frEn:'an ATM'},
+                {jp:'薬局(やっきょく)',frFr:'la pharmacie',frEn:'the pharmacy'}
+            ],
+            directions: [
+                {jp:'この道(みち)をまっすぐ行(い)ってください',frFr:'Allez tout droit',frEn:'Go straight'},
+                {jp:'次(つぎ)の角(かど)を右(みぎ)に曲(ま)がってください',frFr:'Tournez a droite au prochain coin',frEn:'Turn right at the next corner'},
+                {jp:'次(つぎ)の角(かど)を左(ひだり)に曲(ま)がってください',frFr:'Tournez a gauche au prochain coin',frEn:'Turn left at the next corner'},
+                {jp:'二(ふた)つ目(め)の信号(しんごう)を右(みぎ)です',frFr:'C\'est a droite au 2e feu',frEn:'Turn right at the 2nd light'}
+            ],
+            distances: [
+                {jp:'五分(ごふん)ぐらい',frFr:'environ 5 minutes',frEn:'about 5 minutes'},
+                {jp:'十分(じゅっぷん)ぐらい',frFr:'environ 10 minutes',frEn:'about 10 minutes'},
+                {jp:'すぐそこ',frFr:'juste la',frEn:'right there'},
+                {jp:'三百(さんびゃく)メートルぐらい',frFr:'environ 300 metres',frEn:'about 300 meters'}
+            ]
+        },
+        { // Ordering food
+            titleFr:'Commander a manger', titleEn:'Ordering food', icon:'🍜',
+            foods: [
+                {jp:'カレーライス',frFr:'du curry',frEn:'curry rice'},
+                {jp:'うどん',frFr:'des udon',frEn:'udon'},
+                {jp:'天(てん)ぷら定食(ていしょく)',frFr:'un menu tempura',frEn:'a tempura set meal'},
+                {jp:'焼(や)き魚(ざかな)定食(ていしょく)',frFr:'un menu poisson grille',frEn:'a grilled fish set meal'},
+                {jp:'牛丼(ぎゅうどん)',frFr:'un bol de boeuf',frEn:'a beef bowl'},
+                {jp:'お好(この)み焼(や)き',frFr:'un okonomiyaki',frEn:'okonomiyaki'}
+            ],
+            drinks: [
+                {jp:'ビール',frFr:'une biere',frEn:'a beer'},
+                {jp:'お茶(ちゃ)',frFr:'du the',frEn:'tea'},
+                {jp:'コーラ',frFr:'un coca',frEn:'a cola'},
+                {jp:'水(みず)',frFr:'de l\'eau',frEn:'water'}
+            ],
+            amounts: [
+                {jp:'一(ひと)つ',frFr:'un',frEn:'one'},
+                {jp:'二(ふた)つ',frFr:'deux',frEn:'two'}
+            ]
+        },
+        { // Making plans
+            titleFr:'Faire des projets', titleEn:'Making plans', icon:'📅',
+            activities: [
+                {jp:'映画(えいが)を見(み)に',frFr:'voir un film',frEn:'see a movie'},
+                {jp:'カラオケに',frFr:'au karaoke',frEn:'to karaoke'},
+                {jp:'買(か)い物(もの)に',frFr:'faire du shopping',frEn:'go shopping'},
+                {jp:'公園(こうえん)に散歩(さんぽ)に',frFr:'se promener au parc',frEn:'walk in the park'},
+                {jp:'美術館(びじゅつかん)に',frFr:'au musee',frEn:'to the museum'},
+                {jp:'プールに泳(およ)ぎに',frFr:'nager a la piscine',frEn:'swim at the pool'}
+            ],
+            times: [
+                {jp:'土曜日(どようび)の午後(ごご)',frFr:'samedi apres-midi',frEn:'Saturday afternoon'},
+                {jp:'日曜日(にちようび)の朝(あさ)',frFr:'dimanche matin',frEn:'Sunday morning'},
+                {jp:'来週(らいしゅう)の金曜日(きんようび)',frFr:'vendredi prochain',frEn:'next Friday'},
+                {jp:'明日(あした)の夕方(ゆうがた)',frFr:'demain soir',frEn:'tomorrow evening'}
+            ],
+            meetPlaces: [
+                {jp:'駅(えき)の前(まえ)',frFr:'devant la gare',frEn:'in front of the station'},
+                {jp:'コンビニの前(まえ)',frFr:'devant le konbini',frEn:'in front of the convenience store'},
+                {jp:'学校(がっこう)の入口(いりぐち)',frFr:'a l\'entree de l\'ecole',frEn:'at the school entrance'}
+            ]
+        }
+    ],
+
+    _pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; },
+    _pickExcept(arr, ...excl) { const f = arr.filter(x => !excl.includes(x)); return f[Math.floor(Math.random() * f.length)]; },
+    _shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); },
+
+    generateDialogue() {
+        const tplIdx = Math.floor(Math.random() * this._templates.length);
+        const t = this._templates[tplIdx];
+        const en = I18n.locale === 'en';
+
+        if (tplIdx === 0) {
+            // Asking for directions
+            const place = this._pick(t.places);
+            const dir = this._pick(t.directions);
+            const dist = this._pick(t.distances);
+            const wrongPlace1 = this._pickExcept(t.places, place);
+            const wrongPlace2 = this._pickExcept(t.places, place, wrongPlace1);
+
+            return {
+                id: 'gen_' + Date.now(), titleFr: t.titleFr, titleEn: t.titleEn, icon: t.icon, level: 'N5',
+                lines: [
+                    {speaker:'you_init', jp:`すみません。${place.jp}はどこですか？`, frFr:`Excusez-moi. Ou est ${place.frFr} ?`, frEn:`Excuse me. Where is ${place.frEn}?`},
+                    {speaker:'other', jp:`${dir.jp}。`, frFr:`${dir.frFr}.`, frEn:`${dir.frEn}.`},
+                    {speaker:'you', choices: this._shuffle([
+                        {jp:'ありがとうございます。遠(とお)いですか？', frFr:'Merci. C\'est loin ?', frEn:'Thank you. Is it far?', correct:true},
+                        {jp:`${wrongPlace1.jp}はどこですか？`, frFr:`Ou est ${wrongPlace1.frFr} ?`, frEn:`Where is ${wrongPlace1.frEn}?`, correct:false},
+                        {jp:'分(わ)かりません。', frFr:'Je ne comprends pas.', frEn:'I don\'t understand.', correct:false}
+                    ])},
+                    {speaker:'other', jp:`歩(ある)いて${dist.jp}です。`, frFr:`A pied c'est ${dist.frFr}.`, frEn:`On foot it's ${dist.frEn}.`},
+                    {speaker:'you', choices: this._shuffle([
+                        {jp:'分(わ)かりました。ありがとうございます！', frFr:'J\'ai compris. Merci beaucoup !', frEn:'I understand. Thank you very much!', correct:true},
+                        {jp:`${wrongPlace2.jp}も近(ちか)いですか？`, frFr:`${wrongPlace2.frFr} est aussi pres ?`, frEn:`Is ${wrongPlace2.frEn} also nearby?`, correct:false}
+                    ])}
+                ]
+            };
+        }
+
+        if (tplIdx === 1) {
+            // Ordering food
+            const food = this._pick(t.foods);
+            const drink = this._pick(t.drinks);
+            const amount = this._pick(t.amounts);
+            const wrongFood1 = this._pickExcept(t.foods, food);
+            const wrongFood2 = this._pickExcept(t.foods, food, wrongFood1);
+
+            return {
+                id: 'gen_' + Date.now(), titleFr: t.titleFr, titleEn: t.titleEn, icon: t.icon, level: 'N5',
+                lines: [
+                    {speaker:'staff', jp:'いらっしゃいませ！ご注文(ちゅうもん)はお決(き)まりですか？', frFr:'Bienvenue ! Avez-vous choisi ?', frEn:'Welcome! Have you decided?'},
+                    {speaker:'you', choices: this._shuffle([
+                        {jp:`${food.jp}を${amount.jp}お願(ねが)いします。`, frFr:`${amount.frFr} ${food.frFr} s'il vous plait.`, frEn:`${amount.frEn} ${food.frEn} please.`, correct:true},
+                        {jp:`${wrongFood1.jp}をください。`, frFr:`${wrongFood1.frFr} s'il vous plait.`, frEn:`${wrongFood1.frEn} please.`, correct:false},
+                        {jp:'まだ決(き)まっていません。', frFr:'Je n\'ai pas encore choisi.', frEn:'I haven\'t decided yet.', correct:false}
+                    ])},
+                    {speaker:'staff', jp:'お飲(の)み物(もの)はいかがですか？', frFr:'Voulez-vous une boisson ?', frEn:'Would you like a drink?'},
+                    {speaker:'you', choices: this._shuffle([
+                        {jp:`${drink.jp}をお願(ねが)いします。`, frFr:`${drink.frFr} s'il vous plait.`, frEn:`${drink.frEn} please.`, correct:true},
+                        {jp:'いいえ、結構(けっこう)です。', frFr:'Non merci.', frEn:'No thank you.', correct:true}
+                    ])},
+                    {speaker:'staff', jp:'かしこまりました。少々(しょうしょう)お待(ま)ちください。', frFr:'Bien compris. Veuillez patienter.', frEn:'Understood. Please wait a moment.'},
+                    {speaker:'you', choices: this._shuffle([
+                        {jp:'すみません、お会計(かいけい)をお願(ねが)いします。', frFr:'Excusez-moi, l\'addition s\'il vous plait.', frEn:'Excuse me, the check please.', correct:true},
+                        {jp:'ごちそうさまでした。', frFr:'Merci pour le repas.', frEn:'Thank you for the meal.', correct:true}
+                    ])}
+                ]
+            };
+        }
+
+        // Making plans
+        const activity = this._pick(t.activities);
+        const time = this._pick(t.times);
+        const meetPlace = this._pick(t.meetPlaces);
+        const wrongAct = this._pickExcept(t.activities, activity);
+
+        return {
+            id: 'gen_' + Date.now(), titleFr: t.titleFr, titleEn: t.titleEn, icon: t.icon, level: 'N5',
+            lines: [
+                {speaker:'other', jp:`${time.jp}、暇(ひま)ですか？`, frFr:`${time.frFr}, tu es libre ?`, frEn:`Are you free ${time.frEn}?`},
+                {speaker:'you', choices: this._shuffle([
+                    {jp:'はい、暇(ひま)ですよ。何(なに)をしましょうか？', frFr:'Oui, je suis libre. On fait quoi ?', frEn:'Yes, I\'m free. What shall we do?', correct:true},
+                    {jp:'ちょっと忙(いそが)しいです。', frFr:'Je suis un peu occupe.', frEn:'I\'m a bit busy.', correct:false}
+                ])},
+                {speaker:'other', jp:`${activity.jp}行(い)きませんか？`, frFr:`On va ${activity.frFr} ?`, frEn:`Shall we go ${activity.frEn}?`},
+                {speaker:'you', choices: this._shuffle([
+                    {jp:'いいですね！行(い)きましょう。', frFr:'Bonne idee ! Allons-y.', frEn:'Sounds good! Let\'s go.', correct:true},
+                    {jp:`${wrongAct.jp}行(い)きたいです。`, frFr:`Je veux aller ${wrongAct.frFr}.`, frEn:`I want to go ${wrongAct.frEn}.`, correct:false}
+                ])},
+                {speaker:'other', jp:`じゃあ、${meetPlace.jp}で会(あ)いましょう。`, frFr:`Alors, retrouvons-nous ${meetPlace.frFr}.`, frEn:`Then let's meet ${meetPlace.frEn}.`},
+                {speaker:'you', choices: this._shuffle([
+                    {jp:'分(わ)かりました。楽(たの)しみにしています！', frFr:'D\'accord. J\'ai hate !', frEn:'Got it. I\'m looking forward to it!', correct:true},
+                    {jp:'何時(なんじ)に会(あ)いましょうか？', frFr:'A quelle heure on se retrouve ?', frEn:'What time shall we meet?', correct:true}
+                ])}
+            ]
+        };
+    },
+
     init() {},
 
     render() {
@@ -252,6 +419,11 @@ window.DialoguesModule = {
         const level = LevelFilter.get();
         const scenarios = this.scenarios.filter(s => level === 'all' || s.level === level || level === 'N4');
         container.innerHTML = `
+            <div style="text-align:center; margin-bottom:24px;">
+                <button class="btn btn-primary btn-lg" id="dialogue-generate">
+                    🎲 ${I18n.locale === 'en' ? 'Generate a random dialogue' : 'Generer un dialogue aleatoire'}
+                </button>
+            </div>
             <div class="reading-list">
                 ${scenarios.map(s => `
                     <div class="reading-card" data-id="${s.id}">
@@ -263,6 +435,11 @@ window.DialoguesModule = {
                     </div>
                 `).join('')}
             </div>`;
+
+        document.getElementById('dialogue-generate')?.addEventListener('click', () => {
+            const generated = this.generateDialogue();
+            this.playDialogue(container, generated);
+        });
 
         container.querySelectorAll('.reading-card').forEach(card => {
             card.addEventListener('click', () => {
