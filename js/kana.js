@@ -213,10 +213,14 @@ window.KanaModule = {
                 qs.score++;
                 input.classList.add('correct');
                 feedback.className = 'quiz-feedback show correct-fb';
+                speakJP(q.char);
+
                 feedback.innerHTML = `${I18n.t('correct')} <span style="font-size:13px; opacity:0.85;">${q.char} = ${q.romaji}</span>`;
             } else {
                 input.classList.add('incorrect');
                 feedback.className = 'quiz-feedback show incorrect-fb';
+                speakJP(q.char);
+
                 feedback.innerHTML = `${I18n.t('incorrect')} ${I18n.t('kana_correct_was')} <strong>${q.romaji}</strong>`;
             }
 
@@ -303,11 +307,15 @@ window.KanaModule = {
                     qs.score++;
                     opt.classList.add('correct');
                     feedback.className = 'quiz-feedback show correct-fb';
+                    speakJP(q.char);
+
                     feedback.innerHTML = `${I18n.t('correct')} <span style="font-size:13px; opacity:0.85;">${q.char} = ${q.romaji}</span>`;
                 } else {
                     opt.classList.add('incorrect');
                     container.querySelector(`[data-answer="${q.romaji}"]`).classList.add('correct');
                     feedback.className = 'quiz-feedback show incorrect-fb';
+                    speakJP(q.char);
+
                     feedback.innerHTML = `${I18n.t('incorrect')} ${I18n.t('kana_correct_was')} <strong>${q.romaji}</strong>`;
                 }
 

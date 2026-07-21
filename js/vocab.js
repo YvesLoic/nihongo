@@ -325,11 +325,13 @@ window.VocabModule = {
                 if (correct) {
                     opt.classList.add('correct');
                     feedback.className = 'quiz-feedback show correct-fb';
+                    speakJP(q.kana);
                     feedback.innerHTML = `${I18n.t('correct')} ${q.kanji || q.kana} = ${L(q,"meaning")}${q.kanji ? `<br><span style="font-size:13px; opacity:0.85;">${q.kana}</span>` : ''}`;
                 } else {
                     opt.classList.add('incorrect');
                     container.querySelector(`[data-answer="${correctAnswer}"]`)?.classList.add('correct');
                     feedback.className = 'quiz-feedback show incorrect-fb';
+                    speakJP(q.kana);
                     feedback.innerHTML = `${I18n.t('incorrect')} <strong>${q.kanji || q.kana}</strong> (${q.kana}) = ${L(q,"meaning")}`;
                 }
 

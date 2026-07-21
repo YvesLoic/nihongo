@@ -274,11 +274,13 @@ window.KanjiModule = {
                     qs.score++;
                     opt.classList.add('correct');
                     feedback.className = 'quiz-feedback show correct-fb';
+                    speakJP(q.kun ? q.kun.split('、')[0].replace(/[-.]/g,'') : q.on || q.kanji);
                     feedback.innerHTML = `${I18n.t('correct')} ${q.kanji} = ${L(q,"meaning")}<br><span style="font-size:13px; opacity:0.85;">ON: ${q.on || '-'} | KUN: ${q.kun || '-'}</span>`;
                 } else {
                     opt.classList.add('incorrect');
                     container.querySelector(`[data-answer="${L(q,"meaning")}"]`)?.classList.add('correct');
                     feedback.className = 'quiz-feedback show incorrect-fb';
+                    speakJP(q.kun ? q.kun.split('、')[0].replace(/[-.]/g,'') : q.on || q.kanji);
                     feedback.innerHTML = `${I18n.t('incorrect')} ${q.kanji} = <strong>${L(q,"meaning")}</strong> (ON: ${q.on}, KUN: ${q.kun})`;
                 }
 

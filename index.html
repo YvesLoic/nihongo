@@ -18,13 +18,26 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
+    <!-- Onboarding overlay -->
+    <div id="onboarding-overlay" class="onboarding-overlay" style="display:none;">
+        <div class="onboarding-content">
+            <div class="onboarding-logo">&#x5B66;</div>
+            <h1 id="onboarding-title"></h1>
+            <p id="onboarding-desc" class="onboarding-desc"></p>
+            <div class="onboarding-steps" id="onboarding-steps"></div>
+            <div class="onboarding-actions">
+                <button class="btn btn-primary btn-lg" id="onboarding-start"></button>
+            </div>
+        </div>
+    </div>
+
     <!-- Sidebar Navigation -->
     <nav id="sidebar">
         <div class="sidebar-header">
             <div class="logo">
                 <span class="logo-kanji">学</span>
                 <div class="logo-text">
-                    <span class="logo-title">nihongo</span>
+                    <span class="logo-title">Nihongo</span>
                     <span class="logo-sub">N5 - N4</span>
                 </div>
             </div>
@@ -69,6 +82,18 @@
             <li class="nav-item" data-page="sentence">
                 <span class="nav-icon">&#x1F9E9;</span>
                 <span class="nav-label" data-i18n="sentence_title">Phrases</span>
+            </li>
+            <li class="nav-item" data-page="games">
+                <span class="nav-icon">&#x1F3AE;</span>
+                <span class="nav-label" data-i18n="nav_games">Jeux</span>
+            </li>
+            <li class="nav-item" data-page="dialogues">
+                <span class="nav-icon">&#x1F4AC;</span>
+                <span class="nav-label" data-i18n="nav_dialogues">Dialogues</span>
+            </li>
+            <li class="nav-item" data-page="culture">
+                <span class="nav-icon">&#x26E9;</span>
+                <span class="nav-label" data-i18n="culture_title">Culture</span>
             </li>
             <li class="nav-item" data-page="exam">
                 <span class="nav-icon">&#x1F4DD;</span>
@@ -275,8 +300,12 @@
                     </button>
                 </div>
 
+                <div class="dash-card" id="wod-widget-area"></div>
                 <div class="dash-card" id="srs-widget-area"></div>
                 <div class="dash-card" id="goals-widget-area"></div>
+                <div class="dash-card" id="calendar-widget-area"></div>
+                <div class="dash-card" id="weakpoints-widget-area"></div>
+                <div class="dash-card" id="stats-widget-area"></div>
                 <div class="dash-card" id="badges-widget-area"></div>
             </div>
         </section>
@@ -372,6 +401,31 @@
             <div id="sentence-content"></div>
         </section>
 
+        <!-- Games Page -->
+        <section id="page-games" class="page">
+            <div class="page-header">
+                <h1 data-i18n="games_title">Mini-jeux</h1>
+            </div>
+            <div id="games-content"></div>
+        </section>
+
+        <!-- Dialogues Page -->
+        <section id="page-dialogues" class="page">
+            <div class="page-header">
+                <h1 data-i18n="dialogues_title">Dialogues</h1>
+                <p class="page-subtitle" data-i18n="dialogues_desc">Pratiquez des conversations du quotidien</p>
+            </div>
+            <div id="dialogues-content"></div>
+        </section>
+
+        <!-- Culture Page -->
+        <section id="page-culture" class="page">
+            <div class="page-header">
+                <h1 data-i18n="culture_title">Notes culturelles</h1>
+            </div>
+            <div id="culture-content"></div>
+        </section>
+
         <!-- Exam Page -->
         <section id="page-exam" class="page">
             <div class="page-header">
@@ -429,6 +483,9 @@
     <script src="js/sentence.js"></script>
     <script src="js/srs.js"></script>
     <script src="js/badges.js"></script>
+    <script src="js/games.js"></script>
+    <script src="js/dialogues.js"></script>
+    <script src="js/culture.js"></script>
     <script src="js/admin.js"></script>
     <script src="js/app.js"></script>
 </body>

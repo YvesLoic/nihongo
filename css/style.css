@@ -43,6 +43,23 @@
     --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Light theme */
+[data-theme="light"] {
+    --bg-primary: #f5f5f8;
+    --bg-secondary: #ffffff;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f0f0f5;
+    --bg-input: #eeeef2;
+    --border: #d8d8e0;
+    --border-light: #e8e8f0;
+    --text-primary: #1a1a2e;
+    --text-secondary: #555570;
+    --text-muted: #888898;
+    --shadow: 0 2px 12px rgba(0,0,0,0.08);
+    --shadow-lg: 0 4px 24px rgba(0,0,0,0.12);
+    --accent-glow: rgba(124, 91, 245, 0.15);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -3574,4 +3591,287 @@ ruby rp {
     color: var(--text-muted);
     min-width: 50px;
     text-align: right;
+}
+
+/* ========================================
+   ONBOARDING
+   ======================================== */
+.onboarding-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: var(--bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.onboarding-content {
+    text-align: center;
+    max-width: 480px;
+    padding: 40px 24px;
+}
+
+.onboarding-logo {
+    font-size: 80px;
+    margin-bottom: 16px;
+}
+
+.onboarding-desc { color: var(--text-secondary); margin: 8px 0 32px; }
+
+.onboarding-step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 10px;
+    font-size: 14px;
+    text-align: left;
+}
+
+.onboarding-actions { margin-top: 32px; }
+
+/* ========================================
+   WORD OF THE DAY
+   ======================================== */
+.wod-widget {
+    background: linear-gradient(135deg, var(--accent), var(--sakura));
+    border-radius: var(--radius);
+    padding: 24px;
+    text-align: center;
+    color: #fff;
+}
+
+.wod-label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; margin-bottom: 8px; }
+.wod-word { font-size: 36px; font-family: 'Noto Sans JP', sans-serif; font-weight: 700; }
+.wod-reading { font-size: 14px; opacity: 0.85; margin-top: 4px; }
+.wod-meaning { font-size: 16px; margin-top: 8px; opacity: 0.9; }
+
+/* ========================================
+   MEMORY GAME
+   ======================================== */
+.memory-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+.memory-card {
+    aspect-ratio: 1;
+    perspective: 600px;
+    cursor: pointer;
+}
+
+.memory-card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.4s;
+}
+
+.memory-card.flipped .memory-card-inner { transform: rotateY(180deg); }
+
+.memory-card-front, .memory-card-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius);
+    font-size: 18px;
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 600;
+    padding: 8px;
+    text-align: center;
+    word-break: break-word;
+}
+
+.memory-card-front {
+    background: var(--accent);
+    color: #fff;
+    font-size: 28px;
+}
+
+.memory-card-back {
+    background: var(--bg-card);
+    border: 2px solid var(--border);
+    color: var(--text-primary);
+    transform: rotateY(180deg);
+}
+
+.memory-card.matched .memory-card-back {
+    border-color: var(--success);
+    background: rgba(52,211,153,0.1);
+}
+
+/* ========================================
+   DIALOGUES
+   ======================================== */
+.dialogue-container { max-width: 600px; margin: 0 auto; }
+.dialogue-header { text-align: center; font-size: 18px; font-weight: 600; margin-bottom: 20px; }
+
+.dialogue-bubble {
+    max-width: 80%;
+    padding: 14px 18px;
+    border-radius: 16px;
+    margin-bottom: 12px;
+    font-family: 'Noto Sans JP', sans-serif;
+    animation: fadeIn 0.3s ease;
+}
+
+.dialogue-bubble.other {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    margin-right: auto;
+    border-bottom-left-radius: 4px;
+}
+
+.dialogue-bubble.you {
+    background: rgba(124,91,245,0.15);
+    border: 1px solid var(--accent);
+    margin-left: auto;
+    border-bottom-right-radius: 4px;
+}
+
+.dialogue-jp { font-size: 16px; line-height: 1.7; }
+.dialogue-translation { font-size: 12px; color: var(--text-muted); margin-top: 4px; font-style: italic; }
+
+.dialogue-choices { display: flex; flex-direction: column; gap: 8px; margin: 16px 0; }
+
+.dialogue-choice {
+    padding: 14px 18px;
+    background: var(--bg-card);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+    color: var(--text-primary);
+}
+
+.dialogue-choice:hover { border-color: var(--accent); background: rgba(124,91,245,0.05); }
+
+/* ========================================
+   CULTURE CARDS
+   ======================================== */
+.culture-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.culture-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.culture-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.culture-icon { font-size: 36px; margin-bottom: 8px; }
+.culture-title { font-size: 14px; font-weight: 600; }
+
+/* ========================================
+   CALENDAR
+   ======================================== */
+.calendar-widget { padding: 0; }
+.calendar-widget h3 { margin-bottom: 12px; font-size: 15px; }
+
+.cal-grid { font-size: 12px; }
+
+.cal-header > div, .cal-days > .cal-cell { display: inline-flex; align-items: center; justify-content: center; }
+
+.cal-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.cal-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+}
+
+.cal-cell {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.cal-cell.empty { visibility: hidden; }
+.cal-cell.today { border: 2px solid var(--accent); font-weight: 700; color: var(--text-primary); }
+.cal-cell.studied { background: var(--accent); color: #fff; }
+
+/* ========================================
+   STATS BARS
+   ======================================== */
+.stats-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    height: 120px;
+}
+
+.stats-bar-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    justify-content: flex-end;
+}
+
+.stats-bar {
+    width: 100%;
+    background: linear-gradient(to top, var(--accent), var(--sakura));
+    border-radius: 4px 4px 0 0;
+    min-height: 4px;
+    transition: height 0.4s ease;
+}
+
+.stats-bar-label { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+.stats-bar-value { font-size: 11px; color: var(--text-secondary); font-weight: 600; }
+
+/* ========================================
+   ANIMATIONS
+   ======================================== */
+.page.active {
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes confetti {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-100px) rotate(720deg); opacity: 0; }
+}
+
+.quiz-feedback.show.correct-fb {
+    animation: correctPulse 0.4s ease;
+}
+
+@keyframes correctPulse {
+    0% { transform: scale(0.95); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
 }

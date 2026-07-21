@@ -180,6 +180,7 @@ window.ListeningModule = {
                     const correct = chosen?.correct || false;
                     if (correct) qs.score++;
                     qs.answers[qs.current] = { text: opt.dataset.text, correct };
+                    Storage.recordStudy('vocab', 'listen_' + q.audio, correct);
                     this.renderQuiz(container);
                 });
             });
