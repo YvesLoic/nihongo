@@ -52,6 +52,16 @@ window.ExamModule = {
                         <div class="exam-type-title">${I18n.t('exam_type_vocab')}</div>
                         <div class="exam-type-desc">${I18n.t('exam_type_vocab_desc')}</div>
                     </div>
+                    <div class="exam-type-card" data-type="conjugation">
+                        <div class="exam-type-icon">&#x1F504;</div>
+                        <div class="exam-type-title">${I18n.t('exam_type_conj')}</div>
+                        <div class="exam-type-desc">${I18n.t('exam_type_conj_desc')}</div>
+                    </div>
+                    <div class="exam-type-card" data-type="listening">
+                        <div class="exam-type-icon">&#x1F3A7;</div>
+                        <div class="exam-type-title">${I18n.t('exam_type_listening')}</div>
+                        <div class="exam-type-desc">${I18n.t('exam_type_listening_desc')}</div>
+                    </div>
                 </div>
 
                 <div style="margin-bottom:24px;">
@@ -290,6 +300,54 @@ window.ExamModule = {
             }
         }
 
+        // === CONJUGATION SECTION ===
+        if (isComplete || type === 'conjugation') {
+            const cCount = type === 'conjugation' ? count : Math.ceil(count * 0.1);
+            const cVerbs = shuffle(ConjugationModule.verbs.filter(v => level === 'all' || v.level === level || level === 'N4'));
+            const cForms = ConjugationModule.forms.filter(f => level === 'all' || level === 'N4' || f.level === level);
+
+            cVerbs.slice(0, cCount).forEach(v => {
+                const form = cForms[Math.floor(Math.random() * cForms.length)];
+                const answer = ConjugationModule.conjugate(v, form.id);
+                if (!answer) return;
+
+                // Generate 3 wrong answers from other verbs with same form
+                const wrongs = shuffle(cVerbs.filter(x => x.dict !== v.dict))
+                    .slice(0, 3)
+                    .map(x => ConjugationModule.conjugate(x, form.id))
+                    .filter(Boolean);
+
+                if (wrongs.length < 3) return;
+
+                questions.push({
+                    mode: 'mcq', section: I18n.t('exam_type_conj'), sectionSub: I18n.locale === 'en' ? form.nameEn : form.nameFr,
+                    text: `<span class="exam-jp-lg" style="font-size:40px;">${F(v.dict, v.kana)}</span>`,
+                    hint: `${L(v,"meaning")} → ${I18n.locale === 'en' ? form.nameEn : form.nameFr}`,
+                    translation: '', choices: shuffle([answer, ...wrongs]), correct: answer,
+                    detail: `${v.dict} (${v.kana}) → ${I18n.locale === 'en' ? form.nameEn : form.nameFr} = ${answer}`,
+                    type: 'conjugation'
+                });
+            });
+        }
+
+        // === LISTENING SECTION ===
+        if (isComplete || type === 'listening') {
+            const lCount = type === 'listening' ? count : Math.ceil(count * 0.1);
+            const lWords = shuffle(vocabPool).slice(0, lCount);
+
+            lWords.forEach(w => {
+                const wrongs = shuffle(vocabPool.filter(x => x.kana !== w.kana)).slice(0, 3).map(x => L(x,"meaning"));
+                questions.push({
+                    mode: 'mcq', section: I18n.t('exam_type_listening'), sectionSub: I18n.t('exam_part_meaning'),
+                    text: `<div style="text-align:center;"><button class="btn btn-primary btn-lg exam-listen-btn" data-audio="${w.kana}" style="font-size:20px; padding:16px 32px;">&#x1F50A; ${I18n.t('listening_play')}</button></div>`,
+                    hint: I18n.t('vocab_what_translation'), translation: '',
+                    choices: shuffle([L(w,"meaning"), ...wrongs]), correct: L(w,"meaning"),
+                    detail: `${F(w.kanji,w.kana)||w.kana} (${w.kana}) = ${L(w,"meaning")}`,
+                    type: 'listening'
+                });
+            });
+        }
+
         // === COMPREHENSION (complete only) ===
         if (isComplete) {
             const readingTexts = LevelFilter.get() === 'N4' ? ReadingModule.textsN4 :
@@ -388,6 +446,8 @@ window.ExamModule = {
         const typeLabel = q.type === 'kanji' ? I18n.t('exam_q_kanji') :
                           q.type === 'grammar' ? I18n.t('exam_q_grammar') :
                           q.type === 'reading' ? I18n.t('exam_sec_reading') :
+                          q.type === 'conjugation' ? I18n.t('exam_type_conj') :
+                          q.type === 'listening' ? I18n.t('exam_type_listening') :
                           I18n.t('exam_q_vocab');
 
         const timeDisplay = es.timeLimit > 0
@@ -566,6 +626,21 @@ window.ExamModule = {
             });
         });
 
+        // Listening: bind audio play buttons
+        container.querySelectorAll('.exam-listen-btn').forEach(btn => {
+            const play = () => {
+                if ('speechSynthesis' in window) {
+                    speechSynthesis.cancel();
+                    const u = new SpeechSynthesisUtterance(btn.dataset.audio);
+                    u.lang = 'ja-JP';
+                    u.rate = 0.75;
+                    speechSynthesis.speak(u);
+                }
+            };
+            btn.addEventListener('click', play);
+            if (q.type === 'listening' && !answered) setTimeout(play, 400);
+        });
+
         if (es.timeLimit > 0) this.updateTimerDisplay();
     },
 
@@ -619,10 +694,12 @@ window.ExamModule = {
             kanji: I18n.t('exam_q_kanji'),
             vocab: I18n.t('exam_q_vocab'),
             grammar: I18n.t('exam_q_grammar'),
-            reading: I18n.t('exam_sec_reading')
+            reading: I18n.t('exam_sec_reading'),
+            conjugation: I18n.t('exam_type_conj'),
+            listening: I18n.t('exam_type_listening')
         };
 
-        const colors = { kanji: 'var(--accent-light)', vocab: 'var(--success)', grammar: 'var(--sakura)', reading: 'var(--info)' };
+        const colors = { kanji: 'var(--accent-light)', vocab: 'var(--success)', grammar: 'var(--sakura)', reading: 'var(--info)', conjugation: 'var(--warning)', listening: '#60a5fa' };
 
         container.innerHTML = `
             <div class="exam-results">
